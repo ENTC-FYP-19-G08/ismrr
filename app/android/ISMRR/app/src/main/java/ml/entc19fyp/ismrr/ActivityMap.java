@@ -27,9 +27,9 @@ public class ActivityMap extends AppCompatActivity {
         CustomMapView map = findViewById(R.id.mapView);
         btnGo = findViewById(R.id.btnGo);
         btnTest = findViewById(R.id.btnTest);
-        dbRefMain = FirebaseDatabase.getInstance().getReference("/ISMRR/cmd/nav");
-        dbRefTargetLocation = dbRefMain.child("/target");
-        dbRefCurrentLocation = dbRefMain.child("/current");
+        dbRefMain = FirebaseDatabase.getInstance().getReference("/ISMRR");
+        dbRefTargetLocation = dbRefMain.child("/robot/reach");
+        dbRefCurrentLocation = dbRefMain.child("/app/pos");
         map.setMapImageDimensions(1113, 1570);
 
         map.setOnMapTapListener(new CustomMapView.OnMapTapListener() {
@@ -53,8 +53,10 @@ public class ActivityMap extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 CustomMapView.Location targetLocation = map.getTargetLocation();
-                if (targetLocation != null)
-                    dbRefTargetLocation.setValue(targetLocation.toString());
+                if (targetLocation != null) {
+                    long timeStamp=System.currentTimeMillis();
+                    dbRefTargetLocation.setValue(targetLocation.toString()+","+timeStamp);
+                }
             }
         });
 
