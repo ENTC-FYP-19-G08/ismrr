@@ -10,7 +10,7 @@ node = rclpy.create_node('firebase_listener')
 
 # Initialize Firebase Admin SDK
 # Fetch the service account key JSON file contents
-cred = credentials.Certificate('/home/chathushka/ros2_ws/src/firebase_listener/firebase_listener/robot-receptionist-19-firebase-adminsdk-d2d0o-c6356ff7ef.json')
+cred = credentials.Certificate('./robot-receptionist-19-firebase-adminsdk-d2d0o-c6356ff7ef.json')
 # Initialize the app with a service account, granting admin privileges
 firebase_admin.initialize_app(cred, {
     'databaseURL': "https://robot-receptionist-19-default-rtdb.asia-southeast1.firebasedatabase.app/"
@@ -34,7 +34,7 @@ def database_callback(event):
 publisher= node.create_publisher(String,'tele_op_cmd', 10)
 
 # Set up the Firebase Realtime Database event listener
-ref = db.reference('/ISMRR/cmd/move')
+ref = db.reference('/ISMRR/robot')
 ref.listen(database_callback)
 
 rclpy.spin(node)

@@ -15,13 +15,13 @@ firebase_admin.initialize_app(cred, {
 })
 
 def message_callback(msg):    
-    ref.child("current").set(msg.data)
+    ref.child("pos").set(msg.data)
     print("Received message:", msg.data)
 
 rclpy.init()
 node = rclpy.create_node("firebase_sender")
 
-ref = db.reference('/ISMRR/cmd/nav')
+ref = db.reference('/ISMRR/app')
 
 # Create a subscription to the topic with your message type
 subscription = node.create_subscription(
