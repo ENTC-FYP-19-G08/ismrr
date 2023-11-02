@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISMRR</title>
+    <!-- Include Firebase via CDN -->
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-database-compat.js"></script>
+    <style>
+        button{
+            width: 100px;
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <button onmousedown="sendTopic('front_prs')" onmouseup="sendTopic('front_rls')">FRONT</button>
+    <button onmousedown="sendTopic('back_prs')" onmouseup="sendTopic('back_rls')">BACK</button>
+    <br><br>
+    <button onmousedown="sendTopic('left_prs')" onmouseup="sendTopic('left_rls')">LEFT</button>
+    <button onmousedown="sendTopic('right_prs')" onmouseup="sendTopic('right_rls')">RIGHT</button>
+    <script src="index.js"></script>
+</body>
+</html>

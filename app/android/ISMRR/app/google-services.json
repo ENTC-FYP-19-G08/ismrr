@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "973044233024",
+    "firebase_url": "https://robot-receptionist-19-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "robot-receptionist-19",
+    "storage_bucket": "robot-receptionist-19.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:973044233024:android:1df181e19757ec29e100a5",
+        "android_client_info": {
+          "package_name": "ml.entc19fyp.ismrr"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALmiVxg7Rl8Tf_zUN-XIIYAyUYoA-wWI8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
