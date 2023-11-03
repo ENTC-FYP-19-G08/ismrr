@@ -30,7 +30,7 @@ public class ActivityMap extends AppCompatActivity {
         dbRefMain = FirebaseDatabase.getInstance().getReference("/ISMRR");
         dbRefTargetLocation = dbRefMain.child("/robot/reach");
         dbRefCurrentLocation = dbRefMain.child("/app/pos");
-        map.setMapImageDimensions(1113, 1570);
+        map.setMapImageDimensions(384,384);
 
         map.setOnMapTapListener(new CustomMapView.OnMapTapListener() {
             @Override
@@ -55,6 +55,7 @@ public class ActivityMap extends AppCompatActivity {
                 CustomMapView.Location targetLocation = map.getTargetLocation();
                 if (targetLocation != null) {
                     long timeStamp=System.currentTimeMillis();
+                    btnTest.setText(targetLocation.toString());
                     dbRefTargetLocation.setValue(targetLocation.toString()+","+timeStamp);
                 }
             }
