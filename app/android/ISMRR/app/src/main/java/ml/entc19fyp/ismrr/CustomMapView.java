@@ -3,7 +3,9 @@ package ml.entc19fyp.ismrr;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.PointF;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.util.Log;
+import android.view.ScaleGestureDetector;
 
 import androidx.annotation.NonNull;
 
@@ -23,6 +26,9 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
 
     private int mapImageWidth = 0;
     private int mapImageHeight = 0;
+    private ScaleGestureDetector scaleGestureDetector;
+    private Matrix matrix = new Matrix();
+    private PointF lastTouch = new PointF();
 
     public CustomMapView(Context context) {
         super(context);
@@ -47,28 +53,44 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
         currentPinPaint = new Paint();
         currentPinPaint.setColor(Color.GREEN);
         currentPinPaint.setStyle(Paint.Style.FILL);
+
+        scaleGestureDetector = new ScaleGestureDetector(getContext(), new ScaleListener());
+        setScaleType(ScaleType.MATRIX);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int action = event.getAction();
-        if (action == MotionEvent.ACTION_DOWN) {
-            float x = event.getX();
-            float y = event.getY();
+        scaleGestureDetector.onTouchEvent(event);
 
-            // Store the tapped location coordinates
-            if (onMapTapListener != null) {
-                onMapTapListener.onMapTap(x, y);
-            }
+        switch (action & MotionEvent.ACTION_MASK) {
+            case MotionEvent.ACTION_DOWN:
+                //touch event
+                float x = event.getX();
+                float y = event.getY();
 
-            // Create and add a pin at the tapped location
+                // Store the tapped location coordinates
+                if (onMapTapListener != null) {
+                    onMapTapListener.onMapTap(x, y);
+                }
 
-            targetPin = new Pin(x, y);
-            invalidate(); // Redraw the pins on the map
+                // Create and add a pin at the tapped location
 
-            return true;
+                targetPin = new Pin(x, y);
+                invalidate(); // Redraw the pins on the map
+                //end touch event
+
+                lastTouch.set(event.getX(), event.getY());
+                break;
+            case MotionEvent.ACTION_MOVE:
+                float deltaX = event.getX() - lastTouch.x;
+                float deltaY = event.getY() - lastTouch.y;
+                matrix.postTranslate(deltaX, deltaY);
+                setImageMatrix(matrix);
+                lastTouch.set(event.getX(), event.getY());
+                break;
         }
-        return super.onTouchEvent(event);
+        return true;
     }
 
     @Override
@@ -160,6 +182,16 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
             return (int)this.x + "," + (int)this.y;
         }
 
+    }
+
+    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+        @Override
+        public boolean onScale(ScaleGestureDetector detector) {
+            float scaleFactor = detector.getScaleFactor();
+            matrix.postScale(scaleFactor, scaleFactor, detector.getFocusX(), detector.getFocusY());
+            setImageMatrix(matrix);
+            return true;
+        }
     }
 
 
