@@ -20,7 +20,8 @@ import androidx.annotation.NonNull;
 public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView {
 
     private List<Pin> pins = new ArrayList<>();
-    private Pin targetPin, currentPin;
+    private Pin targetPin = new Pin(500, 500);
+    private Pin currentPin;
     private Paint targetPinPaint, currentPinPaint;
     private OnMapTapListener onMapTapListener;
 
@@ -58,28 +59,50 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
         setScaleType(ScaleType.MATRIX);
     }
 
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        int action = event.getAction();
+//        scaleGestureDetector.onTouchEvent(event);
+//
+//        switch (action & MotionEvent.ACTION_MASK) {
+//            case MotionEvent.ACTION_DOWN:
+//                //touch event
+//                float x = event.getX();
+//                float y = event.getY();
+//
+//                // Store the tapped location coordinates
+//                if (onMapTapListener != null) {
+//                    onMapTapListener.onMapTap(x, y);
+//                }
+//
+//                // Create and add a pin at the tapped location
+//
+//                targetPin = new Pin(x, y);
+//                invalidate(); // Redraw the pins on the map
+//                //end touch event
+//
+//                lastTouch.set(event.getX(), event.getY());
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//                float deltaX = event.getX() - lastTouch.x;
+//                float deltaY = event.getY() - lastTouch.y;
+//                matrix.postTranslate(deltaX, deltaY);
+//                setImageMatrix(matrix);
+//                lastTouch.set(event.getX(), event.getY());
+//                break;
+//            case MotionEvent.ACTION_UP:
+//                invalidate();
+//                break;
+//        }
+//        return true;
+//    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        int action = event.getAction();
         scaleGestureDetector.onTouchEvent(event);
-
+        int action = event.getAction();
         switch (action & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
-                //touch event
-                float x = event.getX();
-                float y = event.getY();
-
-                // Store the tapped location coordinates
-                if (onMapTapListener != null) {
-                    onMapTapListener.onMapTap(x, y);
-                }
-
-                // Create and add a pin at the tapped location
-
-                targetPin = new Pin(x, y);
-                invalidate(); // Redraw the pins on the map
-                //end touch event
-
                 lastTouch.set(event.getX(), event.getY());
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -90,19 +113,31 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
                 lastTouch.set(event.getX(), event.getY());
                 break;
         }
+
+        invalidate(); // Redraw the pins on the map
         return true;
     }
+
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        // Draw the pins on the map
-        if (targetPin != null)
-            canvas.drawCircle(targetPin.x, targetPin.y, 10, targetPinPaint);
+        Matrix invertedMatrix = new Matrix();
+        if (matrix.invert(invertedMatrix)) {
+            if (targetPin != null) {
+                float[] targetPoint = {targetPin.x, targetPin.y};
+                matrix.mapPoints(targetPoint);
+                canvas.drawCircle(targetPoint[0], targetPoint[1], 10, targetPinPaint);
+            }
+        }
 
-        if (currentPin != null)
-            canvas.drawCircle(currentPin.x, currentPin.y, 8, currentPinPaint);
+        // Draw the pins on the map
+//        if (targetPin != null)
+//            canvas.drawCircle(targetPin.x, targetPin.y, 10, targetPinPaint);
+//
+//        if (currentPin != null)
+//            canvas.drawCircle(currentPin.x, currentPin.y, 8, currentPinPaint);
 
     }
 
@@ -179,7 +214,7 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
 
         @NonNull
         public String toString() {
-            return (int)this.x + "," + (int)this.y;
+            return (int) this.x + "," + (int) this.y;
         }
 
     }
