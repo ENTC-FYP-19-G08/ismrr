@@ -28,7 +28,7 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
     private int mapImageWidth = 0;
     private int mapImageHeight = 0;
     private ScaleGestureDetector scaleGestureDetector;
-    private Matrix matrix = new Matrix();
+    private Matrix matrix;// = new Matrix();
     private PointF lastTouch = new PointF();
 
     public CustomMapView(Context context) {
@@ -54,6 +54,8 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
         currentPinPaint = new Paint();
         currentPinPaint.setColor(Color.GREEN);
         currentPinPaint.setStyle(Paint.Style.FILL);
+
+        matrix=getImageMatrix();
 
         scaleGestureDetector = new ScaleGestureDetector(getContext(), new ScaleListener());
         setScaleType(ScaleType.MATRIX);
@@ -112,6 +114,8 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
                 setImageMatrix(matrix);
                 lastTouch.set(event.getX(), event.getY());
                 break;
+            case MotionEvent.ACTION_UP:
+                Log.d("QWER",matrix.toString());
         }
 
         invalidate(); // Redraw the pins on the map
