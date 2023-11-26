@@ -21,10 +21,13 @@
     <ml.entc19fyp.ismrr.CustomMapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/map2"
+        android:layout_height="500dp"
+        android:src="@drawable/img100x100_85"
+        android:scaleType="matrix"
 
         />
 
-
+<Button
+    android:layout_width="384dp"
+    android:layout_height="100dp"/>
 </LinearLayout>

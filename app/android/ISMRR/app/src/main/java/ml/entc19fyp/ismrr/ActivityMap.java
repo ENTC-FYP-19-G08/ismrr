@@ -18,19 +18,19 @@ public class ActivityMap extends AppCompatActivity {
 
     Button btnGo, btnTest;
     DatabaseReference dbRefMain, dbRefTargetLocation, dbRefCurrentLocation;
-
+    CustomMapView map;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-        CustomMapView map = findViewById(R.id.mapView);
+        map = findViewById(R.id.mapView);
         btnGo = findViewById(R.id.btnGo);
         btnTest = findViewById(R.id.btnTest);
         dbRefMain = FirebaseDatabase.getInstance().getReference("/ISMRR");
         dbRefTargetLocation = dbRefMain.child("/robot/reach");
         dbRefCurrentLocation = dbRefMain.child("/app/pos");
-        map.setMapImageDimensions(384,384);
+        map.setMapImageDimensions(100,100);
 
         map.setOnMapTapListener(new CustomMapView.OnMapTapListener() {
             @Override
@@ -41,6 +41,8 @@ public class ActivityMap extends AppCompatActivity {
                 // The coordinates (x, y) represent pixel coordinates on the map.
             }
         });
+
+
 
         btnTest.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,4 +79,6 @@ public class ActivityMap extends AppCompatActivity {
             }
         });
     }
+
+
 }
