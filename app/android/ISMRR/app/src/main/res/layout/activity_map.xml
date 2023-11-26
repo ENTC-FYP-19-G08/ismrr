@@ -27,7 +27,4 @@
 
         />
 
-<Button
-    android:layout_width="384dp"
-    android:layout_height="100dp"/>
 </LinearLayout>
