@@ -61,28 +61,45 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
         setScaleType(ScaleType.MATRIX);
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        int action = event.getAction();
+        scaleGestureDetector.onTouchEvent(event);
+
+        switch (action & MotionEvent.ACTION_MASK) {
+            case MotionEvent.ACTION_DOWN:
+                //touch event
+                float x = event.getX();
+                float y = event.getY();
+
+                // Store the tapped location coordinates
+                if (onMapTapListener != null) {
+                    onMapTapListener.onMapTap(x, y);
+                }
+
+                // Create and add a pin at the tapped location
+
+                targetPin = new Pin(x, y);
+                invalidate(); // Redraw the pins on the map
+                //end touch event
+
+                lastTouch.set(event.getX(), event.getY());
+                break;
+
+            case MotionEvent.ACTION_UP:
+//                invalidate();
+                break;
+        }
+        return true;
+    }
+
+//    Handle zooming
 //    @Override
 //    public boolean onTouchEvent(MotionEvent event) {
-//        int action = event.getAction();
 //        scaleGestureDetector.onTouchEvent(event);
-//
+//        int action = event.getAction();
 //        switch (action & MotionEvent.ACTION_MASK) {
 //            case MotionEvent.ACTION_DOWN:
-//                //touch event
-//                float x = event.getX();
-//                float y = event.getY();
-//
-//                // Store the tapped location coordinates
-//                if (onMapTapListener != null) {
-//                    onMapTapListener.onMapTap(x, y);
-//                }
-//
-//                // Create and add a pin at the tapped location
-//
-//                targetPin = new Pin(x, y);
-//                invalidate(); // Redraw the pins on the map
-//                //end touch event
-//
 //                lastTouch.set(event.getX(), event.getY());
 //                break;
 //            case MotionEvent.ACTION_MOVE:
@@ -93,34 +110,12 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
 //                lastTouch.set(event.getX(), event.getY());
 //                break;
 //            case MotionEvent.ACTION_UP:
-//                invalidate();
-//                break;
+//                Log.d("QWER",matrix.toString());
 //        }
+//
+//        invalidate(); // Redraw the pins on the map
 //        return true;
 //    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        scaleGestureDetector.onTouchEvent(event);
-        int action = event.getAction();
-        switch (action & MotionEvent.ACTION_MASK) {
-            case MotionEvent.ACTION_DOWN:
-                lastTouch.set(event.getX(), event.getY());
-                break;
-            case MotionEvent.ACTION_MOVE:
-                float deltaX = event.getX() - lastTouch.x;
-                float deltaY = event.getY() - lastTouch.y;
-                matrix.postTranslate(deltaX, deltaY);
-                setImageMatrix(matrix);
-                lastTouch.set(event.getX(), event.getY());
-                break;
-            case MotionEvent.ACTION_UP:
-                Log.d("QWER",matrix.toString());
-        }
-
-        invalidate(); // Redraw the pins on the map
-        return true;
-    }
 
 
     @Override
