@@ -33,6 +33,7 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
     private GestureDetector tapDetector;
     private Matrix matrix;// = new Matrix();
     float scale;
+    float pxPerDp;
     private PointF lastTouch = new PointF();
 
     public CustomMapView(Context context) {
@@ -133,10 +134,20 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        float[] matrixValues = new float[9];
+        matrix.getValues(matrixValues);
+        float pinSize = matrixValues[Matrix.MSCALE_X]*10;
+
         if (targetPin != null) {
             float[] targetPoint = {targetPin.x, targetPin.y};
             matrix.mapPoints(targetPoint);
-            canvas.drawCircle(targetPoint[0], targetPoint[1], 10, targetPinPaint);
+            canvas.drawCircle(targetPoint[0], targetPoint[1], pinSize, targetPinPaint);
+        }
+
+        if (currentPin != null) {
+            float[] currentPoint = {currentPin.x, currentPin.y};
+            matrix.mapPoints(currentPoint);
+            canvas.drawCircle(currentPoint[0], currentPoint[1], pinSize, currentPinPaint);
         }
 
 
@@ -155,6 +166,7 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
         float scaleX = getWidth() / getPxFromDp(mapImageWidth);
         float scaleY = getHeight() / getPxFromDp(mapImageHeight);
         scale = Math.min(scaleX, scaleY);
+        pxPerDp = getPxFromDp(1);
         Log.d("qwer", "scale:" + scale);
         matrix.setScale(scale, scale);
         setImageMatrix(matrix);
@@ -171,15 +183,18 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
         }
 
         // Calculate the pixel coordinates within the image
-        float x = (pin.x / getWidth()) * mapImageWidth;
-        float y = (pin.y / getHeight()) * mapImageHeight;
+//        float x = (pin.x / getWidth()) * mapImageWidth;
+//        float y = (pin.y / getHeight()) * mapImageHeight;
+
+        float x = pin.x / pxPerDp;
+        float y = pin.y / pxPerDp;
 
         return new Location(x, y);
     }
 
     public Pin getPinFromLocation(Location location) {
-        float x = (location.x / mapImageWidth) * getWidth();
-        float y = (location.y / mapImageHeight) * getHeight();
+        float x = location.x * pxPerDp;
+        float y = location.y * pxPerDp;
         return new Pin(x, y);
     }
 

@@ -30,7 +30,7 @@ public class ActivityMap extends AppCompatActivity {
         dbRefMain = FirebaseDatabase.getInstance().getReference("/ISMRR");
         dbRefTargetLocation = dbRefMain.child("/robot/reach");
         dbRefCurrentLocation = dbRefMain.child("/app/pos");
-        map.setMapImageDimensions(100,100);
+        map.setMapImageDimensions(384,384);
 
         map.setOnMapTapListener(new CustomMapView.OnMapTapListener() {
             @Override
@@ -68,8 +68,9 @@ public class ActivityMap extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String value = dataSnapshot.getValue(String.class);
                 if (value != null) {
+                    Log.d("QWER", "pos rec:"+value);
                     map.setCurrentLocation(new Location(value));
-                    Log.d("QWER", value);
+
                 }
             }
 
