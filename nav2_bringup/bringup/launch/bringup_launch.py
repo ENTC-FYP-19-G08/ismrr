@@ -174,7 +174,7 @@ def generate_launch_description():
     # Add the actions to launch all of the navigation nodes
     ld.add_action(bringup_cmd_group)
     ld.add_action(cm_node)
-    ld.add_action(fbl_node)
+    # ld.add_action(fbl_node)
     # ld.add_action(tele_op_node)
 
     return ld

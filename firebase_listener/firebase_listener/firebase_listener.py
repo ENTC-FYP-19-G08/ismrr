@@ -22,10 +22,14 @@ def database_callback(event):
     if event.event_type == 'put':
         print("all:",str((event.event_type,event.path, event.data)))
         topic=event.path[1:]
+        if not topic:
+            return
+
+
         print("topic:",topic)  
                 
         msg = String()
-        msg.data = str(topic)       
+        msg.data = str(topic+" "+event.data)       
         publisher.publish(msg)
 
 
@@ -34,7 +38,8 @@ def database_callback(event):
 publisher= node.create_publisher(String,'tele_op_cmd', 10)
 
 # Set up the Firebase Realtime Database event listener
-ref = db.reference('/ISMRR/cmd/move')
+# ref = db.reference('/ISMRR/cmd/move')
+ref = db.reference('/ISMRR/robot')
 ref.listen(database_callback)
 
 rclpy.spin(node)
