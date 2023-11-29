@@ -27,7 +27,7 @@ class CollisonMonitor(Node):
 
         ################################# Set these to handle collisions ########################
         self.slow_down_radius = 0.4
-        self.stop_radius = 0.28
+        self.stop_radius = 0.1
         self.reducing_factor = 0.5 
 
         self.warning_level = 0 #0-no obstacle 1-slow_down 2-stop
