@@ -1,0 +1,13 @@
+diff_drive_controller_node:
+  ros__parameters:
+      # Map Topic discovery
+    wheel_separation: 0.5
+    wheel_radius: 0.2
+
+    odom_topic: "/odom"
+    base_footprint_topic: "/base_footprint"
+    odom_publish_rate: 50
+    tf_publish_rate: 20 
+  
+
+
