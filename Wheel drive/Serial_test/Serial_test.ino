@@ -8,36 +8,26 @@
 #define left_ZF 9
 #define left_EL 8
 
-#define MILIMETERS_PER_TICK 5.4598
-
 #define FORWARD 1
 #define BACKWARD 0
 #define STOP 3
 
-volatile int right_count = 0, left_count = 0, pre_right_count = 0, pre_left_count = 0;
-float right_speed = 0,left_speed = 0;
+volatile int right_count = 0, left_count = 0;
+int right_speed = 0,left_speed = 0;
 int right_direction = 0,left_direction = 0;
 int velocity[2] = {0,0};
 int previous_vel[2] = {0,0};
 
-String inputString = "";         // a String to hold incoming data
-bool stringComplete = false;
-
-long right_t = millis(),left_t = millis();
+long t = 0;
 
 void rightEncoder(){
   
   if(right_direction == FORWARD){right_count += 1;}
   else{right_count -= 1;}
-
-  right_speed = (right_count - pre_right_count)*MILIMETERS_PER_TICK/(millis()-right_t);
   
   if(abs(right_count)>32000){
     right_count = 0;
   }
-  
-  pre_right_count = right_count;
-  right_t = millis();
   //Serial.println("right count = "+String(right_count)+"left Count = "+String(left_count));
 }
 
@@ -45,15 +35,10 @@ void leftEncoder(){
   
   if(left_direction == FORWARD){left_count += 1;}
   else{left_count -= 1;}
-
-  left_speed = (left_count - pre_left_count)*MILIMETERS_PER_TICK/(millis()-left_t);
   
   if(abs(left_count)>32000){
     left_count = 0;
   }
-
-  pre_left_count = left_count;
-  left_t = millis();
   //Serial.println("right count = "+String(right_count)+"left Count = "+String(left_count));
 }
 
@@ -69,7 +54,7 @@ void driveRight(int vel){
         analogWrite(right_VR, vel);  
         delay(10);
         digitalWrite(right_ZF,LOW);
-        delay(10);
+        delay(50);
         digitalWrite(right_EL,HIGH);
 //        Serial.println("Forward right");
       }
@@ -81,7 +66,7 @@ void driveRight(int vel){
         analogWrite(right_VR, abs(vel));  
         delay(10);
         digitalWrite(right_ZF,HIGH);
-        delay(10);
+        delay(50);
         digitalWrite(right_EL,HIGH);
 //        Serial.println("Backward right");
       }
@@ -103,9 +88,9 @@ void driveLeft(int vel){
           digitalWrite(right_EL,LOW);
         } 
       analogWrite(left_VR, vel); 
-      delay(5);
+      delay(10);
       digitalWrite(left_ZF,HIGH);
-      delay(5);
+      delay(10);
       digitalWrite(left_EL,HIGH);
 //      Serial.println("Forward left");
     }
@@ -115,9 +100,9 @@ void driveLeft(int vel){
           digitalWrite(right_EL,LOW);
         } 
       analogWrite(left_VR, abs(vel));  
-      delay(5);
+      delay(10);
       digitalWrite(left_ZF,LOW);
-      delay(5);
+      delay(10);
       digitalWrite(left_EL,HIGH);
 //      Serial.println("Backward left");
     }
@@ -142,16 +127,14 @@ void readVel(){
 //      Serial.println(velocity[i]);
       ptr = strtok(NULL,",");
    }
-   Serial.println(String(right_count)+","+String(left_count));//delay(5);
-  }  
+   Serial.println(String(velocity[0])+String(velocity[1]));
+  }
 }
-
 
 
 void setup() {
   // put your setup code here, to run once:
-  Serial.begin(115200);
-  Serial.setTimeout(5);
+  Serial.begin(9600);
   
   pinMode(left_EL,OUTPUT);
   pinMode(left_SIGNAL,INPUT);
@@ -173,7 +156,6 @@ void loop() {
   readVel();
   driveRight(velocity[0]);
   driveLeft(velocity[1]);
-  
-  Serial.println("right = "+String(right_count)+"left = "+String(left_count));
-  
+//  Serial.println(String(right_count)+","+String(left_count));
+//  delay(10);
 }
