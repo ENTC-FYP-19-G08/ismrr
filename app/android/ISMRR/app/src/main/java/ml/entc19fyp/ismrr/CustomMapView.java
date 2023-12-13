@@ -33,7 +33,7 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
     private GestureDetector tapDetector;
     private Matrix matrix;// = new Matrix();
     float scale;
-    float pxPerDp;
+    float pxPerDp = 1.0f;
     private PointF lastTouch = new PointF();
 
     public CustomMapView(Context context) {
@@ -136,7 +136,8 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
 
         float[] matrixValues = new float[9];
         matrix.getValues(matrixValues);
-        float pinSize = matrixValues[Matrix.MSCALE_X]*10;
+        float pinSize = matrixValues[Matrix.MSCALE_X] * 4*pxPerDp;
+//        float pinSize =  10*pxPerDp;
 
         if (targetPin != null) {
             float[] targetPoint = {targetPin.x, targetPin.y};
