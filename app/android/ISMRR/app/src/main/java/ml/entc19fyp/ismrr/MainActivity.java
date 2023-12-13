@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        dbRef= FirebaseDatabase.getInstance().getReference("/ISMRR/cmd/move");
+        dbRef= FirebaseDatabase.getInstance().getReference("/ISMRR/robot/move");
         Log.d("QWE","ST");
 
         btnFront=findViewById(R.id.btnFront);
