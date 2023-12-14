@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".ActivityRemote"
             android:exported="true"
             android:label="ISMRR-Remote">
             <intent-filter>

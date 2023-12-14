@@ -11,7 +11,7 @@ import android.widget.Button;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class MainActivity extends AppCompatActivity {
+public class ActivityRemote extends AppCompatActivity {
 
     DatabaseReference dbRef;
     Button btnFront,btnBack,btnLeft,btnRight;
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_remote);
         dbRef= FirebaseDatabase.getInstance().getReference("/ISMRR/robot/move");
         Log.d("QWE","ST");
 
