@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
                 case MotionEvent.ACTION_DOWN:
                     sendTopic(topic+"_prs");
                     v.setPressed(true);
+                    v.performClick();
                     break;
                 case MotionEvent.ACTION_UP:
                     sendTopic(topic+"_rls");
