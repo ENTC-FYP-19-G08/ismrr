@@ -65,7 +65,10 @@ void hub_wheel:: calPWM(){
 
   float error = target_velocity - velocity;
   
-  pwm_vel = error*KP + sum_of_errors*KI;
+  // sum_of_errors += error;
+  // pwm_vel = (int)error*KP + sum_of_errors*KI;
+  
+  pwm_vel = (int)error*KP + pwm_vel;
 
   if(abs(pwm_vel)>200){
     if(pwm_vel>0){pwm_vel = MAX_PWM;}

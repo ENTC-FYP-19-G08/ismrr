@@ -44,8 +44,8 @@ class hub_wheel{
 
         float velocity, target_velocity;
         float sum_of_errors = 0;
-        uint8_t pwm_vel, pre_pwm_vel;
-        uint8_t direction;
+        int pwm_vel, pre_pwm_vel;
+        int direction;
         int count, pre_count;
         long t;
 
