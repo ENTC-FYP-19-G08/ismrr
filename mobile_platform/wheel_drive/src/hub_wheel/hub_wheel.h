@@ -25,9 +25,9 @@
 #define MILIMETERS_PER_TICK 5.4598
 
 // PID parameters
-#define MAX_PWM 200
-#define KI 10
-#define KP 10
+#define MAX_PWM 255
+#define KI 5
+#define KP 2
 
 class hub_wheel{
     private:
@@ -42,12 +42,12 @@ class hub_wheel{
 
     public:
 
-        float velocity, target_velocity;
+        float velocity = 0, target_velocity = 0;
         float sum_of_errors = 0;
-        int pwm_vel, pre_pwm_vel;
-        int direction;
-        int count, pre_count;
-        long t;
+        int pwm_vel = 0, pre_pwm_vel = 0;
+        int direction = STOP;
+        int count = 0, pre_count = 0;
+        long t = 0;
 
         hub_wheel(uint8_t SIGNAL_, uint8_t ZF_, uint8_t VR_, uint8_t EL_, uint8_t wheel_type_);
         void drive();

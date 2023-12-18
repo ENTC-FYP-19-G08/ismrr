@@ -21,7 +21,7 @@ hub_wheel left_wheel(left_SIGNAL,left_ZF,left_VR,left_EL,LEFT_WHEEL);
 
 void right_encoder(){
     if(right_wheel.direction == FORWARD){right_wheel.count += 1;}
-    else{right_wheel.count -= 1;}
+    else if(right_wheel.direction == BACKWARD){right_wheel.count -= 1;}
 
     right_wheel.velocity = (right_wheel.count - right_wheel.pre_count)*MILIMETERS_PER_TICK/(millis()-right_wheel.t);
     
@@ -35,7 +35,7 @@ void right_encoder(){
 
 void left_encoder(){
     if(left_wheel.direction == FORWARD){left_wheel.count += 1;}
-    else{left_wheel.count -= 1;}
+    else if (left_wheel.direction == BACKWARD){left_wheel.count -= 1;}
 
     left_wheel.velocity = (left_wheel.count - left_wheel.pre_count)*MILIMETERS_PER_TICK/(millis()-left_wheel.t);
     
@@ -56,8 +56,8 @@ void readVel(){
 
     // Loop through the tokens and convert them to integers
     for (int i = 0; i < 2 && ptr != NULL; i++){
-      if(i==RIGHT_WHEEL){right_wheel.velocity = atof(ptr);}
-      if(i==LEFT_WHEEL){left_wheel.velocity = atof(ptr);}
+      if(i==RIGHT_WHEEL){right_wheel.target_velocity = atof(ptr);}
+      if(i==LEFT_WHEEL){left_wheel.target_velocity = atof(ptr);}
 //      Serial.println(velocity[i]);
       ptr = strtok(NULL,",");
    }
@@ -74,8 +74,8 @@ void readPWM(){
 
     // Loop through the tokens and convert them to integers
     for (int i = 0; i < 2 && ptr != NULL; i++){
-      if(i==RIGHT_WHEEL){right_wheel.pwm_vel = atof(ptr);}
-      if(i==LEFT_WHEEL){left_wheel.pwm_vel = atof(ptr);}
+      if(i==RIGHT_WHEEL){right_wheel.pwm_vel = atoi(ptr);}
+      if(i==LEFT_WHEEL){left_wheel.pwm_vel = atoi(ptr);}
 //      Serial.println(velocity[i]);
       ptr = strtok(NULL,",");
    }
@@ -87,16 +87,6 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
   Serial.setTimeout(5);
-  
-//   pinMode(left_EL,OUTPUT);
-//   pinMode(left_SIGNAL,INPUT);
-//   pinMode(left_VR,OUTPUT);
-//   pinMode(left_ZF,OUTPUT);
-
-//   pinMode(right_EL,OUTPUT);
-//   pinMode(right_SIGNAL,INPUT);
-//   pinMode(right_VR,OUTPUT);
-//   pinMode(right_ZF,OUTPUT);
 
   attachInterrupt(digitalPinToInterrupt(right_SIGNAL),right_encoder,CHANGE);
   attachInterrupt(digitalPinToInterrupt(left_SIGNAL),left_encoder,CHANGE);
@@ -111,16 +101,13 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-//   readVel();
-//   while(abs(target_velocity[RIGHT_WHEEL]-velocity[RIGHT_WHEEL])/2+abs(target_velocity[LEFT_WHEEL]-velocity[LEFT_WHEEL])/2 > 0.01){
-//     pwm_vel[RIGHT_WHEEL] = cal_pwm(RIGHT_WHEEL);
-//     pwm_vel[LEFT_WHEEL] = cal_pwm(LEFT_WHEEL);
-//     driveRight();
-//     driveLeft();
-//   }
+
     readVel();
-    right_wheel.calPWM();right_wheel.drive();
-    left_wheel.calPWM();left_wheel.drive();
-//  Serial.println("right = "+String(right_count)+"left = "+String(left_count));
+    // readPWM();
+    right_wheel.calPWM();
+    right_wheel.drive();
+    left_wheel.calPWM();
+    left_wheel.drive();
+    Serial.println("right = "+String(right_wheel.velocity)+", dir = "+String(right_wheel.direction)+", left = "+String(left_wheel.velocity)+", dir = "+String(left_wheel.direction));
   
 }

@@ -53,6 +53,7 @@ void hub_wheel::drive(){
       else if(pwm_vel == 0){
         digitalWrite(EL,LOW);
         direction = STOP;
+        sum_of_errors = 0;
         count = 0;
         pre_count = 0;
         // Serial.println("Stopping right");
@@ -68,11 +69,22 @@ void hub_wheel:: calPWM(){
   // sum_of_errors += error;
   // pwm_vel = (int)error*KP + sum_of_errors*KI;
   
-  pwm_vel = (int)error*KP + pwm_vel;
+  // pwm_vel = (int)(error*KP) + pwm_vel;
 
-  if(abs(pwm_vel)>200){
+  if(wheel_type==RIGHT_WHEEL){    
+    if(target_velocity>0){pwm_vel = int(25.16+134*target_velocity);}
+    else{pwm_vel = int(-24.75+133*target_velocity);}
+  }
+  else if(wheel_type==LEFT_WHEEL){
+    if(target_velocity>0){pwm_vel = int(21.89 + 140.84*target_velocity);}
+    else{pwm_vel = int(-20.857+141.1*target_velocity);}
+  }
+
+  if(target_velocity == 0){pwm_vel = 0;}
+
+  if(abs(pwm_vel)>MAX_PWM){
     if(pwm_vel>0){pwm_vel = MAX_PWM;}
     else if(pwm_vel<0){pwm_vel = -MAX_PWM;}
   }
-  
+  // Serial.println(String(wheel_type)+":"+String(pwm_vel)+", error:"+String(error));
 }
