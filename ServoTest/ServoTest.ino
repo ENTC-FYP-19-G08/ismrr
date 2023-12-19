@@ -18,7 +18,7 @@ void setup()
   for (int i = 0; i < SERVO_COUNT; i++)
   {
     servos[i].init(servoPins[i]);
-    servos[i].move(0);
+    servos[i].move(0,1,1);
   }
   Serial.begin(9600);
   inputString.reserve(200);
@@ -59,27 +59,29 @@ void updateServos()
   {
     Serial.print(angles[i]);
     Serial.print(' ');    
-  } 
+  }
 
-  while (servos[0].move(angles[0],angles[1],angles[2]))
+  servos[0].trajInit(angles[0], angles[1]);
+
+  while (servos[0].trajFollow())
     ;
 
-//   bool wait = true;
-//   int time = 0;
-//   // while (wait && time <5000)
-//   while (wait)
+  //   bool wait = true;
+  //   int time = 0;
+  //   // while (wait && time <5000)
+  //   while (wait)
 
-//   {
-// //    break;
-//     wait = false;
-//     for (int i = 0; i < SERVO_COUNT; i++)
-//     {
-//       if (servos[i].move(angles[i]))
-//         wait = true;
-//     }
-//     delay(2);
-//     time += 2;
-//   }
+  //   {
+  // //    break;
+  //     wait = false;
+  //     for (int i = 0; i < SERVO_COUNT; i++)
+  //     {
+  //       if (servos[i].move(angles[i]))
+  //         wait = true;
+  //     }
+  //     delay(2);
+  //     time += 2;
+  //   }
 
 
 
