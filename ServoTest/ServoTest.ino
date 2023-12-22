@@ -11,91 +11,23 @@ const int servoPins[] = {3, 5, 6, 9, 11}; // pins for the servos
 CustomServo servos[SERVO_COUNT];                   // array of VarSpeedServo objects
 int angles[SERVO_COUNT+2];                             // array to store the loaded angles
 char sepChar = ' ';                                  // character used to separate the angles
-
+CustomServo servo;
 void setup()
 {
- 
-  for (int i = 0; i < SERVO_COUNT; i++)
-  {
-    servos[i].init(servoPins[i]);
-    servos[i].move(0,1,1);
-  }
-  Serial.begin(9600);
-  inputString.reserve(200);
-  delay(2000);
-  Serial.println("Ready");
+  Serial.begin(9600); 
+  // Serial.println("Ready");
+  servo.init(3);
+  servo.trajInit(40, 1000);
+  while(servo.trajFollow())
+    ;
+  // servo.trajInit(120, 1000);
+  // while(servo.trajFollow())
+  //   ;
+  // while(servo.move(40,0.02));
 }
 
 void loop()
 {
-  if (inputComplete)
-  {    
-    updateServos();
-    inputString = "";
-    inputComplete = false;
-  }
+  
 }
 
-void updateServos()
-{
-  int startIndex = 0;
-  int endIndex = inputString.indexOf(sepChar);
-  for (int i = 0; i < SERVO_COUNT+2; i++)
-  {
-    if (endIndex == -1)
-    {
-      angles[i] = inputString.substring(startIndex).toInt();
-      break;
-    }
-    else
-    {
-      angles[i] = inputString.substring(startIndex, endIndex).toInt();
-      startIndex = endIndex + 1;
-      endIndex = inputString.indexOf(sepChar, startIndex);
-    }
-  }
-
-  for (int i = 0; i < SERVO_COUNT+2; i++)
-  {
-    Serial.print(angles[i]);
-    Serial.print(' ');    
-  }
-
-  servos[0].trajInit(angles[0], angles[1]);
-
-  while (servos[0].trajFollow())
-    ;
-
-  //   bool wait = true;
-  //   int time = 0;
-  //   // while (wait && time <5000)
-  //   while (wait)
-
-  //   {
-  // //    break;
-  //     wait = false;
-  //     for (int i = 0; i < SERVO_COUNT; i++)
-  //     {
-  //       if (servos[i].move(angles[i]))
-  //         wait = true;
-  //     }
-  //     delay(2);
-  //     time += 2;
-  //   }
-
-
-
-  Serial.println();
-}
-
-void serialEvent()
-{
-  while (Serial.available())
-  {
-    char inChar = (char)Serial.read();
-    if (inChar != '\n')
-      inputString += inChar;
-    else
-      inputComplete = true;
-  }
-}
