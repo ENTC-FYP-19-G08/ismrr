@@ -8,22 +8,28 @@ const int SERVO_COUNT = 1;
 
          // maximum number of angles to load
 const int servoPins[] = {3, 5, 6, 9, 11}; // pins for the servos
+const int servoEnablePins[]={2,4,7,8,10};
 CustomServo servos[SERVO_COUNT];                   // array of VarSpeedServo objects
 int angles[SERVO_COUNT+2];                             // array to store the loaded angles
 char sepChar = ' ';                                  // character used to separate the angles
 
 void setup()
 {
- 
+   Serial.begin(9600);
+  inputString.reserve(200);
+  delay(2000);
+  
   for (int i = 0; i < SERVO_COUNT; i++)
   {
     servos[i].init(servoPins[i]);
-    servos[i].move(0);
+    servos[i].move(90);
+    pinMode(servoEnablePins[i],OUTPUT);
+    digitalWrite(servoEnablePins[i],HIGH);
   }
-  Serial.begin(9600);
-  inputString.reserve(200);
-  delay(2000);
+
   Serial.println("Ready");
+ 
+ 
 }
 
 void loop()
