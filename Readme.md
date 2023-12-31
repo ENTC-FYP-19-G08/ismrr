@@ -1,5 +1,8 @@
 ﻿# SMART MOBILE ROBOT RECEPTIONIST 
 
+***The project is still ongoing under different branches and hasn't been merged into the `main` branch.***
+
+
 **Abstract** 
 
 **Keywords: Robot receptionist, Robot assistant, Autonomous navigation, Hand gestures, NLP(Natural Language Processing), ROS2**  
@@ -19,7 +22,7 @@ There are several challenges associated with employing human receptionists for a
 2. **Main<a name="_page7_x69.00_y332.92"></a> Objectives** 
 
 To address the above problem, there is an already implemented receptionist robot at ENTC (Electronics and Telecommunication Engineering). That robot is a stationary robot with few hand gestures. It has human interactive capabilities to some extent. In our case, the following are the objectives we are trying to achieve.  
-![](imgs/Aspose.Words.f60ec55b-5faf-418e-a096-dea732986660.002.png)
+<p align="center"><img src="imgs/Aspose.Words.f60ec55b-5faf-418e-a096-dea732986660.002.png" alt="Figure"></p>
 
 - Make the receptionist robot a mobile robot.  
 - Enhance the modernized image of the receptionist   
@@ -43,7 +46,7 @@ The  robot's  scope  for  human  interactions  is  designed  to  facilitate  one
 
 4. **Hand<a name="_page8_x69.00_y266.92"></a> Gestures** 
 
-![](imgs/Aspose.Words.f60ec55b-5faf-418e-a096-dea732986660.003.png)
+<p align="center"><img src="imgs/Aspose.Words.f60ec55b-5faf-418e-a096-dea732986660.003.png" alt="Figure"></p>
 
 The scope of the robot's hand gestures is designed to facilitate natural and  culturally respectful interactions with users. To begin, the robot greets with  the traditional Sri Lankan salutation "Ayubowan," demonstrating cultural  awareness and courtesy. Handshakes are another integral part of its non- verbal  communication  repertoire,  employing  four  degrees  of  freedom  (4  DoF) for each hand to mimic human-like handshakes, fostering a warm and  relatable  interaction.  Additionally,  the  robot  can  convey  directional  information through its hand gestures, making it effective in guiding users  within its environment. To enhance engagement, the robot incorporates a  single degree of freedom (1 DoF) for neck rotation, allowing it to turn its face  towards  the  speaker,  maintaining  eye  contact  for  more  engaging  
 
@@ -83,7 +86,7 @@ Locomotion of a humanoid robot can  be achieved by legged  or wheeled  configura
 
 Robot localization is the process by which the robot determines its position and orientation within its environment. Several sensors and techniques can be used for localization[3], including wheel encoders, IMU(Inertial Measurement Unit) devices, GPS devices (Global Positioning System), UWB (Ultra- wideband) devices, LiDAR, cameras, and more. Considering cost and ease of implementation to obtain more accurate indoor pose estimation, a 2D LiDAR-based localization method has been selected for the project, as shown in the diagram below. LiDAR data serves as the sensor (observation model), while fused wheel encoder data and IMU data, which provide more accurate odometry, serve as the motion model for the algorithm. Additionally, a pre-built grid map of the environment is provided.[4]
 
-![](imgs/Aspose.Words.f60ec55b-5faf-418e-a096-dea732986660.004.jpeg)
+<p align="center"><img src="imgs/Aspose.Words.f60ec55b-5faf-418e-a096-dea732986660.004.jpeg" alt="Figure"></p>
 
 *Figure 2.1 - Sensor fusion for localization* 
 
@@ -93,7 +96,7 @@ For robot localization, several algorithms are available, each with different pr
 
 An enhanced version of AMCL, which was recently developed by several researchers, is used for the project. It performs better even in dynamic and featureless environments.  
 
-![](imgs/Aspose.Words.f60ec55b-5faf-418e-a096-dea732986660.005.jpeg)
+<p align="center"><img src="imgs/Aspose.Words.f60ec55b-5faf-418e-a096-dea732986660.005.jpeg" alt="Figure"></p>
 
 *Figure 2.2 - Enhanced AMCL* 
 
@@ -119,7 +122,7 @@ This chapter describes how we are going to implement our system considering the 
 
 1. **Proposed<a name="_page12_x69.00_y140.92"></a> Robot Architecture** 
 
-![](imgs/Aspose.Words.f60ec55b-5faf-418e-a096-dea732986660.006.jpeg)
+<p align="center"><img src="imgs/Aspose.Words.f60ec55b-5faf-418e-a096-dea732986660.006.jpeg" alt="Figure"></p>
 
 *Figure 3.1 - Robot Architecture* 
 
@@ -132,7 +135,7 @@ The controlling board for the project is selected mainly considering the computa
 
 The proposed robot system will be implemented using ROS2 (Robot Operating System 2). The selection was done according to the following criteria.[14]
 
-![](imgs/Aspose.Words.f60ec55b-5faf-418e-a096-dea732986660.007.jpeg)
+<p align="center"><img src="imgs/Aspose.Words.f60ec55b-5faf-418e-a096-dea732986660.007.jpeg" alt="Figure"></p>
 
 *Table 3.1 - Selecting ROS version* 
 
@@ -185,13 +188,13 @@ To survive from USD rate increments, get all necessary components as soon as pos
 
 6. **Timeline<a name="_page14_x69.00_y72.92"></a>** 
 
-![](imgs/Aspose.Words.f60ec55b-5faf-418e-a096-dea732986660.008.jpeg)
+<p align="center"><img src="imgs/Aspose.Words.f60ec55b-5faf-418e-a096-dea732986660.008.jpeg" alt="Figure"></p>
 
 7. **Initial<a name="_page14_x69.00_y388.92"></a> Results** 
 
 Achieved desired hand gestures with 4 DoF in Webots simulator. 
 
-![](imgs/Aspose.Words.f60ec55b-5faf-418e-a096-dea732986660.009.png) ![](imgs/Aspose.Words.f60ec55b-5faf-418e-a096-dea732986660.010.png) ![](imgs/Aspose.Words.f60ec55b-5faf-418e-a096-dea732986660.011.png) ![](imgs/Aspose.Words.f60ec55b-5faf-418e-a096-dea732986660.012.png) ![](imgs/Aspose.Words.f60ec55b-5faf-418e-a096-dea732986660.013.png)
+<p align="center"><img src="imgs/Aspose.Words.f60ec55b-5faf-418e-a096-dea732986660.009.png" alt="Figure"></p> <p align="center"><img src="imgs/Aspose.Words.f60ec55b-5faf-418e-a096-dea732986660.010.png" alt="Figure"></p> <p align="center"><img src="imgs/Aspose.Words.f60ec55b-5faf-418e-a096-dea732986660.011.png" alt="Figure"></p> <p align="center"><img src="imgs/Aspose.Words.f60ec55b-5faf-418e-a096-dea732986660.012.png" alt="Figure"></p> <p align="center"><img src="imgs/Aspose.Words.f60ec55b-5faf-418e-a096-dea732986660.013.png" alt="Figure"></p>
 
 <a name="_page14_x69.00_y515.92"></a>*Figure 3.2 - Simulating desired gestures in Webots* 
 
