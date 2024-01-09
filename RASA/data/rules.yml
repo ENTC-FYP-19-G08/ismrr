@@ -1,0 +1,37 @@
+version: "3.1"
+
+rules:
+  - rule: Say goodbye anytime the user says goodbye
+    steps:
+      - intent: goodbye
+      - action: utter_goodbye
+
+  - rule: Say 'I am a bot' anytime the user challenges
+    steps:
+      - intent: bot_challenge
+      - action: utter_iamabot
+
+  - rule: Say goodbye anytime the user says good morning
+    steps:
+      - intent: good morning
+      - action: utter_morning
+
+  - rule: Say goodbye anytime the user says good afternoon
+    steps:
+      - intent: good afternoon
+      - action: utter_afternoon
+
+  - rule: Say goodbye anytime the user says good evening
+    steps:
+      - intent: good evening
+      - action: utter_evening
+
+  - rule: Say goodbye anytime the user says good night
+    steps:
+      - intent: good night
+      - action: utter_night
+
+  - rule: Say welcome anytime the user says thank you
+    steps:
+      - intent: thankyou
+      - action: utter_welcome

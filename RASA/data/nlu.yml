@@ -1,0 +1,228 @@
+version: "3.1"
+
+nlu:
+  - intent: greet
+    examples: |
+      - hey
+      - hello
+      - hi
+      - hello there
+      - hey there
+      - let's go
+      - hey dude
+
+  - intent: thankyou
+    examples: |
+      - thank you
+      - thanks
+      - thanx
+
+  - intent: good morning
+    examples: |
+      - good morning
+      - moin
+      - morning
+      - goodmorning
+
+  - intent: good afternoon
+    examples: |
+      - good afternoon
+      - afternoon
+      - goodafternoon
+
+  - intent: good evening
+    examples: |
+      - good evening
+      - evening
+      - goodevening
+
+  - intent: good night
+    examples: |
+      - good night
+      - night
+      - goodnight
+
+  - intent: goodbye
+    examples: |
+      - cu
+      - good by
+      - cee you later
+      - good night
+      - bye
+      - goodbye
+      - have a nice day
+      - see you around
+      - bye bye
+      - see you later
+
+  - intent: affirm
+    examples: |
+      - yes
+      - y
+      - indeed
+      - of course
+      - that sounds good
+      - correct
+
+  - intent: deny
+    examples: |
+      - no
+      - n
+      - never
+      - I don't think so
+      - don't like that
+      - no way
+      - not really
+
+  - intent: mood_great
+    examples: |
+      - perfect
+      - great
+      - amazing
+      - feeling like a king
+      - wonderful
+      - I am feeling very good
+      - I am great
+      - I am amazing
+      - I am going to save the world
+      - super stoked
+      - extremely good
+      - so so perfect
+      - so good
+      - so perfect
+
+  - intent: mood_unhappy
+    examples: |
+      - my day was horrible
+      - I am sad
+      - I don't feel very well
+      - I am disappointed
+      - super sad
+      - I'm so sad
+      - sad
+      - very sad
+      - unhappy
+      - not good
+      - not very good
+      - extremly sad
+      - so saad
+      - so sad
+
+  - intent: bot_challenge
+    examples: |
+      - are you a bot?
+      - are you a human?
+      - am I talking to a bot?
+      - am I talking to a human?
+
+  - intent: analog_lab
+    examples: |
+      - where is the analog lab?
+      - can you give me the directions to the analog laboratory?
+      - directions to analog electoric lab?
+      - guide me to analog electoric lab?
+      - how to go to the analog lab?
+
+  - intent: digital_lab
+    examples: |
+      - where is the digital lab?
+      - can you give me the directions to the digital laboratory?
+      - directions to digital electoric lab?
+      - guide me to digital electoric lab?
+      - how to go to the digital lab?
+
+  - intent: workshop
+    examples: |
+      - where is the electronic workshop?
+      - can you give me the directions to the workshop?
+      - directions to workshop?
+      - guide me to workshop?
+      - how to go to the workshop?
+
+  - intent: soldering_room
+    examples: |
+      - where is the soldering room?
+      - can you give me the directions to the soldering room?
+      - directions to soldering room?
+      - guide me to soldering room?
+      - how to go to the soldering room?
+
+  - intent: office
+    examples: |
+      - where is the department's office?
+      - can you give me the directions to the department office?
+      - directions to department office?
+      - guide me to department office?
+      - how to go to the department office?
+
+  - intent: conference
+    examples: |
+      - where is the conference room?
+      - can you give me the directions to the conference room?
+      - directions to conference room?
+      - guide me to conference room?
+      - how to go to the conference room?
+
+  - intent: staff_common
+    examples: |
+      - where is the staff common room?
+      - can you give me the directions to the staff common room?
+      - directions to staff common room?
+      - guide me to staff common room?
+      - how to go to the staff common room?
+
+  - intent: seminar
+    examples: |
+      - where is the seminar room?
+      - can you give me the directions to the seminar room?
+      - directions to seminar room?
+      - guide me to seminar room?
+      - how to go to the seminar room?
+
+  - intent: postgraduate
+    examples: |
+      - where is the postgraduate room?
+      - can you give me the directions to the postgraduate room?
+      - directions to postgraduate room?
+      - guide me to postgraduate room?
+      - how to go to the postgraduate room?
+
+  - intent: radio
+    examples: |
+      - where is the radio room?
+      - can you give me the directions to the radio room?
+      - directions to radio room?
+      - guide me to radio room?
+      - how to go to the radio room?
+
+  - intent: entc_one
+    examples: |
+      - where is the entc one?
+      - can you give me the directions to the entc one hall?
+      - directions to entc one?
+      - guide me to entc one?
+      - how to go to the entc main hall?
+
+  - intent: communication
+    examples: |
+      - where is the communication lab?
+      - can you give me the directions to the communication labpratory?
+      - directions to communication lab?
+      - guide me to communication laboratory?
+      - how to go to the communication lab?
+
+  - intent: department_head
+    examples: |
+      - where is the department heads office?
+      - can you give me the directions to the office of the head of department ?
+      - directions to department heads office?
+      - guide me to the office of the head of department?
+      - how to go to the department heads office?
+
+  - intent: computer
+    examples: |
+      - where is the computer laboratory?
+      - can you give me the directions to the computer lab?
+      - directions to computer laboratory?
+      - guide me to computer lab?
+      - how to go to the computer laboratory?

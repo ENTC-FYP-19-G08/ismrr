@@ -1,0 +1,113 @@
+version: "3.1"
+
+intents:
+  - greet
+  - thankyou
+  - good morning
+  - good afternoon
+  - good evening
+  - good night
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - analog_lab
+  - digital_lab
+  - workshop
+  - soldering_room
+  - office
+  - conference
+  - staff_common
+  - seminar
+  - postgraduate
+  - radio
+  - entc_one
+  - communication
+  - department_head
+  - computer
+
+responses:
+  utter_greet:
+    - text: "Hey! How are you?"
+
+  utter_welcome:
+    - text: "You are welcome!"
+
+  utter_morning:
+    - text: "Good morning! how can I help you?"
+
+  utter_afternoon:
+    - text: "Good afternoon!"
+
+  utter_evening:
+    - text: "Good evening!"
+
+  utter_night:
+    - text: "Good night!"
+
+  utter_cheer_up:
+    - text: "Here is something to cheer you up:"
+      image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_did_that_help:
+    - text: "Did that help you?"
+
+  utter_happy:
+    - text: "Great, carry on!"
+
+  utter_goodbye:
+    - text: "Bye"
+
+  utter_iamabot:
+    - text: "I am a bot, powered by Rasa."
+
+  utter_how_can_i_help_you:
+    - text: "How can I help you?"
+
+  utter_conference:
+    - text: "There is the staircase. The conference room is on the first floor.  Once you reach to the first floor, go through the passage on your right hand side. Then turn right, go some distance, turn left and go toward the end of the passage. Then you can see the conference room infornt of you."
+
+  utter_staff_common:
+    - text: "There is the staircase. The staff common room is on the first floor.  Once you reach to the first floor, go through the passage on your right hand side. Then turn right, go some distance, turn left and go toward the end of the passage, turn left and go on. Then you can see the staff common room."
+
+  utter_seminar:
+    - text: "There is the staircase. The seminar room is on the third floor. Once you reach to the third floor, go through the passage on your right hand side. Then go up throught the stairs ahead. Then you can see the seminar room on your lefthand side."
+
+  utter_postgrad:
+    - text: "There is the staircase. The postgraduate room is on the fourth floor."
+
+  utter_radio:
+    - text: "There is the staircase. The radio room is on the roof top of the building."
+
+  utter_entc1:
+    - text: "There is the ENTC1 hall."
+
+  utter_communication:
+    - text: "There is the staircase. The communication laboratory is on the third floor. Once you reach to the third floor, go through the passage on your right hand side. Then turn left and go towards the end of the passage. Then you can see the communication laboratory infront of you."
+
+  utter_head_office:
+    - text: "There is the staircase. The office of the head of department is on the first floor. Once you reach to the first floor, go through the passage on your right hand side. Then turn right and go towards the end of the passage. Then you can see the office of the head of department on your lefthand side."
+
+  utter_computer:
+    - text: "There is the staircase. The computer laboratory is on the first floor. Once you reach to the first floor, you can see the computer laboratory on your lefthand side."
+
+  utter_analog:
+    - text: "There is the staircase. The analog electronic laboratory is on the second floor. Once you reach to the second floor, go through the passage on your right hand side.Then turn left and go towards the end of the passage. Then you can see the analog electronic laboratory on your lefthand side."
+
+  utter_digital:
+    - text: "There is the staircase. The digital electronic laboratory is on the second floor. Once you reach to the second floor, go through the passage on your right hand side. Then turn left and go towards the end of the passage. Then you can see the digital electronic laboratory infront of you."
+
+  utter_office:
+    - text: "There is the staircase. The department office is on the first floor. Once you reach to the first floor, go through the passage on your right hand side. Then turn right and towards the end of the passage. Then you can see the department office on your lefthand side."
+
+  utter_workshop:
+    - text: "There is the staircase. The electronic workshop is on the second floor. Once you reach to the second floor, go through the passage on your right hand side. Then turn right and go towards the end of the passage. Then you can see the electronic workshop on your lefthand side."
+
+  utter_soldering:
+    - text: "There is the staircase. The soldering room is on the second floor. Once you reach to the second floor, go through the passage on your right hand side. Then turn right and go about two meters through the passage. Then you can see the soldering room on your lefthand side."
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

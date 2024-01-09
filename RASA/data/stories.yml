@@ -1,0 +1,129 @@
+version: "3.1"
+
+stories:
+  - story: happy path
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: mood_great
+      - action: utter_happy
+
+  - story: sad path 1
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: mood_unhappy
+      - action: utter_cheer_up
+      - action: utter_did_that_help
+      - intent: affirm
+      - action: utter_happy
+
+  - story: sad path 2
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: mood_unhappy
+      - action: utter_cheer_up
+      - action: utter_did_that_help
+      - intent: deny
+      - action: utter_goodbye
+
+  - story: analog path
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: analog_lab
+      - action: utter_analog
+
+  - story: digital path
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: digital_lab
+      - action: utter_digital
+
+  - story: office path
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: office
+      - action: utter_office
+
+  - story: workshop path
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: workshop
+      - action: utter_workshop
+
+  - story: communication path
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: communication
+      - action: utter_communication
+      - intent: thankyou
+      - action: utter_welcome
+
+  - story: conference path
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: conference
+      - action: utter_conference
+      - intent: thankyou
+      - action: utter_welcome
+
+  - story: staff_common path
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: staff_common
+      - action: utter_staff_common
+      - intent: thankyou
+      - action: utter_welcome
+
+  - story: seminar path
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: seminar
+      - action: utter_seminar
+      - intent: thankyou
+      - action: utter_welcome
+
+  - story: radio path
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: radio
+      - action: utter_radio
+      - intent: thankyou
+      - action: utter_welcome
+
+  - story: postgraduate path
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: postgraduate
+      - action: utter_postgrad
+      - intent: thankyou
+      - action: utter_welcome
+
+  - story: entc_one path
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: entc_one
+      - action: utter_entc1
+      - intent: thankyou
+      - action: utter_welcome
+
+  - story: department_head path
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: department_head
+      - action: utter_head_office
+      - intent: thankyou
+      - action: utter_welcome
