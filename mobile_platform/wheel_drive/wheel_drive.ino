@@ -56,12 +56,12 @@ void readVel(){
 
     // Loop through the tokens and convert them to integers
     for (int i = 0; i < 2 && ptr != NULL; i++){
-      if(i==RIGHT_WHEEL){right_wheel.target_velocity = atof(ptr);}
-      if(i==LEFT_WHEEL){left_wheel.target_velocity = atof(ptr);}
+      if(i==1){right_wheel.target_velocity = atof(ptr);}
+      if(i==0){left_wheel.target_velocity = atof(ptr);}
 //      Serial.println(velocity[i]);
       ptr = strtok(NULL,",");
    }
-   Serial.println(String(right_wheel.count)+","+String(left_wheel.count));//delay(5);
+   Serial.println(String(left_wheel.count)+" "+String(right_wheel.count));//delay(5);
   }  
 }
 
@@ -74,12 +74,12 @@ void readPWM(){
 
     // Loop through the tokens and convert them to integers
     for (int i = 0; i < 2 && ptr != NULL; i++){
-      if(i==RIGHT_WHEEL){right_wheel.pwm_vel = atoi(ptr);}
-      if(i==LEFT_WHEEL){left_wheel.pwm_vel = atoi(ptr);}
+      if(i==1){right_wheel.pwm_vel = atoi(ptr);}
+      if(i==0){left_wheel.pwm_vel = atoi(ptr);}
 //      Serial.println(velocity[i]);
       ptr = strtok(NULL,",");
    }
-   Serial.println(String(right_wheel.count)+","+String(left_wheel.count));//delay(5);
+   Serial.println(String(left_wheel.count)+" "+String(right_wheel.count));//delay(5);
   }  
 }
 
@@ -108,6 +108,6 @@ void loop() {
     right_wheel.drive();
     left_wheel.calPWM();
     left_wheel.drive();
-    Serial.println("right = "+String(right_wheel.velocity)+", dir = "+String(right_wheel.direction)+", left = "+String(left_wheel.velocity)+", dir = "+String(left_wheel.direction));
+//     Serial.println("right = "+String(right_wheel.velocity)+", dir = "+String(right_wheel.direction)+", left = "+String(left_wheel.velocity)+", dir = "+String(left_wheel.direction));
   
 }

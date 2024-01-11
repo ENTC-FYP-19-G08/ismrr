@@ -27,7 +27,7 @@
 // PID parameters
 #define MAX_PWM 255
 #define KI 5
-#define KP 2
+#define KP 8
 
 class hub_wheel{
     private:
