@@ -6,77 +6,70 @@
     android:layout_height="match_parent"
     tools:context=".ActivityRemote">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+
+    <ImageButton
+        android:id="@+id/btnFront"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_above="@id/btnStop"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="25dp">
-            <ImageButton
-                android:id="@+id/btnFront"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:tag="front"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/btn_round_0"
-                android:src="@drawable/ic_up"
-                android:scaleType="fitCenter"
-                android:padding="10dp"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="30dp">
-            <ImageButton
-                android:id="@+id/btnLeft"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:tag="left"
-               android:layout_alignParentLeft="true"
-                android:background="@drawable/btn_round_1"
-                android:src="@drawable/ic_left"
-                android:scaleType="fitCenter"
-                android:padding="10dp"/>
-            <ImageButton
-                android:id="@+id/btnStop"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:tag="stop"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/btn_round_4"
-                android:src="@drawable/ic_x"
-                android:scaleType="fitCenter"
-                android:padding="12dp"/>
-            <ImageButton
-                android:id="@+id/btnRight"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:tag="right"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/btn_round_1"
-                android:src="@drawable/ic_right"
-                android:scaleType="fitCenter"
-                android:padding="10dp"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageButton
-                android:id="@+id/btnBack"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:tag="back"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/btn_round_0"
-                android:src="@drawable/ic_down"
-                android:scaleType="fitCenter"
-                android:padding="10dp"/>
-        </RelativeLayout>
-    </LinearLayout>
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/btn_round_0"
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_up"
+        android:tag="front" />
+
+    <ImageButton
+        android:id="@+id/btnLeft"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="30dp"
+        android:layout_toStartOf="@id/btnStop"
+        android:background="@drawable/btn_round_1"
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_left"
+        android:tag="left" />
+
+    <ImageButton
+        android:id="@+id/btnStop"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/btn_round_4"
+        android:padding="12dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_x"
+        android:tag="stop" />
+
+    <ImageButton
+        android:id="@+id/btnRight"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerVertical="true"
+
+        android:layout_toEndOf="@id/btnStop"
+        android:layout_marginStart="30dp"
+        android:background="@drawable/btn_round_1"
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_right"
+        android:tag="right" />
+
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/btnStop"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/btn_round_0"
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_down"
+        android:tag="back" />
 
 
 </RelativeLayout>
