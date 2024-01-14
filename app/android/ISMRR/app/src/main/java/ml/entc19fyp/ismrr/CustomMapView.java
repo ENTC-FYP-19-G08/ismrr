@@ -117,9 +117,12 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
             case MotionEvent.ACTION_MOVE:
                 float deltaX = event.getX() - lastTouch.x;
                 float deltaY = event.getY() - lastTouch.y;
-                matrix.postTranslate(deltaX, deltaY);
-                setImageMatrix(matrix);
-                lastTouch.set(event.getX(), event.getY());
+                double delta=Math.pow(deltaX,2)+Math.pow(deltaY,2);
+                if(delta<50000){
+                    matrix.postTranslate(deltaX, deltaY);
+                    setImageMatrix(matrix);
+                    lastTouch.set(event.getX(), event.getY());
+                }
                 break;
             case MotionEvent.ACTION_UP:
                 Log.d("QWER", matrix.toString());
