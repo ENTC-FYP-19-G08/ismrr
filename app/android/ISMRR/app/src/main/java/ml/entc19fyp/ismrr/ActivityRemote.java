@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -14,7 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class ActivityRemote extends AppCompatActivity {
 
     DatabaseReference dbRef;
-    Button btnFront,btnBack,btnLeft,btnRight;
+    ImageButton btnFront,btnBack,btnLeft,btnRight,btnStop;
 
     View.OnTouchListener btnTouchListener =new View.OnTouchListener() {
         @Override
@@ -46,11 +47,15 @@ public class ActivityRemote extends AppCompatActivity {
         btnBack=findViewById(R.id.btnBack);
         btnLeft=findViewById(R.id.btnLeft);
         btnRight=findViewById(R.id.btnRight);
+        btnStop=findViewById(R.id.btnStop);
 
         btnFront.setOnTouchListener(btnTouchListener);
         btnBack.setOnTouchListener(btnTouchListener);
         btnLeft.setOnTouchListener(btnTouchListener);
         btnRight.setOnTouchListener(btnTouchListener);
+        btnStop.setOnTouchListener(btnTouchListener);
+
+
 
     }
 
