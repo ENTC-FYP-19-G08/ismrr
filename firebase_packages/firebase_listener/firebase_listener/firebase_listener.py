@@ -10,7 +10,7 @@ node = rclpy.create_node('firebase_listener')
 
 # Initialize Firebase Admin SDK
 # Fetch the service account key JSON file contents
-cred = credentials.Certificate('/home/jetson/ros2_ws/src/firebase_packages/firebase_listener/firebase_listener/robot-receptionist-19-firebase-adminsdk-d2d0o-c6356ff7ef.json')
+cred = credentials.Certificate('/media/jetson/SSD/ros2_ws/src/firebase_packages/firebase_listener/firebase_listener/robot-receptionist-19-firebase-adminsdk-d2d0o-c6356ff7ef.json')
 # Initialize the app with a service account, granting admin privileges
 firebase_admin.initialize_app(cred, {
     'databaseURL': "https://robot-receptionist-19-default-rtdb.asia-southeast1.firebasedatabase.app/"

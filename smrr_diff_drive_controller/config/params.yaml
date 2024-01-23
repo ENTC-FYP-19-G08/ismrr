@@ -1,0 +1,18 @@
+diff_drive_controller_node:
+  ros__parameters:
+      # Map Topic discovery
+    wheel_separation: 0.465
+    wheel_radius: 0.08255
+    counts_per_rotation_left: 87
+    counts_per_rotation_right: 83
+    odom_topic: "/odom"
+    base_footprint_topic: "/base_footprint"
+    base_link_topic: "/base_link"
+    odom_publish_rate: 50
+    tf_publish_rate: 20 
+  
+
+
+#radius = 8.255cm
+#count per rotation = 95
+#wheel seperation = 46.5cm

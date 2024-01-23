@@ -99,7 +99,7 @@ def generate_launch_description():
             executable='controller_server',
             output='screen',
             parameters=[configured_params],
-            remappings=remappings+[('cmd_vel', 'cmd_vel_raw')]),
+            remappings=remappings+[('cmd_vel', 'cmd_vel_smoothen')]),
 
         Node(
             package='nav2_planner',
