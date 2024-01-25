@@ -15,7 +15,7 @@ char sepChar = ' ';                                  // character used to separa
 
 void setup()
 {
-   Serial.begin(9600);
+  Serial.begin(9600);
   inputString.reserve(200);
   delay(2000);
   
@@ -86,8 +86,6 @@ void updateServos()
 //     delay(2);
 //     time += 2;
 //   }
-
-
 
   Serial.println();
 }
