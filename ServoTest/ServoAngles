@@ -5,6 +5,12 @@ In 180
 Out 0
 Range 0-180
 
+Wrist L
+In 10
+Out 180
+Range 10-180
+
+
 Elbow R
 Home 160 15 1
 HandShake 90-110 15 1
