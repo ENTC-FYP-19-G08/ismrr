@@ -1,0 +1,6 @@
+[ProjectGroup]
+Version=1.0
+[Project1]
+ProjectPath=ServoDriver\ServoDriver.PrjPcb
+[Project2]
+ProjectPath=AltiumArduinoR3_MEGAShield\ArduinoMegaSheild.PrjPcb
