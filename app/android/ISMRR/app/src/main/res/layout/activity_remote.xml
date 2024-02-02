@@ -18,7 +18,7 @@
         android:padding="10dp"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_up"
-        android:tag="front" />
+        android:tag="F" />
 
     <ImageButton
         android:id="@+id/btnLeft"
@@ -31,7 +31,7 @@
         android:padding="10dp"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_left"
-        android:tag="left" />
+        android:tag="L" />
     <ImageButton
         android:id="@+id/btnPlay"
         android:layout_width="100dp"
@@ -43,7 +43,7 @@
         android:padding="16dp"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_play"
-        android:tag="play" />
+        android:tag="P" />
 
     <ImageButton
         android:id="@+id/btnStop"
@@ -57,7 +57,7 @@
         android:padding="12dp"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_x"
-        android:tag="stop" />
+        android:tag="S" />
 
     <ImageButton
         android:id="@+id/btnRight"
@@ -70,7 +70,7 @@
         android:padding="10dp"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_right"
-        android:tag="right" />
+        android:tag="R" />
 
     <ImageButton
         android:id="@+id/btnBack"
@@ -83,7 +83,7 @@
         android:padding="10dp"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_down"
-        android:tag="back" />
+        android:tag="B" />
 
 
 </RelativeLayout>
