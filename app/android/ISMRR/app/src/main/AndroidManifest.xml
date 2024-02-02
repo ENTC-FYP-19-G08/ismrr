@@ -31,10 +31,14 @@
 <!--                <category android:name="android.intent.category.LAUNCHER" />-->
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ActivityRemote"
             android:exported="true"
-            android:label="ISMRR-Remote">
+            android:label="ISMRR-Remote"
+            android:theme="@style/Theme.ISMRR.Remote"
+            android:screenOrientation="landscape">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

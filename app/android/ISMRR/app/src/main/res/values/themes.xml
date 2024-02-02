@@ -6,4 +6,11 @@
     </style>
 
     <style name="Theme.ISMRR" parent="Base.Theme.ISMRR" />
+
+    <style name="Theme.ISMRR.Remote" parent="Theme.ISMRR">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
 </resources>
