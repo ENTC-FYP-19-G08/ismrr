@@ -1,0 +1,32 @@
+# ShowUserLeft
+begin
+  500 6080 6016 6272 9280 5600 5680 frame_0..5 # Frame 0
+  1000 4867 8753 4613 frame_1_3_5 # Frame 1
+  1000 3897 7360 frame_1_5 # Frame 2
+  2000 3200 4565 frame_1_5 # Frame 3
+  2000 6016 9280 5680 frame_1_3_5 # Frame 0
+repeat
+
+sub frame_0..5
+  5 servo
+  4 servo
+  3 servo
+  2 servo
+  1 servo
+  0 servo
+  delay
+  return
+
+sub frame_1_3_5
+  5 servo
+  3 servo
+  1 servo
+  delay
+  return
+
+sub frame_1_5
+  5 servo
+  1 servo
+  delay
+  return
+
