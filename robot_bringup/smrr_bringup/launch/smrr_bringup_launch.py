@@ -13,6 +13,9 @@ def generate_launch_description():
     diff_drive_package_dir = get_package_share_directory('smrr_diff_drive_controller')
     rplidar_package_dir = get_package_share_directory('rplidar_ros2')
     teleop_package_dir = get_package_share_directory('tele_op')
+    nav2_bringup_package_dir = get_package_share_directory('nav2_bringup')
+    mpu_package_dir = get_package_share_directory('mpu6050driver')
+    robot_localization_package_dir = get_package_share_directory('robot_localization')
 
     start_diff_drive_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(diff_drive_package_dir, 'launch', 'diff_drive_controller_launch.py')),
@@ -40,6 +43,29 @@ def generate_launch_description():
         #                     }.items()
     )
 
+    start_navigation = IncludeLaunchDescription(PythonLaunchDescriptionSource(os.path.join(nav2_bringup_package_dir, 'launch', 'navigation_launch.py')),
+        # launch_arguments={
+        #                     'namespace': namespace,
+        #                     'use_sim_time': use_sim_time,
+        #                     # 'use_composition': 'True',
+        #                     }.items()
+    )
+
+    start_mpu = IncludeLaunchDescription(PythonLaunchDescriptionSource(os.path.join(mpu_package_dir, 'launch', 'mpu6050driver_launch.py')),
+        # launch_arguments={
+        #                     'namespace': namespace,
+        #                     'use_sim_time': use_sim_time,
+        #                     # 'use_composition': 'True',
+        #                     }.items()
+    )
+
+    start_localization = IncludeLaunchDescription(PythonLaunchDescriptionSource(os.path.join(robot_localization_package_dir, 'launch', 'ekf.launch.py')),
+        # launch_arguments={
+        #                     'namespace': namespace,
+        #                     'use_sim_time': use_sim_time,
+        #                     # 'use_composition': 'True',
+        #                     }.items()
+    )
 
     static_tf_1 = Node(
         package = "tf2_ros", 
@@ -65,9 +91,12 @@ def generate_launch_description():
 
   
     # Declare the launch options
-    ld.add_action(TimerAction(period=4.0, actions=[start_rplidar_cmd]))
     ld.add_action(start_diff_drive_cmd)
-    ld.add_action(TimerAction(period=6.0,actions=[start_teleop_cmd]))
+    ld.add_action(TimerAction(period=2.0,actions=[start_teleop_cmd]))
+    ld.add_action(TimerAction(period=4.0, actions=[start_rplidar_cmd]))
+    ld.add_action(TimerAction(period=8.0,actions=[start_mpu]))
+    ld.add_action(TimerAction(period=12.0,actions=[start_localization]))
+    # ld.add_action(TimerAction(period=18.0,actions=[start_navigation]))
     ld.add_action(static_tf_1)
     ld.add_action(static_tf_2)
     ld.add_action(static_tf_3)

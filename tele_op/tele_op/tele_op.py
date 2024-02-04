@@ -13,6 +13,7 @@ l_speed = 0
 r_speed = 0 
 state = 15
 
+            
 class TeleOp(Node):
     def __init__(self):
         super().__init__(node_name='tele_op_node')
@@ -49,26 +50,46 @@ class TeleOp(Node):
         global l_speed,r_speed
         print(msg.data)
 
-        cmd = msg.data.split()
+        cmd = msg.data.split(";")
         
-        if cmd[0] == 'move':  
-            
-            if cmd[1] == 'front_prs':
-                l_speed = 0.4
-                r_speed = 0.4 
+        if cmd[0] == 'move': 
 
-            elif cmd[1] == 'back_prs':
-                l_speed = -0.4
-                r_speed = -0.4 
+            act_dir = eval(cmd[1])
+             
+            if sum(1 for value in act_dir.values() if value)>2:
+                l_speed = 0.0
+                r_speed = 0.0  
+                print("Invalid")
+                return
 
-            elif cmd[1] == 'left_prs':
-                l_speed = -0.3 
-                r_speed = 0.3 
-
-            elif cmd[1] == 'right_prs':
+            if act_dir["F"]:
                 l_speed = 0.3
-                r_speed = -0.3
+                r_speed = 0.3
+                if act_dir["L"]:
+                    l_speed = 0.1
+                    r_speed = 0.4
+                elif act_dir["R"]:
+                    l_speed = 0.4
+                    r_speed = 0.1     
 
+            elif act_dir["B"]:
+                l_speed = -0.3
+                r_speed = -0.3
+                if act_dir["L"]:
+                    l_speed = -0.1
+                    r_speed = -0.4
+                elif act_dir["R"]:
+                    l_speed = -0.4
+                    r_speed = -0.1   
+
+            elif act_dir["L"]:
+                l_speed = -0.3
+                r_speed = +0.3 
+
+            elif act_dir["R"]:
+                l_speed = +0.3
+                r_speed = -0.3 
+                
             else:
                 l_speed = 0.0
                 r_speed = 0.0   
