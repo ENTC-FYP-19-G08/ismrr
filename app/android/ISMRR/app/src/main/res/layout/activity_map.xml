@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ActivityMap"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="5dp">
     <Button
         android:id="@+id/btnGo"
         android:layout_width="match_parent"
@@ -16,13 +17,21 @@
         android:id="@+id/btnTest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Test"/>
+        android:text="Test"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/btnStop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Stop"/>
+
 
     <ml.entc19fyp.ismrr.CustomMapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:src="@drawable/map2"
+        android:layout_height="match_parent"
+        android:src="@drawable/map4"
         android:scaleType="matrix"
 
         />

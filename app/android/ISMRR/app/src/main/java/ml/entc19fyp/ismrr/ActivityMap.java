@@ -16,7 +16,7 @@ import com.google.firebase.database.ValueEventListener;
 import ml.entc19fyp.ismrr.CustomMapView.Location;
 public class ActivityMap extends AppCompatActivity {
 
-    Button btnGo, btnTest;
+    Button btnGo,btnStop, btnTest;
     DatabaseReference dbRefMain, dbRefTargetLocation, dbRefCurrentLocation;
     CustomMapView map;
     @Override
@@ -26,11 +26,12 @@ public class ActivityMap extends AppCompatActivity {
 
         map = findViewById(R.id.mapView);
         btnGo = findViewById(R.id.btnGo);
+        btnStop=findViewById(R.id.btnStop);
         btnTest = findViewById(R.id.btnTest);
         dbRefMain = FirebaseDatabase.getInstance().getReference("/ISMRR");
         dbRefTargetLocation = dbRefMain.child("/robot/reach");
         dbRefCurrentLocation = dbRefMain.child("/app/pos");
-        map.setMapImageDimensions(384,384);
+        map.setMapImageDimensions(352,461);
 
         map.setOnMapTapListener(new CustomMapView.OnMapTapListener() {
             @Override
@@ -62,6 +63,8 @@ public class ActivityMap extends AppCompatActivity {
                 }
             }
         });
+
+
 
         dbRefCurrentLocation.addValueEventListener(new ValueEventListener() {
             @Override
