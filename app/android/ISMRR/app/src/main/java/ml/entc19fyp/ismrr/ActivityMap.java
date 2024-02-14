@@ -31,7 +31,7 @@ public class ActivityMap extends AppCompatActivity {
         dbRefMain = FirebaseDatabase.getInstance().getReference("/ISMRR");
         dbRefTargetLocation = dbRefMain.child("/robot/reach");
         dbRefCurrentLocation = dbRefMain.child("/app/pos");
-        map.setMapImageDimensions(352,461);
+        map.setMapImageDimensions(461,352);
 
         map.setOnMapTapListener(new CustomMapView.OnMapTapListener() {
             @Override

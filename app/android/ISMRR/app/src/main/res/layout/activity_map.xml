@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     tools:context=".ActivityMap"
     android:orientation="vertical"
-    android:padding="5dp">
+    android:padding="5dp"
+    android:keepScreenOn="true">
     <Button
         android:id="@+id/btnGo"
         android:layout_width="match_parent"
