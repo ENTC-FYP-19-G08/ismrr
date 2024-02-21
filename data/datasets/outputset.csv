@@ -1,0 +1,201 @@
+input,cat
+"""Excuse me, can you please tell me how to get to the analog electronic laboratory?""",1
+"""I'm a bit lost, could you guide me to the analog electronics lab?""",1
+"""I need directions to the analog lab. Can you help me find it?""",1
+"""Hi, I'm looking for the analog electronic laboratory. Do you know where it is?""",1
+"""Where can I find the analog electronics lab on this campus?""",1
+"""Could you point me in the right direction for the analog electronic lab?""",1
+"""I'm trying to locate the analog electronics laboratory. Any idea?""",1
+"""Sorry, I'm new here. How do I get to the analog electronic lab?""",1
+"""I'm a bit turned around. Can you direct me to the analog lab?""",1
+"""Is the analog electronics lab nearby? How do I get there?""",1
+"""I can't seem to find the analog lab. Can you give me directions?""",1
+"""I'm looking for the analog electronic laboratory. Can you show me the way?""",1
+"""Excuse me, which way to the analog electronics lab, please?""",1
+"""Where is the analog lab located? I need to find it.""",1
+"""I'm lost on campus. Can you help me locate the analog electronics lab?""",1
+"""I've been searching for the analog lab. How can I reach it?""",1
+"""Do you know how I can get to the analog electronic laboratory?""",1
+"""I'm trying to get to the analog electronics lab. Any guidance?""",1
+"""I'm not sure where the analog lab is. Can you point me there?""",1
+"""How can I reach the analog electronic laboratory from here?""",1
+"""Excuse me, I'm trying to locate the analog lab. Any idea where it is?""",1
+"""Where's the analog electronics lab? I seem to have lost my way.""",1
+"""I need to find the analog electronic laboratory. Can you assist me?""",1
+"""I'm on the hunt for the analog lab. How can I get there?""",1
+"""I can't find my way to the analog electronics lab. Can you help?""",1
+"""Could you tell me the route to the analog electronic laboratory?""",1
+"""I'm looking for the analog lab. Can you direct me there?""",1
+"""Hi, can you show me how to reach the analog electronics lab?""",1
+"""How do I reach the analog electronic laboratory from here?""",1
+"""I've heard about the analog lab, but I'm not sure where it is.""",1
+"""Is there a map to the analog electronics lab? I'm lost.""",1
+"""Can you guide me to the analog electronic laboratory, please?""",1
+"""Which way to the analog electronics lab, if you don't mind?""",1
+"""Excuse me, but I'm a bit disoriented. How do I find the analog lab?""",1
+"""I'm trying to find the analog electronic laboratory. Any help?""",1
+"""Where can I locate the analog electronics lab within the premises?""",1
+"""Sorry, but I'm unfamiliar with the area. Can you point me to the analog lab?""",1
+"""Is the analog electronic laboratory close by? I need to go there.""",1
+"""I'm in search of the analog lab. Can you provide directions?""",1
+"""Do you know the way to the analog electronics lab on this campus?""",1
+"""I've been wandering around looking for the analog lab. Can you assist me?""",1
+"""How do I get to the analog electronic laboratory from my current location?""",1
+"""Can you help me find the analog electronics lab? I'm lost.""",1
+"""I need directions to the analog lab. Can you tell me how to get there?""",1
+"""Hi, I'm new here. Can you tell me where the analog electronic lab is?""",1
+"""I can't find the analog lab on my own. Can you guide me?""",1
+"""I'm trying to reach the analog electronic laboratory. Can you direct me?""",1
+"""Do you know where the analog electronics lab is located?""",1
+"""I'm having trouble finding the analog lab. Can you show me the way?""",1
+"""Where is the analog electronic laboratory? I need to get there.""",1
+"""Excuse me, I'm searching for the analog lab. Any clues on its location?""",1
+"""I'm having trouble finding the analog electronic laboratory. Can you assist me?""",1
+"""Where's the analog electronics lab situated? I'm a bit disoriented.""",1
+"""The analog lab is my destination. Can you guide me there?""",1
+"""I'm looking for directions to the analog electronic lab. Can you help?""",1
+"""Can you direct me to the analog electronic laboratory, please?""",1
+"""How can I reach the analog electronics lab? I seem to be lost.""",1
+"""I'm new to this place. Can you show me the way to the analog lab?""",1
+"""I need to find the analog electronic laboratory. Can you assist me?""",1
+"""I'm in search of the analog lab. Can you point me in the right direction?""",1
+"""I've heard about the analog electronics lab, but I'm not sure where it is.""",1
+"""Do you know where the analog electronic laboratory is located?""",1
+"""I'm not familiar with this area. Can you tell me where the analog lab is?""",1
+"""I'm trying to find the analog electronics lab. Can you guide me there?""",1
+"""Sorry, but I've lost my way. How can I reach the analog lab?""",1
+"""Can you guide me to the analog electronic laboratory? I'm lost.""",1
+"""I'm searching for the analog lab. Can you provide directions?""",1
+"""I'm not sure how to get to the analog electronics lab. Can you help me?""",1
+"""Which path leads to the analog electronic laboratory from here?""",1
+"""Can you assist me in finding the analog electronics lab? I'm lost.""",1
+"""I'm on a quest to find the analog lab. Can you assist me?""",1
+"""Is there a map showing the way to the analog electronic laboratory?""",1
+"""I've been wandering around, but I can't locate the analog lab. Can you help?""",1
+"""How do I reach the analog electronics lab from this point?""",1
+"""Can you provide me with directions to the analog electronic laboratory?""",1
+"""I've been looking for the analog lab. Can you direct me there?""",1
+"""Where can I find the analog electronics lab within this area?""",1
+"""Is the analog electronic laboratory nearby? I need to reach it.""",1
+"""I've heard about the analog lab but don't know where it is. Can you help?""",1
+"""Can you tell me how to get to the analog electronic lab? I'm new here.""",1
+"""I'm trying to reach the analog electronics lab. Can you guide me?""",1
+"""Excuse me, but I'm disoriented. How can I locate the analog lab?""",1
+"""I'm trying to find the analog electronic laboratory. Can you assist?""",1
+"""Do you know where the analog electronics lab is situated?""",1
+"""I'm struggling to locate the analog lab. Can you show me the way?""",1
+"""Can you tell me how to reach the analog electronics lab on this campus?""",1
+"""I need directions to the analog lab. Can you help me get there?""",1
+"""Hi, I'm lost. Can you direct me to the analog electronic laboratory?""",1
+"""I'm in search of the analog lab. Can you point me in the right direction?""",1
+"""How do I get to the analog electronic laboratory from where I am now?""",1
+"""Can you guide me to the analog electronics lab? I can't find it.""",1
+"""Is there a map to the analog electronic laboratory? I seem to be lost.""",1
+"""I've been wandering around, but I can't seem to find the analog lab. Can you help?""",1
+"""Excuse me, I need to find the analog electronics lab. Can you assist me?""",1
+"""I'm new to this location. How can I reach the analog lab?""",1
+"""Can you show me the way to the analog electronic laboratory?""",1
+"""I'm having difficulty finding the analog electronics lab. Can you guide me?""",1
+"""Where's the analog electronic laboratory? I need to get there.""",1
+"""I'm on the hunt for the analog lab. Can you help me find it?""",1
+"""I'm searching for the analog electronic laboratory. Can you help me locate it?""",1
+"""I need directions to the analog lab. Can you tell me how to get there?""",1
+"""Hi, I'm looking for the analog electronics lab. Do you know where it is?""",1
+"""Could you point me in the right direction for the analog electronic lab?""",1
+"""I'm trying to locate the analog electronics laboratory. Any idea?""",1
+"""Sorry, I'm new here. How do I get to the analog lab?""",1
+"""I'm a bit turned around. Can you direct me to the analog electronic lab?""",1
+"""I can't seem to find the analog lab. Can you give me directions?""",1
+"""I'm looking for the analog electronic laboratory. Can you show me the way?""",1
+"""Excuse me, which way to the analog electronics lab, please?""",1
+"""Where is the analog lab located? I need to find it.""",1
+"""I'm lost on campus. Can you help me locate the analog electronics lab?""",1
+"""I've been searching for the analog lab. How can I reach it?""",1
+"""Do you know how I can get to the analog electronic laboratory?""",1
+"""I'm trying to get to the analog electronics lab. Any guidance?""",1
+"""I'm not sure where the analog lab is. Can you point me there?""",1
+"""How can I reach the analog electronic laboratory from here?""",1
+"""Excuse me, I'm trying to locate the analog lab. Any idea where it is?""",1
+"""Where's the analog electronics lab situated? I'm a bit disoriented.""",1
+"""The analog lab is my destination. Can you guide me there?""",1
+"""I'm looking for directions to the analog electronic lab. Can you help?""",1
+"""Can you direct me to the analog electronic laboratory, please?""",1
+"""How can I reach the analog electronics lab? I seem to be lost.""",1
+"""I'm new to this place. Can you show me the way to the analog lab?""",1
+"""I need to find the analog electronic laboratory. Can you assist me?""",1
+"""I'm in search of the analog lab. Can you point me in the right direction?""",1
+"""I've heard about the analog electronics lab, but I'm not sure where it is.""",1
+"""Do you know where the analog electronic laboratory is located?""",1
+"""I'm not familiar with this area. Can you tell me where the analog lab is?""",1
+"""I'm trying to find the analog electronics lab. Can you guide me there?""",1
+"""Sorry, but I've lost my way. How can I reach the analog lab?""",1
+"""Can you guide me to the analog electronic laboratory? I'm lost.""",1
+"""I'm searching for the analog lab. Can you provide directions?""",1
+"""I'm not sure how to get to the analog electronics lab. Can you help me?""",1
+"""Which path leads to the analog electronic laboratory from here?""",1
+"""Can you assist me in finding the analog electronics lab? I'm lost.""",1
+"""I'm on a quest to find the analog lab. Can you assist me?""",1
+"""Is there a map showing the way to the analog electronic laboratory?""",1
+"""I've been wandering around, but I can't locate the analog lab. Can you help?""",1
+"""How do I reach the analog electronics lab from this point?""",1
+"""Can you provide me with directions to the analog electronic laboratory?""",1
+"""I've been looking for the analog lab. Can you direct me there?""",1
+"""Where can I find the analog electronics lab within this area?""",1
+"""Is the analog electronic laboratory nearby? I need to reach it.""",1
+"""I've heard about the analog lab but don't know where it is. Can you help?""",1
+"""Can you tell me how to get to the analog electronic lab? I'm new here.""",1
+"""I'm trying to reach the analog electronics lab. Can you guide me?""",1
+"""Excuse me, but I'm disoriented. How can I locate the analog lab?""",1
+"""I'm trying to find the analog electronic laboratory. Can you assist?""",1
+"""Do you know where the analog electronics lab is situated?""",1
+"""I'm struggling to locate the analog lab. Can you show me the way?""",1
+"""Can you tell me how to reach the analog electronics lab on this campus?""",1
+"""I need directions to the analog lab. Can you help me get there?""",1
+"""Hi, I'm lost. Can you direct me to the analog electronic laboratory?""",1
+"""I'm in search of the analog lab. Can you point me in the right direction?""",1
+"""How do I get to the analog electronic laboratory from where I am now?""",1
+"""Can you guide me to the analog electronics lab? I can't find it.""",1
+"""Is there a map to the analog electronic laboratory? I seem to be lost.""",1
+"""I've been wandering around, but I can't seem to find the analog lab. Can you help?""",1
+"""Excuse me, I need to find the analog electronics lab. Can you assist me?""",1
+"""I'm new to this location. How can I reach the analog lab?""",1
+"""Can you show me the way to the analog electronic laboratory?""",1
+"""I'm having difficulty finding the analog electronics lab. Can you guide me?""",1
+"""Where's the analog electronic laboratory? I need to get there.""",1
+"""I'm on the hunt for the analog lab. Can you help me find it?""",1
+"""I'm searching for the analog electronic laboratory. Can you help me locate it?""",1
+"""I need directions to the analog lab. Can you tell me how to get there?""",1
+"""Hi, I'm looking for the analog electronics lab. Do you know where it is?""",1
+"""Could you point me in the right direction for the analog electronic lab?""",1
+"""I'm trying to locate the analog electronics laboratory. Any idea?""",1
+"""Sorry, I'm new here. How do I get to the analog lab?""",1
+"""I'm a bit turned around. Can you direct me to the analog electronic lab?""",1
+"""I can't seem to find the analog lab. Can you give me directions?""",1
+"""I'm looking for the analog electronic laboratory. Can you show me the way?""",1
+"""Excuse me, which way to the analog electronics lab, please?""",1
+"""Where is the analog lab located? I need to find it.""",1
+"""I'm lost on campus. Can you help me locate the analog electronics lab?""",1
+"""I've been searching for the analog lab. How can I reach it?""",1
+"""Do you know how I can get to the analog electronic laboratory?""",1
+"""I'm trying to get to the analog electronics lab. Any guidance?""",1
+"""I'm not sure where the analog lab is. Can you point me there?""",1
+"""How can I reach the analog electronic laboratory from here?""",1
+"""Excuse me, I'm trying to locate the analog lab. Any idea where it is?""",1
+"""Where's the analog electronics lab situated? I'm a bit disoriented.""",1
+"""The analog lab is my destination. Can you guide me there?""",1
+"""I'm looking for directions to the analog electronic lab. Can you help?""",1
+"""Can you direct me to the analog electronic laboratory, please?""",1
+"""How can I reach the analog electronics lab? I seem to be lost.""",1
+"""I'm new to this place. Can you show me the way to the analog lab?""",1
+"""I need to find the analog electronic laboratory. Can you assist me?""",1
+"""I'm in search of the analog lab. Can you point me in the right direction?""",1
+"""I've heard about the analog electronics lab, but I'm not sure where it is.""",1
+"""Do you know where the analog electronic laboratory is located?""",1
+"""I'm not familiar with this area. Can you tell me where the analog lab is?""",1
+"""I'm trying to find the analog electronics lab. Can you guide me there?""",1
+"""Sorry, but I've lost my way. How can I reach the analog lab?""",1
+"""Can you guide me to the analog electronic laboratory? I'm lost.""",1
+"""I'm searching for the analog lab. Can you provide directions?""",1
+"""I'm not sure how to get to the analog electronics lab. Can you help me?""",1
+"""Which path leads to the analog electronic laboratory from here?""",1
+"""Can you assist me in finding the analog electronics lab? I'm lost.""",1
