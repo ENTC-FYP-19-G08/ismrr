@@ -12,6 +12,7 @@
 #include <QString>
 #include <QProcess>
 #include <QDebug>
+#include <QScrollBar> 
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -51,7 +52,11 @@ void MainWindow::on_pushButton2_clicked()
         QString output = process->readAllStandardOutput();
         qDebug() << output;
         // Append the output to the label
-        ui->label->setText(ui->label->text() + "\n" + output); });
+        ui->textEdit->append(output); 
+      QScrollBar *scrollBar = ui->textEdit->verticalScrollBar();
+    scrollBar->setValue(scrollBar->maximum());
+    
+    });
 
     connect(process, static_cast<void (QProcess::*)(int)>(&QProcess::finished),
 
@@ -62,8 +67,6 @@ void MainWindow::on_pushButton2_clicked()
             }
 
     );
-
-    
 }
 
 MainWindow::~MainWindow()
