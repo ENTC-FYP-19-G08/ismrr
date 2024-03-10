@@ -9,6 +9,9 @@
  */
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
+#include <QString>
+#include <QProcess>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -18,11 +21,20 @@ MainWindow::MainWindow(QWidget *parent)
     commNode=new rclcomm();
     connect(commNode,SIGNAL(emitTopicData(QString)),this,SLOT(updateTopicInfo(QString)));
     connect(ui->pushButton,&QPushButton::clicked,commNode,&rclcomm::sendTopicData);
+    qDebug() << "aaa run";
+
 }
 void MainWindow::updateTopicInfo(QString data){
     ui->label->clear();
     ui->label->setText(data);
 }
+
+void MainWindow::on_pushButton2_clicked()
+{
+    if (!QProcess::startDetached("code"))
+        QMessageBox::information(this, "Code run", "Code run by button");
+}
+
 MainWindow::~MainWindow()
 {
     delete ui;

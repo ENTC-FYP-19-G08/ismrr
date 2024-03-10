@@ -11,6 +11,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMessageBox>
+
 #include "rclcomm.h"
 #include <iostream>
 QT_BEGIN_NAMESPACE
@@ -30,5 +32,6 @@ private:
     rclcomm *commNode;
 public slots:
     void updateTopicInfo(QString);
+    void on_pushButton2_clicked();
 };
 #endif // MAINWINDOW_H
