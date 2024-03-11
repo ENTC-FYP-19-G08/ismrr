@@ -2,69 +2,102 @@ from deepface import DeepFace
 import os
 import cv2 as cv
 import time
+import shutil
 
-face_cascade = cv.CascadeClassifier(cv.data.haarcascades + 'haarcascade_frontalface_default.xml')
-camera = cv.VideoCapture(0)
+import rclpy
+from rclpy.node import Node
+from std_msgs.msg import String
 
-# def main():
+# face_cascade = cv.CascadeClassifier(cv.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
-#     DeepFace.stream(db_path = "/home/vwm/fyp_ws/src/face_recognition/images",model_name="ArcFace",enable_face_analysis=False)
+class face_recog(Node):
 
-
+    def __init__(self,camera_ID,path_prefix):
+        super().__init__('face_recognition')
+        self.camera_ID = camera_ID
+        self.camera = cv.VideoCapture(camera_ID) 
+        self.image_path = path_prefix + '/src/face_recognition/images'
+        self.people_publisher = self.create_publisher(String, '/smrr/people', 10)
     
-def captureCam():
-    while True:
+    def captureCam(self):
+        while True:
 
-        result, video_frame = camera.read()  # read frames from the video
-        if result is False:
-            break  # terminate the loop if the frame is not read successfully
+            # read frames from the video
+            result, video_frame = self.camera.read()  
+            width = len(video_frame[0])
+            # video_frame = video_frame[:,0:width//2+1]
 
-        faces = detect_bounding_box(
-            video_frame
-        )  # apply the function we created to the video frame
+            # terminate the loop if the frame is not read successfully
+            if result is False:
+                break  
 
-        cv.imshow(
-            "smrr_face_detection", video_frame
-        )  # display the processed frame in a window named "My Face Detection Project"
+            video_frame = self.identify_people(video_frame) 
 
-        key = cv.waitKey(5)
-        # waiting for q key to be pressed and then breaking
-        if key == ord('q'):
-            camera.release()
-            cv.destroyAllWindows()
-            break
+            # display the processed frame in a window named "My Face Detection Project"
+            cv.imshow("smrr_face_detection", video_frame)  
 
-def detect_bounding_box(vid):
+            key = cv.waitKey(5)
+            # waiting for q key to be pressed and then breaking
+            if key == ord('q'):
+                self.camera.release()
+                cv.destroyAllWindows()
+                break
 
-    people = DeepFace.find(vid,db_path="/home/vwm/fyp_ws/src/face_recognition/images",model_name="ArcFace",enforce_detection=False,threshold=0.5)
-        
-        
-    if(not(people[0].empty)):
+    def identify_people(self,vid):
 
-        # print(people)
-        for i in range(len(people)):
-            person = people[i]
-            person_name = person['identity'][0].split('/')[8]
-            # print(str(i)+" "+person_name)
+        people = DeepFace.find(
+            vid,
+            db_path = self.image_path, 
+            model_name="ArcFace", 
+            enforce_detection=False,
+            threshold=0.5
+            )
+            
+            
+        if(not(people[0].empty)):
 
-            x = person['source_x'][0]
-            y = person['source_y'][0]
-            w = person['source_w'][0]
-            h = person['source_h'][0]
+            names = ''
+            for i in range(len(people)):
+                person = people[i]
+                person_name = person['identity'][0].split('/')[8]
+                names+=(person_name+',')
+                # print(str(i)+" "+person_name)
 
-            # print(x,y,w,h)
+                x = person['source_x'][0]
+                y = person['source_y'][0]
+                w = person['source_w'][0]
+                h = person['source_h'][0]
 
-            cv.rectangle(vid, (x, y), (x + w, y + h), (0, 255, 0), 4)
-            cv.putText(vid, person_name, (x,y+h+20), cv.FONT_HERSHEY_SIMPLEX, 0.75, (0, 255, 0), 2, cv.LINE_AA) 
-# 
-            # for h in person['identity']:
-            #     print(h.split('/')[8])
-        # else:
-        #     person_name = person[0]['identity'][0].split('/')[8]
-        #     cv.putText(vid, person_name, (x,y+h+20), cv.FONT_HERSHEY_SIMPLEX, 0.75, (0, 255, 0), 2, cv.LINE_AA) 
-        # print(person_path[8])
+                # print(x,y,w,h)
 
-    return 1
+                cv.rectangle(vid, (x, y), (x + w, y + h), (0, 255, 0), 4)
+                cv.putText(vid, person_name, (x,y+h+20), cv.FONT_HERSHEY_SIMPLEX, 0.75, (0, 255, 0), 2, cv.LINE_AA) 
+    #       
+            msg = String()
+            msg.data = names
+            self.people_publisher.publish(msg)
+                # for h in person['identity']:
+                #     print(h.split('/')[8])
+            # else:
+            #     person_name = person[0]['identity'][0].split('/')[8]
+            #     cv.putText(vid, person_name, (x,y+h+20), cv.FONT_HERSHEY_SIMPLEX, 0.75, (0, 255, 0), 2, cv.LINE_AA) 
+            # print(person_path[8])
 
-if __name__ == '__main__':
-    captureCam()
+        return vid
+    
+    
+
+def main():
+    
+    rclpy.init()
+
+    recognizer = face_recog(0,"/home/vwm/fyp_ws")
+    recognizer.captureCam()
+    rclpy.spin(recognizer)
+
+    # Destroy the node explicitly
+    # (optional - otherwise it will be done automatically
+    # when the garbage collector destroys the node object)
+    recognizer.destroy_node()
+    rclpy.shutdown()
+  
