@@ -20,7 +20,9 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'detect_face = face_recognition.detect_face:main'
+            'detect_face = face_recognition.detect_face:main',
+            'camera_feed = fake_camera.camera_feed:main',
+            'trigger = fake_camera.trigger_detect:main'
         ],
     },
 )
