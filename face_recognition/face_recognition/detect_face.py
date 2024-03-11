@@ -7,41 +7,52 @@ import shutil
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
-
+from sensor_msgs.msg import Image
+from cv_bridge import CvBridge
 # face_cascade = cv.CascadeClassifier(cv.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
 class face_recog(Node):
 
-    def __init__(self,camera_ID,path_prefix):
+    def __init__(self):
         super().__init__('face_recognition')
-        self.camera_ID = camera_ID
-        self.camera = cv.VideoCapture(camera_ID) 
+        print("Hi")
+        path_prefix = "/SSD/face_recog_ws"
+        # self.camera_ID = camera_ID
+        # self.camera = cv.VideoCapture(camera_ID) 
+     
         self.image_path = path_prefix + '/src/face_recognition/images'
-        self.people_publisher = self.create_publisher(String, '/smrr/people', 10)
+        self.br = CvBridge()
+        self.people_publisher = self.create_publisher(String, '/smrr/people', 1)
+        self.image_subscriber = self.create_subscription(Image, '/zed/zed_node/left/image_rect_color',self.captureCam,2)
     
-    def captureCam(self):
-        while True:
+    def captureCam(self, msg):
+    
+        # read frames from the video
+        # result, video_frame = self.camera.read()  
+        print("Received")
+        video_frame = self.br.imgmsg_to_cv2(msg)
+        video_frame = cv.cvtColor(video_frame, cv.COLOR_RGBA2RGB)
+        
+    
+        # width = len(video_frame[0])
+        # # video_frame = video_frame[:,0:width//2+1]
 
-            # read frames from the video
-            result, video_frame = self.camera.read()  
-            width = len(video_frame[0])
-            # video_frame = video_frame[:,0:width//2+1]
+        # # terminate the loop if the frame is not read successfully
+        # if result is False:
+        #     return
 
-            # terminate the loop if the frame is not read successfully
-            if result is False:
-                break  
+        video_frame = self.identify_people(video_frame) 
 
-            video_frame = self.identify_people(video_frame) 
+        # # display the processed frame in a window named "My Face Detection Project"
+        cv.imshow("camera", video_frame)   
+        cv.waitKey(1) 
 
-            # display the processed frame in a window named "My Face Detection Project"
-            cv.imshow("smrr_face_detection", video_frame)  
-
-            key = cv.waitKey(5)
-            # waiting for q key to be pressed and then breaking
-            if key == ord('q'):
-                self.camera.release()
-                cv.destroyAllWindows()
-                break
+        # key = cv.waitKey(5)
+        # # waiting for q key to be pressed and then breaking
+        # if key == ord('q'):
+        #     self.camera.release()
+        #     cv.destroyAllWindows()
+        #     return
 
     def identify_people(self,vid):
 
@@ -59,7 +70,7 @@ class face_recog(Node):
             names = ''
             for i in range(len(people)):
                 person = people[i]
-                person_name = person['identity'][0].split('/')[8]
+                person_name = person['identity'][0].split('/')[7]
                 names+=(person_name+',')
                 # print(str(i)+" "+person_name)
 
@@ -87,12 +98,10 @@ class face_recog(Node):
     
     
 
-def main():
-    
-    rclpy.init()
+def main(args=None):
+    rclpy.init(args=args)
 
-    recognizer = face_recog(0,"/home/vwm/fyp_ws")
-    recognizer.captureCam()
+    recognizer = face_recog()
     rclpy.spin(recognizer)
 
     # Destroy the node explicitly
@@ -101,3 +110,5 @@ def main():
     recognizer.destroy_node()
     rclpy.shutdown()
   
+if __name__ == '__main__':
+    main()
