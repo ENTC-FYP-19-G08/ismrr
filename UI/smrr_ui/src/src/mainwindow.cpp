@@ -10,9 +10,7 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include <QString>
-#include <QProcess>
-#include <QDebug>
-#include <QScrollBar> 
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -31,42 +29,7 @@ void MainWindow::updateTopicInfo(QString data)
 
 void MainWindow::on_pushButton2_clicked()
 {
-    QProcess *process = new QProcess(this);
-
-    // Set the absolute path to the Python script
-    QString scriptPath = "/home/csa/fyp/UI/smrr_ui/test/long_running_script.py";
-
-    // Set the command to be executed (Python interpreter with the absolute path to the script as argument)
-    QString command = "python3";
-    QStringList arguments;
-    arguments << scriptPath;
-
-    // Start the process with the command
-    process->start(command, arguments);
-
-    // Connect process signals to slots
-    QObject::connect(process, &QProcess::readyReadStandardOutput, [=]()
-                     {
-        // Read the standard output of the process
-        
-        QString output = process->readAllStandardOutput();
-        qDebug() << output;
-        // Append the output to the label
-        ui->textEdit->append(output); 
-      QScrollBar *scrollBar = ui->textEdit->verticalScrollBar();
-    scrollBar->setValue(scrollBar->maximum());
-    
-    });
-
-    connect(process, static_cast<void (QProcess::*)(int)>(&QProcess::finished),
-
-            [=](int exitCode)
-            {
-                process->deleteLater();
-                qDebug() << exitCode;
-            }
-
-    );
+   
 }
 
 MainWindow::~MainWindow()
