@@ -9,8 +9,11 @@
  */
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include <QString>
 
+#include "optionswindow.h"
+// #include "./ui_optionswindow.h"
+#include <QString>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -29,7 +32,11 @@ void MainWindow::updateTopicInfo(QString data)
 
 void MainWindow::on_pushButton2_clicked()
 {
-   
+   qDebug() << "button 2 click";
+   OptionsWindow q;
+   q.setModal(false);
+   q.exec();
+
 }
 
 MainWindow::~MainWindow()

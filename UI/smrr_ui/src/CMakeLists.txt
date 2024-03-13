@@ -40,6 +40,7 @@ add_executable(${PROJECT_NAME}
         ${QT_RESOURCES_CPP}
         ${PRO_INCLUDE_DIR}
         ${QT_MOC_HPP}
+        ${QT_UI_HPP}
         ${PRO_FORM_DIR}
 )
 # Note that ament_target_dependencies() in algo cannot export Boost::thread to downstream. As a result, qt_example_node, as a downstream of libalgo.so, needs to explicitly ament_target_dependencies() for Boost again so that qt_example_node is able to link to Boost::thread.
