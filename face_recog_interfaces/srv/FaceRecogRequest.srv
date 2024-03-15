@@ -1,0 +1,5 @@
+bool name_request
+bool angle_request
+---
+string name
+uint8 angle

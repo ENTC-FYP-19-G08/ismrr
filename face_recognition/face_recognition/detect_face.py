@@ -12,18 +12,18 @@ from std_msgs.msg import String
 from std_msgs.msg import Bool
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
+from face_recog_interfaces.srv import FaceRecogRequest
 
 # face_cascade = cv.CascadeClassifier(cv.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
 class face_recog(Node):
 
-    def __init__(self,camera_ID,path_prefix):
+    def __init__(self):
         super().__init__('face_recognition')
 
-        # self.camera_ID = camera_ID
-        # self.camera = cv.VideoCapture(camera_ID) 
         self.face_cascade = cv.CascadeClassifier(cv.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
+        path_prefix = "/home/vwm/fyp_ws"
         self.image_path = path_prefix + '/src/face_recognition/images'
         self.unkown_path = path_prefix + '/src/face_recognition/cached_images'
 
@@ -31,33 +31,32 @@ class face_recog(Node):
 
         self.br = CvBridge()
         self.image_subscriber = self.create_subscription(Image, '/zed/zed_node/left/image_rect_color',self.captureCam,2)
-        self.image_subscriber = self.create_subscription(Bool, '/smrr/face_recog/trigger',self.triggerDetection,2)
+        self.vid_frame = None
+        # self.trigger_subscriber = self.create_subscription(Bool, '/smrr/face_recog/trigger',self.triggerDetection,2)
+
+        self.recognition_service = self.create_service(FaceRecogRequest, '/smrr/face_recog_srv', self.checkFrame)
 
         self.known_count = 0
         self.unknown_count = 0    
         self.known_stats={'unknown':0}
         self.frame_count = 10
         self.current_frame = 0
+        self.angle = 0
+        self.person_name = ""
 
-        self.triggered = False
+        # self.triggered = False
 
-    def triggerDetection(self,msg):
-        if(msg.data):
-            self.triggered = True
-    
     def captureCam(self,msg):
-        if self.triggered and self.current_frame<self.frame_count:
+        self.vid_frame = msg
+    
+    def checkFrame(self,request,response):
+        print("request received")
+        need_name = request.name_request
+        need_angle = request.angle_request
 
-            # read frames from the video
-            # result, video_frame = self.camera.read()  
-            # width = len(video_frame[0])
-            # video_frame = video_frame[:,0:width//2+1]
+        while self.current_frame<self.frame_count:
 
-            # terminate the loop if the frame is not read successfully
-            # if result is False:
-            #     break 
-
-            video_frame = self.br.imgmsg_to_cv2(msg)
+            video_frame = self.br.imgmsg_to_cv2(self.vid_frame)
             # uncomment for jetson
             # video_frame = cv.cvtColor(video_frame, cv.COLOR_RGBA2RGB)
 
@@ -82,33 +81,41 @@ class face_recog(Node):
 
             self.current_frame+=1
 
-        elif self.current_frame==self.frame_count:
-            # self.camera.release()
-            cv.destroyAllWindows()
+            if self.current_frame==self.frame_count:
+                # self.camera.release()
+                cv.destroyAllWindows()
 
-            # publish results
-            msg = String()
-            msg.data = str(self.known_stats)
-            self.people_publisher.publish(msg)
+                max_count_name = max(self.known_stats.items(), key=operator.itemgetter(1))[0]
 
-            if max(self.known_stats.items(), key=operator.itemgetter(1))[0] == 'unknown' and self.known_stats['unknown']!=0:
-                unknown_name = input("Give me yuor name: ") 
-                # rename and moves the files to new location
-                os.rename(self.unkown_path,osp.join(self.image_path,'people',unknown_name))
-                print("New person registered."+unknown_name)
-            else:
-                if osp.exists(self.unkown_path):
-                    shutil.rmtree(self.unkown_path)
-                    print("cached images deleted because person is identified.")
-                
+                if max_count_name == 'unknown' and self.known_stats['unknown']!=0:
+                    unknown_name = input("Give me your name: ") 
+                    # rename and moves the files to new location
+                    os.rename(self.unkown_path,osp.join(self.image_path,'people',unknown_name))
+                    print("New person registered."+unknown_name)
+                else:
+                    if osp.exists(self.unkown_path):
+                        shutil.rmtree(self.unkown_path)
+                        print("cached images deleted because person is identified.")
+                    
+                 # publish results
+                msg = String()
+                msg.data = str(self.known_stats)
+                self.people_publisher.publish(msg)
 
-            # reset stats
-            self.current_frame = 0
-            self.known_count=0
-            self.unknown_count=0
-            self.known_stats = {'unknown':0}
+                # reset stats
+                self.current_frame = 0
+                self.known_count=0
+                self.unknown_count=0
+                self.known_stats = {'unknown':0}
 
-            self.triggered = False
+                # self.triggered = False
+
+               
+
+                response.name = max_count_name
+                response.angle = self.angle
+
+                return response
 
         
 
@@ -188,7 +195,7 @@ def main():
     
     rclpy.init()
 
-    recognizer = face_recog(0,"/home/vwm/fyp_ws")
+    recognizer = face_recog()
     # recognizer.captureCam()
     rclpy.spin(recognizer)
 
