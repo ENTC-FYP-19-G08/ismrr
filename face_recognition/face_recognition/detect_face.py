@@ -38,10 +38,18 @@ class face_recog(Node):
 
         self.known_count = 0
         self.unknown_count = 0    
+
         self.known_stats={'unknown':0}
+        self.face_x_coord = {'unknown':0}
+
         self.frame_count = 10
         self.current_frame = 0
+        self.frame_w = 0
+        self.frame_h = 0
+
         self.angle = 0
+        self.max_angle = 145
+        self.min_angle = 45
         self.person_name = ""
 
         # self.triggered = False
@@ -57,6 +65,10 @@ class face_recog(Node):
         while self.current_frame<self.frame_count:
 
             video_frame = self.br.imgmsg_to_cv2(self.vid_frame)
+            if self.frame_h==0 and self.frame_w==0:
+                # print(video_frame.shape)
+                self.frame_h = video_frame.shape[0]
+                self.frame_w = video_frame.shape[1]
             # uncomment for jetson
             # video_frame = cv.cvtColor(video_frame, cv.COLOR_RGBA2RGB)
 
@@ -111,10 +123,10 @@ class face_recog(Node):
                 # self.triggered = False
 
                
-
+                # print(self.face_x_coord[max_count_name])
                 response.name = max_count_name
-                response.angle = self.angle
-
+                response.angle = self.x_coord_to_angle(self.face_x_coord[max_count_name])
+                
                 return response
 
         
@@ -156,6 +168,11 @@ class face_recog(Node):
                     w = person['source_w'][0]
                     h = person['source_h'][0]
 
+                    # set the face x coordinates
+                    face_x = int(x  + w/2)
+                    if face_x >= self.frame_w: face_x = self.frame_w
+                    self.face_x_coord[person_name] = face_x
+                    # print(face_x)
                     # print(x,y,w,h)
 
                     cv.rectangle(vid, (x, y), (x + w, y + h), (0, 255, 0), 4)
@@ -185,9 +202,11 @@ class face_recog(Node):
 
         return vid
     
-    def save_unknowns(self):
+    def x_coord_to_angle(self,face_x):
 
-        return
+        angle = int((self.max_angle-self.min_angle)*face_x/self.frame_w + 45)
+
+        return angle
     
     
 
