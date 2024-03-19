@@ -24,21 +24,21 @@ def generate_launch_description():
         )
 
 
-    # serial_node = Node(
-    #         package='smrr_arduino_serial',
-    #         # namespace='turtlesim1',
-    #         executable='arduino_serial',
-    #         name='arduino_serial_node',
-    #         output="screen",
-    #         # prefix=['xterm -e gdb -ex run --args']
-    #     # arguments=['--ros-args', '--log-level', 'debug'],
-    #     #emulate_tty=True)
+    serial_node = Node(
+            package='smrr_arduino_serial',
+            # namespace='turtlesim1',
+            executable='arduino_serial',
+            name='arduino_serial_node',
+            output="screen",
+            # prefix=['xterm -e gdb -ex run --args']
+        # arguments=['--ros-args', '--log-level', 'debug'],
+        #emulate_tty=True)
             
-    #     )
+        )
    
     
     ld = LaunchDescription()
-    # ld.add_action(serial_node)
+    ld.add_action(serial_node)
     ld.add_action(diff_node)
 
     

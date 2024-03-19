@@ -19,6 +19,18 @@ class MPU6050Driver : public rclcpp::Node {
   double roll = 0, pitch = 0, yaw = 0;
   void handleInput();
   void declareParameters();
+
+  float RateRoll, RatePitch, RateYaw;
+  float RateCalibrationRoll, RateCalibrationPitch, RateCalibrationYaw;
+  int RateCalibrationNumber;
+  float AccX, AccY, AccZ;
+  float AngleRoll, AnglePitch, AngleYaw;
+  uint32_t LoopTimer;
+  float KalmanAngleRoll=0, KalmanUncertaintyAngleRoll=2*2;
+  float KalmanAnglePitch=0, KalmanUncertaintyAnglePitch=2*2;
+  float KalmanAngleYaw=0, KalmanUncertaintyAngleYaw=2*2;
+  float Kalman1DOutput[2]={0,0};
+  void kalman_1d(float KalmanState, float KalmanUncertainty, float KalmanInput, float KalmanMeasurement);
 };
 
 #endif  // MPU6050DRIVER_H

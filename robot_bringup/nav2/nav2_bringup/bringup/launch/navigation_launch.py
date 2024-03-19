@@ -32,7 +32,7 @@ def generate_launch_description():
     autostart = LaunchConfiguration('autostart')
     params_file = LaunchConfiguration('params_file')
     default_bt_xml_filename = LaunchConfiguration('default_bt_xml_filename')
-    map_subscribe_transient_local = LaunchConfiguration('map_subscribe_transient_local')
+    map_subscribe_transient_local = LaunchConfiguration('map_subscribe_transient_local',default=True)
 
     lifecycle_nodes = ['controller_server',
                        'planner_server',

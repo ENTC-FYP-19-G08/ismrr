@@ -16,6 +16,8 @@ def generate_launch_description():
     nav2_bringup_package_dir = get_package_share_directory('nav2_bringup')
     mpu_package_dir = get_package_share_directory('mpu6050driver')
     robot_localization_package_dir = get_package_share_directory('robot_localization')
+    laser_merger_package_dir = get_package_share_directory('laser_merger')
+    lidar_cutter_package_dir = get_package_share_directory('lidar_cutter')
 
     start_diff_drive_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(diff_drive_package_dir, 'launch', 'diff_drive_controller_launch.py')),
@@ -43,7 +45,7 @@ def generate_launch_description():
         #                     }.items()
     )
 
-    start_navigation = IncludeLaunchDescription(PythonLaunchDescriptionSource(os.path.join(nav2_bringup_package_dir, 'launch', 'navigation_launch.py')),
+    start_navigation_cmd = IncludeLaunchDescription(PythonLaunchDescriptionSource(os.path.join(nav2_bringup_package_dir, 'launch', 'navigation_launch.py')),
         # launch_arguments={
         #                     'namespace': namespace,
         #                     'use_sim_time': use_sim_time,
@@ -51,7 +53,7 @@ def generate_launch_description():
         #                     }.items()
     )
 
-    start_mpu = IncludeLaunchDescription(PythonLaunchDescriptionSource(os.path.join(mpu_package_dir, 'launch', 'mpu6050driver_launch.py')),
+    start_mpu_cmd = IncludeLaunchDescription(PythonLaunchDescriptionSource(os.path.join(mpu_package_dir, 'launch', 'mpu6050driver_launch.py')),
         # launch_arguments={
         #                     'namespace': namespace,
         #                     'use_sim_time': use_sim_time,
@@ -59,7 +61,7 @@ def generate_launch_description():
         #                     }.items()
     )
 
-    start_localization = IncludeLaunchDescription(PythonLaunchDescriptionSource(os.path.join(robot_localization_package_dir, 'launch', 'ekf.launch.py')),
+    start_localization_cmd = IncludeLaunchDescription(PythonLaunchDescriptionSource(os.path.join(robot_localization_package_dir, 'launch', 'ekf.launch.py')),
         # launch_arguments={
         #                     'namespace': namespace,
         #                     'use_sim_time': use_sim_time,
@@ -67,6 +69,22 @@ def generate_launch_description():
         #                     }.items()
     )
 
+    start_laser_merger_cmd = IncludeLaunchDescription(PythonLaunchDescriptionSource(os.path.join(laser_merger_package_dir, 'launch', 'laser_merger.launch.py')),
+        # launch_arguments={
+        #                     'namespace': namespace,
+        #                     'use_sim_time': use_sim_time,
+        #                     # 'use_composition': 'True',
+        #                     }.items()
+    )
+       
+    start_lidar_cutter_cmd = IncludeLaunchDescription(PythonLaunchDescriptionSource(os.path.join(lidar_cutter_package_dir , 'launch', 'lidar_cutter.launch.py')),
+        # launch_arguments={
+        #                     'namespace': namespace,
+        #                     'use_sim_time': use_sim_time,
+        #                     # 'use_composition': 'True',
+        #                     }.items()
+    )       
+    
     static_tf_1 = Node(
         package = "tf2_ros", 
         executable = "static_transform_publisher",
@@ -85,21 +103,29 @@ def generate_launch_description():
         package = "tf2_ros", 
         executable = "static_transform_publisher",
         name = "link_footprint_tf_publisher",
-        arguments =  ["0", "0", "0", "0", "0", "0", "base_link", "base_footprint"])      
+        arguments =  ["0", "0", "0", "0", "0", "0", "base_link", "base_footprint"])    
+
+    static_tf_4 = Node(
+        package = "tf2_ros", 
+        executable = "static_transform_publisher",
+        name = "link_camera_tf_publisher",
+        arguments =  ["0.075", "0", "1.3", "0", "0", "0", "base_link", "zed_camera_link"])      
     # Create the launch description and populate
     ld = LaunchDescription()
 
   
     # Declare the launch options
     ld.add_action(start_diff_drive_cmd)
+    ld.add_action(start_lidar_cutter_cmd)
+    # ld.add_action(TimerAction(period=1.0, actions=[start_laser_merger_cmd]))
     ld.add_action(TimerAction(period=2.0,actions=[start_teleop_cmd]))
     ld.add_action(TimerAction(period=4.0, actions=[start_rplidar_cmd]))
-    ld.add_action(TimerAction(period=8.0,actions=[start_mpu]))
-    ld.add_action(TimerAction(period=12.0,actions=[start_localization]))
+    ld.add_action(TimerAction(period=8.0,actions=[start_mpu_cmd]))
+    ld.add_action(TimerAction(period=12.0,actions=[start_localization_cmd]))
     # ld.add_action(TimerAction(period=18.0,actions=[start_navigation]))
     ld.add_action(static_tf_1)
     ld.add_action(static_tf_2)
     ld.add_action(static_tf_3)
-    
+    ld.add_action(static_tf_4)
 
     return ld

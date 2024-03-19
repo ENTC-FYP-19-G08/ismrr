@@ -4,10 +4,15 @@ import serial
 import rclpy
 from rclpy.node import Node
 
-
+from nav2_simple_commander.robot_navigator import BasicNavigator
 from geometry_msgs.msg import Twist
 from std_msgs.msg import String
+from geometry_msgs.msg import PoseStamped
+from nav_msgs.msg import Odometry
 
+from tf2_ros import TransformException
+from tf2_ros.buffer import Buffer
+from tf2_ros.transform_listener import TransformListener
 
 l_speed = 0
 r_speed = 0 
@@ -19,10 +24,29 @@ class TeleOp(Node):
         super().__init__(node_name='tele_op_node')
 
         self.publisher =  self.create_publisher(Twist, '/cmd_vel_smoothen', 1)
-
+        self.pose_plisher = self.create_publisher(String,'/sender_test_topic', 10)
+        
         self.subscription = self.create_subscription(String,'/tele_op_cmd',  self.tele_op_callback,10  )
+        # self.subscription = self.create_subscription(Odometry,'/odometry/filtered',  self.odom_callback,10  )
+
+
+        self.tf_buffer = Buffer()
+        self.tf_listener = TransformListener(self.tf_buffer, self)
+        # self.navigator = BasicNavigator()
+        # self.navigator.waitUntilNav2Active()
+
+        self.resolution = 0.05
+        self.origin_x = -9.5
+        self.origin_y = -11.8
+        self.width = 352
+        self.height = 461
+
+        self.pose_x = None
+        self.pose_y = None
+
 
         self.timer = self.create_timer(0.01, self.timer_callback)
+        # self.timer2 = self.create_timer(0.5, self.tf_callback)
 
     def timer_callback(self):
         global l_speed,r_speed, state
@@ -94,9 +118,50 @@ class TeleOp(Node):
                 l_speed = 0.0
                 r_speed = 0.0   
 
-
+        elif cmd[0] == 'reach':
+            coords = list(map(int,cmd[1].split(",")))
+            self.reach(coords[0],self.height - coords[1])
+            
+    def pixel_to_grid_cvt(self,coords):
+        return (coords[0]*self.resolution + self.origin_x, coords[1]*self.resolution + self.origin_y)
     
+    def grid_to_pixel_cvt(self,coords):
+        return ((coords[0]- self.origin_x)//self.resolution , (coords[1]- self.origin_y)//self.resolution)
+    
+    def reach(self, pixel_loc_x, pixel_loc_y):    
+        grid_loc = self.pixel_to_grid_cvt([pixel_loc_x,pixel_loc_y])
+        goal_pose = PoseStamped()
+        goal_pose.header.frame_id = 'map'
+        goal_pose.header.stamp = self.navigator.get_clock().now().to_msg()
+        goal_pose.pose.position.x = grid_loc[0]
+        goal_pose.pose.position.y = grid_loc[1]
+        self.navigator.goToPose(goal_pose)
+    
+    def tf_callback(self):
+        from_frame_rel = "base_link"
+        to_frame_rel = 'map'
 
+        try:
+            t = self.tf_buffer.lookup_transform(
+                to_frame_rel,
+                from_frame_rel,
+                rclpy.time.Time())
+        except TransformException as ex:
+            self.get_logger().info(f'Could not transform {to_frame_rel} to {from_frame_rel}: {ex}')
+            return
+
+
+        self.pose_x =  t.transform.translation.x
+        self.pose_y =  t.transform.translation.y
+
+
+        if self.pose_x == None or self.pose_y == None:
+            return
+        
+        x,y = self.grid_to_pixel_cvt([self.pose_x,self.pose_y] )
+        msg_pose = String()
+        msg_pose.data = str(x)+","+str(self.height - y)
+        self.pose_plisher.publish(msg_pose)
 
 def main():
     rclpy.init()

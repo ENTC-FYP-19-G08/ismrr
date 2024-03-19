@@ -37,6 +37,16 @@ MPU6050Driver::MPU6050Driver()
   timer_ = this->create_wall_timer(frequency, std::bind(&MPU6050Driver::handleInput, this));
 }
 
+void MPU6050Driver::kalman_1d(float KalmanState, float KalmanUncertainty, float KalmanInput, float KalmanMeasurement) {
+  KalmanState=KalmanState+0.1*KalmanInput;
+  KalmanUncertainty=KalmanUncertainty + 0.1 * 0.1 * 4 * 4;
+  float KalmanGain=KalmanUncertainty * 1/(1*KalmanUncertainty + 3 * 3);
+  KalmanState=KalmanState+KalmanGain * (KalmanMeasurement-KalmanState);
+  KalmanUncertainty=(1-KalmanGain) * KalmanUncertainty;
+  Kalman1DOutput[0]=KalmanState; 
+  Kalman1DOutput[1]=KalmanUncertainty;
+}
+
 void MPU6050Driver::handleInput()
 {
   auto message = sensor_msgs::msg::Imu();
@@ -49,19 +59,41 @@ void MPU6050Driver::handleInput()
     0.0, 0.1, 0.0,
     0.0, 0.0, 0.1 };
 
+  AccX = mpu6050_->getAccelerationX();
+  AccY = mpu6050_->getAccelerationY();
+  AccZ = mpu6050_->getAccelerationZ();
+  RateRoll =  mpu6050_->getAngularVelocityX() ;
+  RatePitch = mpu6050_->getAngularVelocityY();
+  RateYaw = mpu6050_->getAngularVelocityZ();
+
+
+  AngleRoll=atan(AccY/sqrt(AccX*AccX+AccZ*AccZ))*1/(M_PI/180);
+  AnglePitch=-atan(AccX/sqrt(AccY*AccY+AccZ*AccZ))*1/(M_PI/180);
+  kalman_1d(KalmanAngleRoll, KalmanUncertaintyAngleRoll, RateRoll, AngleRoll);
+  KalmanAngleRoll=Kalman1DOutput[0]; 
+  KalmanUncertaintyAngleRoll=Kalman1DOutput[1];
+  kalman_1d(KalmanAnglePitch, KalmanUncertaintyAnglePitch, RatePitch, AnglePitch);
+  KalmanAnglePitch=Kalman1DOutput[0]; 
+  KalmanUncertaintyAnglePitch=Kalman1DOutput[1];
+
   message.linear_acceleration_covariance = linear_acc_matrix;
-  message.linear_acceleration.x = mpu6050_->getAccelerationX();
-  message.linear_acceleration.y = mpu6050_->getAccelerationY();
-  message.linear_acceleration.z = mpu6050_->getAccelerationZ();
+  message.linear_acceleration.x = AccX * cos(KalmanAnglePitch);
+  message.linear_acceleration.y = AccY * cos(KalmanAngleRoll);
+  message.linear_acceleration.z = AccZ;
   message.angular_velocity_covariance[0] = {0};
-  message.angular_velocity.x = mpu6050_->getAngularVelocityX() * M_PI/180.0;
-  message.angular_velocity.y = mpu6050_->getAngularVelocityY() * M_PI/180.0;
-  message.angular_velocity.z = mpu6050_->getAngularVelocityZ() * M_PI/180.0;
+  message.angular_velocity.x = RateRoll * M_PI/180.0;
+  message.angular_velocity.y = RatePitch * M_PI/180.0;
+  message.angular_velocity.z = RateYaw * M_PI/180.0;
+
   // Invalidate quaternion
 
   // if (message.angular_velocity.x>0.001) roll += 0.01*message.angular_velocity.x;
   // if (message.angular_velocity.y>0.001) pitch += 0.01*message.angular_velocity.y;
   // if (message.angular_velocity.z>0.001) yaw += 0.01*message.angular_velocity.z; 
+ 
+
+
+  // std::cout<<"Roll: "<<KalmanAngleRoll<<" Pitch: "<<KalmanAnglePitch<<" Yaw: "<<KalmanAngleYaw<<std::endl;
 
   tf2::Quaternion q;
   q.setRPY(roll, pitch, yaw);
