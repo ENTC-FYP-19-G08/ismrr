@@ -32,10 +32,21 @@ void MainWindow::updateTopicInfo(QString data)
 
 void MainWindow::on_pushButton2_clicked()
 {
-   qDebug() << "button 2 click";
-   OptionsWindow q;
-   q.setModal(false);
-   q.exec();
+//    qDebug() << "button 2 click";
+//    OptionsWindow q;
+//    q.setModal(false);
+//    q.exec();
+//     q.show();
+static int a=0;
+vector<QString> strings={"aa","bb"+(a++)};
+OptionsWindow *p=new OptionsWindow(this,&strings);
+// p->showFullScreen();
+// p->setAttribute(Qt::WA_DeleteOnClose);
+ui->stackedWidget->addWidget(p);
+ui->stackedWidget->setCurrentIndex(ui->stackedWidget->count()-1);
+// OptionsWindow *m=new OptionsWindow(this);
+// ui->stackedWidget->addWidget(m);
+
 
 }
 

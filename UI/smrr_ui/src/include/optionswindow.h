@@ -2,6 +2,10 @@
 #define OPTIONSWINDOW_H
 
 #include <QDialog>
+#include <vector>
+#include <QString>
+
+using namespace std;
 
 namespace Ui {
 class OptionsWindow;
@@ -12,7 +16,7 @@ class OptionsWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit OptionsWindow(QWidget *parent = nullptr);
+    explicit OptionsWindow(QWidget *parent = nullptr, vector<QString>* strings=nullptr);
     ~OptionsWindow();
 
 private:
