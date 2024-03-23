@@ -1,0 +1,27 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "ros2 run",
+            "type": "shell",
+            "command": "ros2 run smrr_ui smrr_ui",
+            "problemMatcher": []
+        },
+        {
+            "label": "colcon build",
+            "type": "shell",
+            "command": "colcon build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Build & Run",
+            "type": "shell",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "colcon build",
+                "ros2 run"
+            ],
+            "problemMatcher": []
+        }
+    ]
+}
