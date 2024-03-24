@@ -37,8 +37,8 @@ void MainWindow::on_pushButton2_clicked()
 //    q.setModal(false);
 //    q.exec();
 //     q.show();
-static int a=0;
-vector<QString> strings={"aa","bb"+(a++)};
+// static int a=0;
+vector<QString> strings={"aa","bb","ccccc","dd","ee","ih","hello"};
 OptionsWindow *p=new OptionsWindow(this,&strings);
 // p->showFullScreen();
 // p->setAttribute(Qt::WA_DeleteOnClose);
@@ -47,6 +47,15 @@ ui->stackedWidget->setCurrentIndex(ui->stackedWidget->count()-1);
 // OptionsWindow *m=new OptionsWindow(this);
 // ui->stackedWidget->addWidget(m);
 
+
+}
+
+void MainWindow::btnOk_clicked(int i){
+qDebug()<<QString("mainwindow btn ok")+QString(i);
+}
+
+void MainWindow::btnBack_clicked(){
+qDebug()<<QString("mainwindow btn back");
 
 }
 

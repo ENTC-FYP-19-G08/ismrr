@@ -3,7 +3,7 @@
  * @Date: 2021-10-30 02:09:08
  * @LastEditTime: 2021-12-01 06:01:17
  * @LastEditors: chengyangkj
- * @Description: 
+ * @Description:
  * @FilePath: /ros2_qt_demo/include/ros2_qt_demo/mainwindow.h
  * https://github.com/chengyangkj
  */
@@ -16,7 +16,10 @@
 #include "rclcomm.h"
 #include <iostream>
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui
+{
+    class MainWindow;
+}
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
@@ -26,6 +29,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    
 
 private:
     Ui::MainWindow *ui;
@@ -33,5 +37,9 @@ private:
 public slots:
     void updateTopicInfo(QString);
     void on_pushButton2_clicked();
+    static void btnOk_clicked(int);
+    static void btnBack_clicked();
+    // void on_btnOk_clicked(int);
+    // void on_btnBack_clicked();
 };
 #endif // MAINWINDOW_H
