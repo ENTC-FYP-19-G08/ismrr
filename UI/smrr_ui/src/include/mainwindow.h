@@ -34,8 +34,8 @@ public:
     
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    QWidget *createWindow(Page *page);
-    static void createPages();
+    QWidget *createScreen(Page *page);
+    static void generateAllPages();
     
 
 private:

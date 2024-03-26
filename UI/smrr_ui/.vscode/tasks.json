@@ -4,7 +4,7 @@
         {
             "label": "ros2 run",
             "type": "shell",
-            "command": "ros2 run smrr_ui smrr_ui",
+            "command": "source /opt/ros/foxy/setup.bash && ros2 run smrr_ui smrr_ui",
             "problemMatcher": []
         },
         {

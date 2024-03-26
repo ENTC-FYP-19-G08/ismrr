@@ -2,7 +2,8 @@
 
 Page::Page(int i){}
 
-Page::Page(QString name,WINDOW_ID windowId, vector<uint> options, string rosTopic, uint rosData): name(name),rosTopic(rosTopic),rosData(rosData)
+Page::Page(QString name,SCREEN_ID screenId, vector<PAGE_ID> nextPageIds, string rosTopic, uint rosData): 
+name(name),screenId(screenId),nextPageIds(nextPageIds),rosTopic(rosTopic),rosData(rosData)
 {
 }
 
