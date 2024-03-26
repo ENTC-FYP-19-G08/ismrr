@@ -14,7 +14,9 @@
 #include <QMessageBox>
 
 #include "rclcomm.h"
+#include "page.h"
 #include <iostream>
+
 QT_BEGIN_NAMESPACE
 namespace Ui
 {
@@ -27,8 +29,12 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
+    static vector<Page> pages;
+    
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    QWidget *createWindow(Page *page);
+    static void createPages();
     
 
 private:

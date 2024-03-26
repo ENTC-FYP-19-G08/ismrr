@@ -2,18 +2,18 @@
 #include "./ui_optionswindow.h"
 #include "mainwindow.h"
 #include <QDebug>
+#include "page.h"
 
-
-OptionsWindow::OptionsWindow(QWidget *parent, vector<QString>* strings)
+OptionsWindow::OptionsWindow(QWidget *parent, Page *page)
     : QDialog(parent)
     , ui(new Ui::OptionsWindow)
 {
     ui->setupUi(this);
 
     qDebug()<<"options window loaded";
-     for (uint i = 0; i < strings->size(); i++) {
+     for (uint i = 0; i < page->options.size(); i++) {
 
-        QPushButton *btnOption=new QPushButton(strings->at(i));
+        QPushButton *btnOption=new QPushButton(MainWindow::pages[page->options.at(i)].name);
         btnOption->setFixedHeight(60);
         connect(btnOption, &QPushButton::clicked, [i]() {
             MainWindow::btnOk_clicked(i);

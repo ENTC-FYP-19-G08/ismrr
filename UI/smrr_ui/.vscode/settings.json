@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "qdialog": "cpp",
-        "qstring": "cpp"
+        "qstring": "cpp",
+        "qmainwindow": "cpp"
     }
 }

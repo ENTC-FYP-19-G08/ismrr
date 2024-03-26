@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <vector>
 #include <QString>
+#include "page.h"
 
 using namespace std;
 
@@ -16,7 +17,7 @@ class OptionsWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit OptionsWindow(QWidget *parent = nullptr, vector<QString>* strings=nullptr);
+    explicit OptionsWindow(QWidget *parent = nullptr, Page *page = nullptr);
     ~OptionsWindow();
 
 private:
