@@ -30,6 +30,7 @@ class MainWindow : public QMainWindow
 
 public:
     static vector<Page> pages;
+    // static vector<int> tmp;
     
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();

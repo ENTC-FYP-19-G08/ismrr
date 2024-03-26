@@ -5,6 +5,7 @@
 #include <vector>
 #include <QString>
 #include "page.h"
+#include "mainwindow.h"
 
 using namespace std;
 

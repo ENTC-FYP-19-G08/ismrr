@@ -1,8 +1,8 @@
+
 #include "optionswindow.h"
 #include "./ui_optionswindow.h"
-#include "mainwindow.h"
+
 #include <QDebug>
-#include "page.h"
 
 OptionsWindow::OptionsWindow(QWidget *parent, Page *page)
     : QDialog(parent)

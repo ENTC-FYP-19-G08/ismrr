@@ -9,7 +9,6 @@
  */
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include "page.h"
 #include "optionswindow.h"
 // #include "./ui_optionswindow.h"
 #include <QString>
@@ -88,5 +87,5 @@ Page *page= new Page(0);
 
 }
 
-
+vector<Page> MainWindow::pages;
 
