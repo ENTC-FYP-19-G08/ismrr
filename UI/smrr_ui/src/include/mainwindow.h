@@ -35,17 +35,19 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     QWidget *createScreen(Page *page);
-    static void generateAllPages();
+    
     
 
 private:
     Ui::MainWindow *ui;
     // rclcomm *commNode;
+    void generateAllPages();
+
 public slots:
     void updateTopicInfo(QString);
     void on_pushButton2_clicked();
-    static void btnOk_clicked(int);
-    static void btnBack_clicked();
+    void btnNext_clicked(PAGE_ID nextPageId);
+    void btnBack_clicked();
     // void on_btnOk_clicked(int);
     // void on_btnBack_clicked();
 };

@@ -12,19 +12,19 @@ SceenOptions::SceenOptions(QWidget *parent, Page *page)
 
     qDebug()<<"options window loaded";
      for (uint i = 0; i < page->nextPageIds.size(); i++) {
-
-        QPushButton *btnOption=new QPushButton(MainWindow::pages->at(page->nextPageIds.at(i)).name);
+        PAGE_ID nextPageId=page->nextPageIds.at(i);
+        QPushButton *btnOption=new QPushButton(MainWindow::pages->at(nextPageId).name);
         btnOption->setFixedHeight(60);
-        connect(btnOption, &QPushButton::clicked, [i]() {
-            MainWindow::btnOk_clicked(i);
-            qDebug() << "Button " << i << " clicked";
+        connect(btnOption, &QPushButton::clicked, [nextPageId,parent]() {
+            static_cast<MainWindow*>(parent)->btnNext_clicked(nextPageId);
+            qDebug() << "Button " << nextPageId << " clicked";
         });
         ui->scrollLayout->addWidget(btnOption);
         // ui->label->setText(ui->label->text()+str);
         // qDebug()<<str;
     }
 
-    connect(ui->btnBack,&QPushButton::clicked,&MainWindow::btnBack_clicked);
+    connect(ui->btnBack,&QPushButton::clicked,static_cast<MainWindow*>(parent),&MainWindow::btnBack_clicked);
 }
 
 SceenOptions::~SceenOptions()

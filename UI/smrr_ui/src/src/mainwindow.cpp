@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     generateAllPages();
+    btnNext_clicked(PAGE1);
     // commNode = new rclcomm();
     // connect(commNode, SIGNAL(emitTopicData(QString)), this, SLOT(updateTopicInfo(QString)));
     // connect(ui->pushButton, &QPushButton::clicked, commNode, &rclcomm::sendTopicData);
@@ -53,15 +54,14 @@ void MainWindow::on_pushButton2_clicked()
     // ui->stackedWidget->setCurrentIndex(ui->stackedWidget->count()-1);
     // SceenOptions *m=new SceenOptions(this);
     // ui->stackedWidget->addWidget(m);
-    QWidget *screen= createScreen(&pages->at(0));
-    ui->stackedWidget->addWidget(screen);
-
-
 }
 
-void MainWindow::btnOk_clicked(int i)
+void MainWindow::btnNext_clicked(PAGE_ID nextPageId)
 {
-    qDebug() << QString("mainwindow btn ok") + QString(i);
+    qDebug() << QString("mainwindow btn ok") + QString(nextPageId);
+    QWidget *screen = createScreen(&pages->at(nextPageId));
+    ui->stackedWidget->addWidget(screen);
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->count()-1);
 }
 
 void MainWindow::btnBack_clicked()
@@ -93,13 +93,12 @@ void MainWindow::generateAllPages()
     // pages.push_back(Page(0));
     // Page *page= new Page(0);
     pages = new vector<Page>;
-    pages->push_back(Page("page1",WINDOW1,{PAGE2,PAGE3},"rostopic",0));
-    pages->push_back(Page("page2",WINDOW1,{PAGE3,PAGE4,PAGE5},"rostopic",0));
-    pages->push_back(Page("page3",WINDOW1,{PAGE6,PAGE1},"rostopic",0));
-    pages->push_back(Page("page4",WINDOW1,{PAGE1,PAGE2},"rostopic",0));
-    pages->push_back(Page("page5",WINDOW1,{PAGE2,PAGE3},"rostopic",0));
-    pages->push_back(Page("page6",WINDOW1,{PAGE5,PAGE1},"rostopic",0));
-
+    pages->push_back(Page("page1", WINDOW1, {PAGE2, PAGE3}, "rostopic", 0));
+    pages->push_back(Page("page2", WINDOW1, {PAGE3, PAGE4, PAGE5}, "rostopic", 0));
+    pages->push_back(Page("page3", WINDOW1, {PAGE6, PAGE1}, "rostopic", 0));
+    pages->push_back(Page("page4", WINDOW1, {PAGE1, PAGE2}, "rostopic", 0));
+    pages->push_back(Page("page5", WINDOW1, {PAGE2, PAGE3}, "rostopic", 0));
+    pages->push_back(Page("page6", WINDOW1, {PAGE5, PAGE1}, "rostopic", 0));
 }
 
 vector<Page> *MainWindow::pages = nullptr;
