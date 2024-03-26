@@ -9,8 +9,8 @@
  */
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include "optionswindow.h"
-// #include "./ui_optionswindow.h"
+#include "sceen_options.h"
+// #include "./ui_sceen_options.h"
 #include <QString>
 #include <QDebug>
 
@@ -38,19 +38,19 @@ void MainWindow::updateTopicInfo(QString data)
 void MainWindow::on_pushButton2_clicked()
 {
     //    qDebug() << "button 2 click";
-    //    OptionsWindow q;
+    //    SceenOptions q;
     //    q.setModal(false);
     //    q.exec();
     //     q.show();
     // static int a=0;
-    // vector<QString> strings={"aa","bb","ccccc","dd","ee","ih","hello"};
-    // OptionsWindow *p=new OptionsWindow(this,&strings);
+    vector<QString> strings={"aa","bb","ccccc","dd","ee","ih","hello"};
+    // SceenOptions *p=new SceenOptions(this,&strings);
     // // p->showFullScreen();
     // // p->setAttribute(Qt::WA_DeleteOnClose);
     // ui->stackedWidget->addWidget(p);
     // ui->stackedWidget->setCurrentIndex(ui->stackedWidget->count()-1);
-    // OptionsWindow *m=new OptionsWindow(this);
-    // ui->stackedWidget->addWidget(m);
+    SceenOptions *m=new SceenOptions(this);
+    ui->stackedWidget->addWidget(m);
 }
 
 void MainWindow::btnOk_clicked(int i)
@@ -68,7 +68,7 @@ QWidget *MainWindow::createWindow(Page *page)
     switch (page->windowId)
     {
     case OPTIONS_WINDOW:
-        return new OptionsWindow(this, page);
+        return new SceenOptions(this, page);
         break;
 
     default:

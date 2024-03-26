@@ -40,7 +40,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    rclcomm *commNode;
+    // rclcomm *commNode;
 public slots:
     void updateTopicInfo(QString);
     void on_pushButton2_clicked();
