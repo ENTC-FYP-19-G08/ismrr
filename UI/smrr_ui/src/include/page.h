@@ -13,6 +13,11 @@ enum WINDOW_ID
     OPTIONS_WINDOW
 };
 
+enum PAGE_ID{
+    HOME_PAGE,
+    
+};
+
 class Page
 {
 private:

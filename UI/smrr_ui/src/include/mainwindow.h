@@ -13,7 +13,7 @@
 #include <QMainWindow>
 #include <QMessageBox>
 
-#include "rclcomm.h"
+// #include "rclcomm.h"
 #include "page.h"
 #include <iostream>
 
@@ -29,7 +29,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    static vector<Page> pages;
+    static vector<Page> *pages;
     // static vector<int> tmp;
     
     MainWindow(QWidget *parent = nullptr);

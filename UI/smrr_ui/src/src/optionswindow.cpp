@@ -13,7 +13,7 @@ OptionsWindow::OptionsWindow(QWidget *parent, Page *page)
     qDebug()<<"options window loaded";
      for (uint i = 0; i < page->options.size(); i++) {
 
-        QPushButton *btnOption=new QPushButton(MainWindow::pages[page->options.at(i)].name);
+        QPushButton *btnOption=new QPushButton(MainWindow::pages->at(page->options.at(i)).name);
         btnOption->setFixedHeight(60);
         connect(btnOption, &QPushButton::clicked, [i]() {
             MainWindow::btnOk_clicked(i);
