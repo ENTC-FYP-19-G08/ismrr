@@ -34,39 +34,63 @@ MainWindow::~MainWindow()
 
 void MainWindow::updateTopicInfo(QString data)
 {
-    ui->label->clear();
-    ui->label->setText(data);
+    qDebug()<<data;
+    // ui->label->clear();
+    // ui->label->setText(data);
 }
 
-void MainWindow::on_pushButton2_clicked()
-{
-    //    qDebug() << "button 2 click";
-    //    SceenOptions q;
-    //    q.setModal(false);
-    //    q.exec();
-    //     q.show();
-    // static int a=0;
-    // vector<QString> strings={"aa","bb","ccccc","dd","ee","ih","hello"};
-    // SceenOptions *p=new SceenOptions(this,&strings);
-    // // p->showFullScreen();
-    // // p->setAttribute(Qt::WA_DeleteOnClose);
-    // ui->stackedWidget->addWidget(p);
-    // ui->stackedWidget->setCurrentIndex(ui->stackedWidget->count()-1);
-    // SceenOptions *m=new SceenOptions(this);
-    // ui->stackedWidget->addWidget(m);
-}
+// void MainWindow::on_pushButton2_clicked()
+// {
+//     //    qDebug() << "button 2 click";
+//     //    SceenOptions q;
+//     //    q.setModal(false);
+//     //    q.exec();
+//     //     q.show();
+//     // static int a=0;
+//     // vector<QString> strings={"aa","bb","ccccc","dd","ee","ih","hello"};
+//     // SceenOptions *p=new SceenOptions(this,&strings);
+//     // // p->showFullScreen();
+//     // // p->setAttribute(Qt::WA_DeleteOnClose);
+//     // ui->stackedWidget->addWidget(p);
+//     // ui->stackedWidget->setCurrentIndex(ui->stackedWidget->count()-1);
+//     // SceenOptions *m=new SceenOptions(this);
+//     // ui->stackedWidget->addWidget(m);
+// }
 
 void MainWindow::btnNext_clicked(PAGE_ID nextPageId)
 {
     qDebug() << QString("mainwindow btn ok") + QString(nextPageId);
-    QWidget *screen = createScreen(&pages->at(nextPageId));
+    screen = createScreen(&pages->at(nextPageId));
     ui->stackedWidget->addWidget(screen);
-    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->count()-1);
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->count() - 1);
 }
 
 void MainWindow::btnBack_clicked()
 {
+
     qDebug() << QString("mainwindow btn back");
+
+    int topScreenIndex = ui->stackedWidget->count() - 1;
+    if (topScreenIndex > 0 && screen !=nullptr)
+    {
+        ui->stackedWidget->removeWidget(screen);
+        delete screen;
+        screen = ui->stackedWidget->widget(topScreenIndex-1);
+    }
+    
+}
+
+void MainWindow::btnHome_clicked()
+{
+    qDebug() << QString("mainwindow btn home");
+    int topScreenIndex=ui->stackedWidget->count()-1;
+    while (topScreenIndex>0)
+    {
+        screen=ui->stackedWidget->widget(topScreenIndex--);
+        ui->stackedWidget->removeWidget(screen);
+        delete screen;
+    }
+    
 }
 
 QWidget *MainWindow::createScreen(Page *page)
@@ -93,7 +117,7 @@ void MainWindow::generateAllPages()
     // pages.push_back(Page(0));
     // Page *page= new Page(0);
     pages = new vector<Page>;
-    pages->push_back(Page("page1", WINDOW1, {PAGE2, PAGE3}, "rostopic", 0));
+    pages->push_back(Page("pageHome", WINDOW1, {PAGE2, PAGE3}, "rostopic", 0));
     pages->push_back(Page("page2", WINDOW1, {PAGE3, PAGE4, PAGE5}, "rostopic", 0));
     pages->push_back(Page("page3", WINDOW1, {PAGE6, PAGE1}, "rostopic", 0));
     pages->push_back(Page("page4", WINDOW1, {PAGE1, PAGE2}, "rostopic", 0));

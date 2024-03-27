@@ -4,7 +4,7 @@
         {
             "label": "ros2 run",
             "type": "shell",
-            "command": "source /opt/ros/foxy/setup.bash && ros2 run smrr_ui smrr_ui",
+            "command": "ros2 run smrr_ui smrr_ui",
             "problemMatcher": []
         },
         {
@@ -16,12 +16,19 @@
         {
             "label": "Build & Run",
             "type": "shell",
-            "dependsOrder": "sequence",
-            "dependsOn": [
-                "colcon build",
-                "ros2 run"
-            ],
+            "command": "./run.sh",
             "problemMatcher": []
         }
+        // ,
+        // {
+        //     "label": "Build & Run",
+        //     "type": "shell",
+        //     "dependsOrder": "sequence",
+        //     "dependsOn": [
+        //         "colcon build",
+        //         "ros2 run"
+        //     ],
+        //     "problemMatcher": []
+        // }
     ]
 }
