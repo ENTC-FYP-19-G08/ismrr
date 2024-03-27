@@ -22,6 +22,8 @@
 
 // Servo motors
 #define head_servo_PIN 46
+#define STEP 1
+#define STEP_DELAY 50
 
 double timeout_t = 0;
 
@@ -77,6 +79,13 @@ void left_encoder(){
     // left_wheel.t = millis();
 }
 
+void moveServo(){
+  if(head_servo_angle != previous_head_servo_angle){
+        while(headServo.move(head_servo_angle,STEP_DELAY,STEP));
+        previous_head_servo_angle = head_servo_angle;
+    }
+}
+
 void readMsg(){
   /*
    * This function reads velocities, head servo angle and power state from serial when available
@@ -89,7 +98,7 @@ void readMsg(){
     char *ptr = strtok(const_cast<char *>(data.c_str()), ",");
 
     // Loop through the tokens and convert them 
-    for (int i = 0; i < 2 && ptr != NULL; i++){
+    for (int i = 0; i < 4 && ptr != NULL; i++){
       if(i==0){left_wheel.target_velocity = atof(ptr);}
       if(i==1){right_wheel.target_velocity = atof(ptr);}   
       if(i==2){head_servo_angle = atoi(ptr);}
@@ -134,6 +143,7 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(left_SIGNAL),left_encoder,CHANGE);
 
   headServo.attach(head_servo_PIN);
+  moveServo();
 
   right_wheel.t = millis();
   left_wheel.t = millis();
@@ -151,17 +161,14 @@ void loop() {
     right_wheel.drive();
     left_wheel.calPWM();
     left_wheel.drive();
-
-    if(head_servo_angle != previous_head_servo_angle){
-        while(headServo.move(head_servo_angle));
-        previous_head_servo_angle = head_servo_angle;
-    }
+    moveServo();
     
     
-   if((millis()-timeout_t) >= TIME_OUT){
-     right_wheel.target_velocity = 0;
-     left_wheel.target_velocity = 0;
-   }
+    
+//   if((millis()-timeout_t) >= TIME_OUT){
+//     right_wheel.target_velocity = 0;
+//     left_wheel.target_velocity = 0;
+//   }
 
     // debugging serial output
     //Serial.println("right = "+String(right_wheel.velocity)+", dir = "+String(right_wheel.direction)+", left = "+String(left_wheel.velocity)+", dir = "+String(left_wheel.direction));
