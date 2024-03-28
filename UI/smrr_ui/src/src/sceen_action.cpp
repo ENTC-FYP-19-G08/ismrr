@@ -1,15 +1,15 @@
 
-#include "sceen_options.h"
-#include "./ui_sceen_options.h"
+#include "sceen_action.h"
+#include "./ui_sceen_action.h"
 
 #include <QDebug>
 
-SceenOptions::SceenOptions(QWidget *parent, Page *page)
-    : QDialog(parent), ui(new Ui::SceenOptions)
+SceenAction::SceenAction(QWidget *parent, Page *page)
+    : QDialog(parent), ui(new Ui::SceenAction)
 {
     ui->setupUi(this);
 
-    qDebug() << "options window loaded";
+    qDebug() << "action window loaded";
     ui->label->setText(page->name);
     for (uint i = 0; i < page->nextPageIds.size(); i++)
     {
@@ -33,7 +33,7 @@ SceenOptions::SceenOptions(QWidget *parent, Page *page)
 
 }
 
-SceenOptions::~SceenOptions()
+SceenAction::~SceenAction()
 {
     delete ui;
 }
