@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     generateAllPages();
-    btnNext_clicked(PAGE1);
+    btnNext_clicked(PAGE_HOME);
     // commNode = new rclcomm();
     // connect(commNode, SIGNAL(emitTopicData(QString)), this, SLOT(updateTopicInfo(QString)));
     // connect(ui->pushButton, &QPushButton::clicked, commNode, &rclcomm::sendTopicData);
@@ -97,7 +97,7 @@ QWidget *MainWindow::createScreen(Page *page)
 {
     switch (page->screenId)
     {
-    case WINDOW1:
+    case WINDOW_OPTIONS:
         return new SceenOptions(this, page);
         break;
 
@@ -117,12 +117,29 @@ void MainWindow::generateAllPages()
     // pages.push_back(Page(0));
     // Page *page= new Page(0);
     pages = new vector<Page>;
-    pages->push_back(Page("pageHome", WINDOW1, {PAGE2, PAGE3,PAGE2,PAGE4,PAGE5,PAGE6}, "rostopic", 0));
-    pages->push_back(Page("page2", WINDOW1, {PAGE3, PAGE4, PAGE5}, "rostopic", 0));
-    pages->push_back(Page("page3", WINDOW1, {PAGE6, PAGE1}, "rostopic", 0));
-    pages->push_back(Page("page4", WINDOW1, {PAGE1, PAGE2}, "rostopic", 0));
-    pages->push_back(Page("page5", WINDOW1, {PAGE2, PAGE3}, "rostopic", 0));
-    pages->push_back(Page("page6", WINDOW1, {PAGE5, PAGE1}, "rostopic", 0));
+    // pages->push_back(Page("pageHome", WINDOW1, {PAGE2}, NULL, 0));
+    // pages->push_back(Page("page2", WINDOW1, {PAGE3, PAGE4, PAGE5}, "rostopic", 0));
+    // pages->push_back(Page("page3", WINDOW1, {PAGE6, PAGE1}, "rostopic", 0));
+    // pages->push_back(Page("page4", WINDOW1, {PAGE1, PAGE2}, "rostopic", 0));
+    // pages->push_back(Page("page5", WINDOW1, {PAGE2, PAGE3}, "rostopic", 0));
+    // pages->push_back(Page("page6", WINDOW1, {PAGE5, PAGE1}, "rostopic", 0));
+  
+    pages->push_back(Page("Home", WINDOW_OPTIONS, {PAGE_BASIC_OPTIONS}));
+    pages->push_back(Page("Let's Talk", WINDOW_OPTIONS, {PAGE_GUIDE,PAGE_MEET,PAGE_ABOUT_DEPARTMENT}));
+    pages->push_back(Page("Guide Me", WINDOW_OPTIONS, {PAGE_LABS}));
+    pages->push_back(Page("Meet Someone", WINDOW_OPTIONS, {PAGE_BASIC_OPTIONS}));
+    pages->push_back(Page("About Department", WINDOW_OPTIONS, {PAGE_BASIC_OPTIONS}));
+    pages->push_back(Page("Labs", WINDOW_OPTIONS, {PAGE_LABS_ANALOG,PAGE_LABS_DIGITAL}));
+    pages->push_back(Page("Analog Lab", WINDOW_OPTIONS, {PAGE_BASIC_OPTIONS}));
+    pages->push_back(Page("Digital Lab", WINDOW_OPTIONS, {PAGE_BASIC_OPTIONS}));
+
+
+
+
+
+
+
+
 }
 
 vector<Page> *MainWindow::pages = nullptr;

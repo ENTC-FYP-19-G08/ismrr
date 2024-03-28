@@ -13,28 +13,28 @@
             "command": "colcon build",
             "problemMatcher": []
         },
-        {
-            "label": "Build & Run",
-            "type": "shell",
-            "command": "./run.sh",
-            "problemMatcher": []
-        },
+        // {
+        //     "label": "Build & Run",
+        //     "type": "shell",
+        //     "command": "./run.sh",
+        //     "problemMatcher": []
+        // },
         {
             "label": "Clean",
             "type": "shell",
             "command": "./clean.sh",
             "problemMatcher": []
         }
-        // ,
-        // {
-        //     "label": "Build & Run",
-        //     "type": "shell",
-        //     "dependsOrder": "sequence",
-        //     "dependsOn": [
-        //         "colcon build",
-        //         "ros2 run"
-        //     ],
-        //     "problemMatcher": []
-        // }
+        ,
+        {
+            "label": "Build & Run",
+            "type": "shell",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "colcon build",
+                "ros2 run"
+            ],
+            "problemMatcher": []
+        }
     ]
 }
