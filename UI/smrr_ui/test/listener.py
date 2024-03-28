@@ -1,9 +1,9 @@
 import rclpy
-from std_msgs.msg import Int32
+from std_msgs.msg import Int32,String
 from rclpy.node import Node
 
 
-topic="ros2_qt_demo_publish"
+topic="ui_publisher"
 
 def message_callback(msg):   
     print("Received message:", msg.data, type(msg.data))
@@ -13,7 +13,7 @@ node = rclpy.create_node("listener")
 
 # Create a subscription to the topic with your message type
 subscription = node.create_subscription(
-    Int32,  
+    String,  
     topic,  
     message_callback,
     10  # QoS profile, you can adjust this value

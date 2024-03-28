@@ -36,9 +36,8 @@ public:
     QString name;
     SCREEN_ID screenId;
     vector<PAGE_ID> nextPageIds;
-    string rosTopic;
-    int rosData;    
-    Page(QString name, SCREEN_ID screenId, vector<PAGE_ID> nextPageIds, string rosTopic="", uint rosData=0);
+    string rosData;       
+    Page(QString name, SCREEN_ID screenId, vector<PAGE_ID> nextPageIds, string rosData="");
     ~Page();
 };
 

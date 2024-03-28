@@ -3,6 +3,7 @@
         "qdialog": "cpp",
         "qstring": "cpp",
         "qmainwindow": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "iostream": "cpp"
     }
 }

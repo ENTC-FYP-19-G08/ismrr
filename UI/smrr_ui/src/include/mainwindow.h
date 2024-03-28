@@ -13,7 +13,7 @@
 #include <QMainWindow>
 #include <QMessageBox>
 
-// #include "rclcomm.h"
+#include "rclcomm.h"
 #include "page.h"
 #include <iostream>
 
@@ -36,12 +36,11 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     QWidget *createScreen(Page *page);
-    
+    rclcomm *rosNode;
     
 
 private:
-    Ui::MainWindow *ui;
-    // rclcomm *commNode;
+    Ui::MainWindow *ui;    
     void generateAllPages();
 
 public slots:

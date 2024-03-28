@@ -20,10 +20,12 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     generateAllPages();
-    btnNext_clicked(PAGE_LABS);
-    // commNode = new rclcomm();
-    // connect(commNode, SIGNAL(emitTopicData(QString)), this, SLOT(updateTopicInfo(QString)));
-    // connect(ui->pushButton, &QPushButton::clicked, commNode, &rclcomm::sendTopicData);
+    // btnNext_clicked(PAGE_LABS);
+    btnNext_clicked(PAGE_HOME);
+
+    rosNode = new rclcomm();
+    // connect(rosNode, SIGNAL(emitTopicData(QString)), this, SLOT(updateTopicInfo(QString)));
+    // connect(ui->pushButton, &QPushButton::clicked, rosNode, &rclcomm::sendTopicData);
     qDebug() << "aaa run";
 }
 
@@ -132,8 +134,8 @@ void MainWindow::generateAllPages()
     pages->push_back(Page("Meet Someone", SCREEN_OPTIONS, {PAGE_BASIC_OPTIONS}));
     pages->push_back(Page("About Department", SCREEN_OPTIONS, {PAGE_BASIC_OPTIONS}));
     pages->push_back(Page("Labs", SCREEN_OPTIONS, {PAGE_LABS_ANALOG, PAGE_LABS_DIGITAL}));
-    pages->push_back(Page("Analog Lab", SCREEN_ACTION, {},"tpc",2));
-    pages->push_back(Page("Digital Lab", SCREEN_ACTION, {},"tpc",3));
+    pages->push_back(Page("Analog Lab", SCREEN_ACTION, {},"navigation/analog_lab"));
+    pages->push_back(Page("Digital Lab", SCREEN_ACTION, {},"navigation/digital_lab"));
   
 
 

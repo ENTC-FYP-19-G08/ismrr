@@ -8,13 +8,17 @@
  * https://github.com/chengyangkj
  */
 #include "rclcomm.h"
+#include <iostream>
+#include <QString>
+#include <QDebug>
+
 rclcomm::rclcomm()  {
   int argc=0;
   char **argv=NULL;
   rclcpp::init(argc,argv);
   node=rclcpp::Node::make_shared("ros2_qt_demo");
   _publisher =
-      node->create_publisher<std_msgs::msg::Int32>("ros2_qt_demo_publish", 10);
+      node->create_publisher<std_msgs::msg::String>("ui_publisher", 10);
   _subscription = node->create_subscription<std_msgs::msg::Int32>("ros2_qt_demo_publish", 10,std::bind(&rclcomm::recv_callback,this,std::placeholders::_1));
   this->start();
 }
@@ -30,5 +34,12 @@ void rclcomm::recv_callback(const std_msgs::msg::Int32::SharedPtr msg){
 
 void rclcomm::sendTopicData(){
     pub_msg.data++;
-    _publisher->publish(pub_msg);
+    // _publisher->publish(pub_msg);
+}
+
+void rclcomm::sendRosData(std::string data){
+    std_msgs::msg::String rosString;
+    rosString.data=data;
+    _publisher->publish(rosString);
+    qDebug()<<"sending ros data: "<<QString::fromStdString(data);
 }

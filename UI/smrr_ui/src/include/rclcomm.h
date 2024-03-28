@@ -14,6 +14,11 @@
 #include <iostream>
 #include <rclcpp/rclcpp.hpp>
 #include <std_msgs/msg/int32.hpp>
+#include <std_msgs/msg/string.hpp>
+
+
+
+
 class rclcomm:public QThread
 {
     Q_OBJECT
@@ -24,7 +29,7 @@ public:
 protected:
     void run();
 private:
-    rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr _publisher;
+    rclcpp::Publisher<std_msgs::msg::String>::SharedPtr _publisher;
     rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr _subscription;
     std::shared_ptr<rclcpp::Node> node;
     std_msgs::msg::Int32 pub_msg;
@@ -32,5 +37,6 @@ signals:
     void emitTopicData(QString);
 public slots:
     void sendTopicData();
+    void sendRosData(std::string data);
 };
 #endif // RCLCOMM_H
