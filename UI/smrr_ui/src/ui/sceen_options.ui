@@ -67,7 +67,7 @@
     </property>
    <layout class="QVBoxLayout" name="scrollLayout">
     <property name="spacing">
-        <number>0</number>
+        <number>10</number>
     </property>
 </layout>
 

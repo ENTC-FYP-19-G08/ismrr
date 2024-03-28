@@ -14,9 +14,12 @@ SceenOptions::SceenOptions(QWidget *parent, Page *page)
     for (uint i = 0; i < page->nextPageIds.size(); i++)
     {
         PAGE_ID nextPageId = page->nextPageIds.at(i);
-        QPushButton *btnOption = new QPushButton(MainWindow::pages->at(nextPageId).name);
+        QPushButton *btnOption = new QPushButton(MainWindow::pages->at(nextPageId).name,this);
         // btnOption->setFixedHeight(60);
-        btnOption->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum); 
+        btnOption->setMinimumHeight(100);
+        btnOption->setMaximumHeight(110);
+
+        // btnOption->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum); 
         connect(btnOption, &QPushButton::clicked, [nextPageId, parent](){
             static_cast<MainWindow*>(parent)->btnNext_clicked(nextPageId);
             qDebug() << "Button " << nextPageId << " clicked"; });

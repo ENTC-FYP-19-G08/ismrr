@@ -117,7 +117,7 @@ void MainWindow::generateAllPages()
     // pages.push_back(Page(0));
     // Page *page= new Page(0);
     pages = new vector<Page>;
-    pages->push_back(Page("pageHome", WINDOW1, {PAGE2, PAGE3}, "rostopic", 0));
+    pages->push_back(Page("pageHome", WINDOW1, {PAGE2, PAGE3,PAGE2,PAGE4,PAGE5,PAGE6}, "rostopic", 0));
     pages->push_back(Page("page2", WINDOW1, {PAGE3, PAGE4, PAGE5}, "rostopic", 0));
     pages->push_back(Page("page3", WINDOW1, {PAGE6, PAGE1}, "rostopic", 0));
     pages->push_back(Page("page4", WINDOW1, {PAGE1, PAGE2}, "rostopic", 0));
