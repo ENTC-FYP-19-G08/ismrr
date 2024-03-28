@@ -1,5 +1,13 @@
 #include "src/HubWheel/HubWheel.h"
 #include "src/CustomServo/CustomServo.hpp"
+#include <NewPing.h>
+
+#define SONAR_NUM     5 // Number of sensors.
+#define MAX_DISTANCE 200 // Maximum distance (in cm) to ping.
+#define PING_INTERVAL 33 // Milliseconds between sensor pings (29ms is about the min to avoid cross-sensor echo).
+
+#define S1_TRIG 50
+#define S1_ECHO 51
 
 // Pins for the right motor
 #define right_SIGNAL 3 
@@ -40,6 +48,19 @@ HubWheel left_wheel(left_SIGNAL,left_ZF,left_VR,left_EL,LEFT_WHEEL);
 
 //Head servo object
 CustomServo headServo;
+
+//Ultrasonic sensor array
+NewPing sonar[SONAR_NUM] = {     // Sensor object array.
+  NewPing(34, 33, MAX_DISTANCE),
+  NewPing(35, 36, MAX_DISTANCE),
+  NewPing(37, 38, MAX_DISTANCE),
+  NewPing(39, 40, MAX_DISTANCE),
+  NewPing(S1_TRIG, S1_ECHO, MAX_DISTANCE)
+};
+
+unsigned long pingTimer[SONAR_NUM]; // Holds the times when the next ping should happen for each sensor.
+unsigned int cm[SONAR_NUM];         // Where the ping distances are stored.
+uint8_t currentSensor = 0;          // Keeps track of which sensor is active.
 
 void right_encoder(){
 
@@ -106,7 +127,7 @@ void readMsg(){
 
       ptr = strtok(NULL,",");
    }
-   Serial.println(String(left_wheel.count)+" "+String(right_wheel.count));
+   Serial.println(String(left_wheel.count)+" "+String(right_wheel.count)+" "+String(cm[0])+" "+String(cm[1])+" "+String(cm[2])+" "+String(cm[3])+" "+String(cm[4]));
    timeout_t = millis();
   }  
 }
@@ -134,26 +155,41 @@ void readMsg(){
 //   }  
 // }
 
+void echoCheck() { // If ping received, set the sensor distance to array.
+  if (sonar[currentSensor].check_timer())
+    cm[currentSensor] = sonar[currentSensor].ping_result / US_ROUNDTRIP_CM;
+}
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
   Serial.setTimeout(5);
-
+  
+  // Interrupts for encoders
   attachInterrupt(digitalPinToInterrupt(right_SIGNAL),right_encoder,CHANGE);
   attachInterrupt(digitalPinToInterrupt(left_SIGNAL),left_encoder,CHANGE);
 
+  // attach head servo
   headServo.attach(head_servo_PIN);
   moveServo();
 
+  // motor stopping
   right_wheel.t = millis();
   left_wheel.t = millis();
   right_wheel.direction = STOP;
   left_wheel.direction = STOP;
+
+  // sonar setup
+  pingTimer[0] = millis() + 75;           // First ping starts at 75ms, gives time for the Arduino to chill before starting.
+  for (uint8_t i = 1; i < SONAR_NUM; i++) // Set the starting time for each sensor.
+    {pingTimer[i] = pingTimer[i - 1] + PING_INTERVAL;}
   
   
 }
 
 void loop() {
+
+
 
     readMsg();
     // readPWM();
@@ -162,6 +198,17 @@ void loop() {
     left_wheel.calPWM();
     left_wheel.drive();
     moveServo();
+
+    for (uint8_t i = 0; i < SONAR_NUM; i++) { // Loop through all the sensors.
+    if (millis() >= pingTimer[i]) {         // Is it this sensor's time to ping?
+      pingTimer[i] += PING_INTERVAL * SONAR_NUM;  // Set next time this sensor will be pinged.
+      //if (i == 0 && currentSensor == SONAR_NUM - 1) oneSensorCycle(); // Sensor ping cycle complete, do something with the results.
+      sonar[currentSensor].timer_stop();          // Make sure previous timer is canceled before starting a new ping (insurance).
+      currentSensor = i;                          // Sensor being accessed.
+      cm[currentSensor] = 0;                      // Make distance zero in case there's no ping echo for this sensor.
+      sonar[currentSensor].ping_timer(echoCheck); // Do the ping (processing continues, interrupt will call echoCheck to look for echo).
+      }
+    }
     
     
     
