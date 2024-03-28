@@ -18,6 +18,12 @@
             "type": "shell",
             "command": "./run.sh",
             "problemMatcher": []
+        },
+        {
+            "label": "Clean",
+            "type": "shell",
+            "command": "./clean.sh",
+            "problemMatcher": []
         }
         // ,
         // {
