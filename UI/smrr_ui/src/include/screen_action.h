@@ -10,19 +10,19 @@
 using namespace std;
 
 namespace Ui {
-class SceenAction;
+class ScreenAction;
 }
 
-class SceenAction : public QDialog
+class ScreenAction : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit SceenAction(QWidget *parent = nullptr, Page *page = nullptr);
-    ~SceenAction();
+    explicit ScreenAction(QWidget *parent = nullptr, Page *page = nullptr);
+    ~ScreenAction();
 
 private:
-    Ui::SceenAction *ui;
+    Ui::ScreenAction *ui;
 };
 
 #endif // SCREEN_ACTION_H

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Sceen${Name}</class>
- <widget class="QDialog" name="Sceen${Name}">
+ <class>Screen${Name}</class>
+ <widget class="QDialog" name="Screen${Name}">
   <property name="geometry">
    <rect>
     <x>0</x>

@@ -10,19 +10,19 @@
 using namespace std;
 
 namespace Ui {
-class SceenOptions;
+class ScreenOptions;
 }
 
-class SceenOptions : public QDialog
+class ScreenOptions : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit SceenOptions(QWidget *parent = nullptr, Page *page = nullptr);
-    ~SceenOptions();
+    explicit ScreenOptions(QWidget *parent = nullptr, Page *page = nullptr);
+    ~ScreenOptions();
 
 private:
-    Ui::SceenOptions *ui;
+    Ui::ScreenOptions *ui;
 };
 
-#endif // OPTIONSWINDOW_H
+#endif // SCREEN_OPTIONS_H

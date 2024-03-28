@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>SceenAction</class>
- <widget class="QDialog" name="SceenAction">
+ <class>ScreenAction</class>
+ <widget class="QDialog" name="ScreenAction">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -32,7 +32,7 @@
     <string/>
    </property>
    <property name="icon">
-    <iconset theme="back"/>
+    <iconset theme="accessories-calculator"/>
    </property>
    <property name="autoDefault">
     <bool>false</bool>
@@ -65,12 +65,11 @@
       <height>389</height>
      </rect>
     </property>
-   <layout class="QVBoxLayout" name="scrollLayout">
-    <property name="spacing">
-        <number>10</number>
-    </property>
-</layout>
-
+    <layout class="QVBoxLayout" name="scrollLayout">
+     <property name="spacing">
+      <number>10</number>
+     </property>
+    </layout>
    </widget>
   </widget>
   <widget class="QLabel" name="label">

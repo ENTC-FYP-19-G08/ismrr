@@ -2,8 +2,8 @@ Name=input("Enter Screen Name: ")
 name=Name.lower()
 NAME=Name.upper()
 
-template_paths=["sceen_${name}.cpp","sceen_${name}.h","sceen_${name}.ui"]
-new_file_paths=["../src/sceen_${name}.cpp","../include/sceen_${name}.h","../ui/sceen_${name}.ui"]
+template_paths=["screen_${name}.cpp","screen_${name}.h","screen_${name}.ui"]
+new_file_paths=["../src/screen_${name}.cpp","../include/screen_${name}.h","../ui/screen_${name}.ui"]
 
 
 for template_path,new_file_path in zip(template_paths,new_file_paths):

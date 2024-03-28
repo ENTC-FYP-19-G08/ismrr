@@ -10,19 +10,19 @@
 using namespace std;
 
 namespace Ui {
-class Sceen${Name};
+class Screen${Name};
 }
 
-class Sceen${Name} : public QDialog
+class Screen${Name} : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit Sceen${Name}(QWidget *parent = nullptr, Page *page = nullptr);
-    ~Sceen${Name}();
+    explicit Screen${Name}(QWidget *parent = nullptr, Page *page = nullptr);
+    ~Screen${Name}();
 
 private:
-    Ui::Sceen${Name} *ui;
+    Ui::Screen${Name} *ui;
 };
 
 #endif // SCREEN_${NAME}_H

@@ -9,8 +9,9 @@
  */
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include "sceen_options.h"
-// #include "./ui_sceen_options.h"
+#include "screen_options.h"
+#include "screen_action.h"
+// #include "./ui_screen_options.h"
 #include <QString>
 #include <QDebug>
 
@@ -34,7 +35,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::updateTopicInfo(QString data)
 {
-    qDebug()<<data;
+    qDebug() << data;
     // ui->label->clear();
     // ui->label->setText(data);
 }
@@ -42,18 +43,18 @@ void MainWindow::updateTopicInfo(QString data)
 // void MainWindow::on_pushButton2_clicked()
 // {
 //     //    qDebug() << "button 2 click";
-//     //    SceenOptions q;
+//     //    ScreenOptions q;
 //     //    q.setModal(false);
 //     //    q.exec();
 //     //     q.show();
 //     // static int a=0;
 //     // vector<QString> strings={"aa","bb","ccccc","dd","ee","ih","hello"};
-//     // SceenOptions *p=new SceenOptions(this,&strings);
+//     // ScreenOptions *p=new ScreenOptions(this,&strings);
 //     // // p->showFullScreen();
 //     // // p->setAttribute(Qt::WA_DeleteOnClose);
 //     // ui->stackedWidget->addWidget(p);
 //     // ui->stackedWidget->setCurrentIndex(ui->stackedWidget->count()-1);
-//     // SceenOptions *m=new SceenOptions(this);
+//     // ScreenOptions *m=new ScreenOptions(this);
 //     // ui->stackedWidget->addWidget(m);
 // }
 
@@ -71,34 +72,35 @@ void MainWindow::btnBack_clicked()
     qDebug() << QString("mainwindow btn back");
 
     int topScreenIndex = ui->stackedWidget->count() - 1;
-    if (topScreenIndex > 0 && screen !=nullptr)
+    if (topScreenIndex > 0 && screen != nullptr)
     {
         ui->stackedWidget->removeWidget(screen);
         delete screen;
-        screen = ui->stackedWidget->widget(topScreenIndex-1);
+        screen = ui->stackedWidget->widget(topScreenIndex - 1);
     }
-    
 }
 
 void MainWindow::btnHome_clicked()
 {
     qDebug() << QString("mainwindow btn home");
-    int topScreenIndex=ui->stackedWidget->count()-1;
-    while (topScreenIndex>0)
+    int topScreenIndex = ui->stackedWidget->count() - 1;
+    while (topScreenIndex > 0)
     {
-        screen=ui->stackedWidget->widget(topScreenIndex--);
+        screen = ui->stackedWidget->widget(topScreenIndex--);
         ui->stackedWidget->removeWidget(screen);
         delete screen;
     }
-    
 }
 
 QWidget *MainWindow::createScreen(Page *page)
 {
     switch (page->screenId)
     {
-    case WINDOW_OPTIONS:
-        return new SceenOptions(this, page);
+    case SCREEN_OPTIONS:
+        return new ScreenOptions(this, page);
+        break;
+    case SCREEN_ACTION:
+        return new ScreenAction(this, page);
         break;
 
     default:
@@ -113,7 +115,7 @@ void MainWindow::generateAllPages()
     // {"option1",0,{0,1},"rostopic",0}
     //     };
 
-    // pages.push_back(Page("option1",WINDOW_OPTIONS,{0,1},"rostopic",0));
+    // pages.push_back(Page("option1",SCREEN_OPTIONS,{0,1},"rostopic",0));
     // pages.push_back(Page(0));
     // Page *page= new Page(0);
     pages = new vector<Page>;
@@ -123,23 +125,15 @@ void MainWindow::generateAllPages()
     // pages->push_back(Page("page4", WINDOW1, {PAGE1, PAGE2}, "rostopic", 0));
     // pages->push_back(Page("page5", WINDOW1, {PAGE2, PAGE3}, "rostopic", 0));
     // pages->push_back(Page("page6", WINDOW1, {PAGE5, PAGE1}, "rostopic", 0));
-  
-    pages->push_back(Page("Home", WINDOW_OPTIONS, {PAGE_BASIC_OPTIONS}));
-    pages->push_back(Page("Let's Talk", WINDOW_OPTIONS, {PAGE_GUIDE,PAGE_MEET,PAGE_ABOUT_DEPARTMENT}));
-    pages->push_back(Page("Guide Me", WINDOW_OPTIONS, {PAGE_LABS}));
-    pages->push_back(Page("Meet Someone", WINDOW_OPTIONS, {PAGE_BASIC_OPTIONS}));
-    pages->push_back(Page("About Department", WINDOW_OPTIONS, {PAGE_BASIC_OPTIONS}));
-    pages->push_back(Page("Labs", WINDOW_OPTIONS, {PAGE_LABS_ANALOG,PAGE_LABS_DIGITAL}));
-    pages->push_back(Page("Analog Lab", WINDOW_OPTIONS, {PAGE_BASIC_OPTIONS}));
-    pages->push_back(Page("Digital Lab", WINDOW_OPTIONS, {PAGE_BASIC_OPTIONS}));
 
-
-
-
-
-
-
-
+    pages->push_back(Page("Home", SCREEN_OPTIONS, {PAGE_BASIC_OPTIONS}));
+    pages->push_back(Page("Let's Talk", SCREEN_OPTIONS, {PAGE_GUIDE, PAGE_MEET, PAGE_ABOUT_DEPARTMENT}));
+    pages->push_back(Page("Guide Me", SCREEN_OPTIONS, {PAGE_LABS}));
+    pages->push_back(Page("Meet Someone", SCREEN_OPTIONS, {PAGE_BASIC_OPTIONS}));
+    pages->push_back(Page("About Department", SCREEN_OPTIONS, {PAGE_BASIC_OPTIONS}));
+    pages->push_back(Page("Labs", SCREEN_OPTIONS, {PAGE_LABS_ANALOG, PAGE_LABS_DIGITAL}));
+    pages->push_back(Page("Analog Lab", SCREEN_OPTIONS, {PAGE_BASIC_OPTIONS}));
+    pages->push_back(Page("Digital Lab", SCREEN_OPTIONS, {PAGE_BASIC_OPTIONS}));
 }
 
 vector<Page> *MainWindow::pages = nullptr;

@@ -1,11 +1,11 @@
 
-#include "sceen_${name}.h"
-#include "./ui_sceen_${name}.h"
+#include "screen_${name}.h"
+#include "./ui_screen_${name}.h"
 
 #include <QDebug>
 
-Sceen${Name}::Sceen${Name}(QWidget *parent, Page *page)
-    : QDialog(parent), ui(new Ui::Sceen${Name})
+Screen${Name}::Screen${Name}(QWidget *parent, Page *page)
+    : QDialog(parent), ui(new Ui::Screen${Name})
 {
     ui->setupUi(this);
 
@@ -33,7 +33,7 @@ Sceen${Name}::Sceen${Name}(QWidget *parent, Page *page)
 
 }
 
-Sceen${Name}::~Sceen${Name}()
+Screen${Name}::~Screen${Name}()
 {
     delete ui;
 }

@@ -10,7 +10,8 @@ using namespace std;
 
 enum SCREEN_ID
 {
-    WINDOW_OPTIONS
+    SCREEN_OPTIONS,
+    SCREEN_ACTION
     // WINDOW1,WINDOW2,WINDOW3
 };
 
