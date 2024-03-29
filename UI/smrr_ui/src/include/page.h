@@ -15,16 +15,29 @@ enum SCREEN_ID
     // WINDOW1,WINDOW2,WINDOW3
 };
 
-enum PAGE_ID{
-    PAGE_HOME=0,
-    PAGE_BASIC_OPTIONS=1,
-    PAGE_GUIDE=2,
-    PAGE_MEET=3,
-    PAGE_ABOUT_DEPARTMENT=4,
-    PAGE_LABS=5,
-    PAGE_LABS_ANALOG,
-    PAGE_LABS_DIGITAL,
-    PAGE_RUN
+enum PAGE_ID
+{
+    PAGE_HOME,
+    PAGE_BASIC_OPTIONS,
+    PAGE_GUIDE,
+    PAGE_GUIDE_OFFICE,
+    PAGE_GUIDE_LABS,
+    PAGE_GUIDE_LAB_ANALOG,
+    PAGE_GUIDE_LAB_DIGITAL,
+    PAGE_GUIDE_LAB_TELECOM,
+    PAGE_GUIDE_LAB_BM,
+    PAGE_GUIDE_HALLS,
+    PAGE_GUIDE_HALL_ENTC1,
+    PAGE_GUIDE_HALL_PG,
+    PAGE_GUIDE_HALL_3P5,
+    PAGE_GUIDE_OTHER,
+    PAGE_GUIDE_OTHER_WASHROOMS,
+    PAGE_GUIDE_OTHER_LIFT,
+    PAGE_GUIDE_OTHER_COMMON_LOWER,
+    PAGE_GUIDE_OTHER_COMMON_UPPER,
+
+    PAGE_MEET,
+    PAGE_ABOUT_DEPARTMENT
     // PAGE1,PAGE2,PAGE3,PAGE4,PAGE5,PAGE6,PAGE7
 };
 
@@ -36,8 +49,8 @@ public:
     QString name;
     SCREEN_ID screenId;
     vector<PAGE_ID> nextPageIds;
-    string rosData;       
-    Page(QString name, SCREEN_ID screenId, vector<PAGE_ID> nextPageIds, string rosData="");
+    string rosData;
+    Page(QString name, SCREEN_ID screenId, vector<PAGE_ID> nextPageIds, string rosData = "");
     ~Page();
 };
 
