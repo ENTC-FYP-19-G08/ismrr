@@ -308,7 +308,8 @@ class LLM:
             # self.text_to_speech_with_pitch(
             #     self.model_response, 2, "output_with_pitch.wav"
             # )
-            funct(self.model_response)
+            funct.put(self.model_response)
+            funct.put("##END##")
             # print(self.model_response)
             self.model_response = ""
             return
@@ -409,8 +410,8 @@ class LLM:
         # pygame.init()
         # pygame.mixer.init()
         # Get user prompt
-        self.can_write = True
-        self.can_play = True
+        # self.can_write = True
+        # self.can_play = True
         print()
         # up = input(col_user + username + ": " + col_default).strip()
         up = user_p

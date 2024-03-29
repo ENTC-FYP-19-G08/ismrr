@@ -26,12 +26,21 @@ class Audio:
     BLOCKS_PER_SECOND = 50
     buffer_queue = queue.Queue()
 
-    def __init__(self, callback=None, device=None, input_rate=RATE_PROCESS, file=None):
+    def __init__(
+        self,
+        shared_mem_,
+        callback=None,
+        device=None,
+        input_rate=RATE_PROCESS,
+        file=None,
+    ):
         def proxy_callback(in_data, frame_count, time_info, status):
             # pylint: disable=unused-argument
             if self.chunk is not None:
                 in_data = self.wf.readframes(self.chunk)
-            callback(in_data)
+            data = int.from_bytes(shared_mem_.buf[:1], byteorder="big")
+            if data == 1:
+                callback(in_data)
             return (None, pyaudio.paContinue)
 
         if callback is None:
@@ -117,8 +126,10 @@ class Audio:
 class VADAudio(Audio):
     """Filter & segment audio with voice activity detection."""
 
-    def __init__(self, aggressiveness=3, device=None, input_rate=None, file=None):
-        super().__init__(device=device, input_rate=input_rate, file=file)
+    def __init__(
+        self, shared_mem_, aggressiveness=3, device=None, input_rate=None, file=None
+    ):
+        super().__init__(shared_mem_, device=device, input_rate=input_rate, file=file)
         self.vad = webrtcvad.Vad(aggressiveness)
 
     def frame_generator(self):
@@ -190,10 +201,12 @@ class FasterWhisper(Audio):
         self.text = " ".join(seg.text for seg in segments[0])
         self.text = self.text.strip()
         if not self.text == "":
-            print("text : ", self.text)
-            mistral.chat_(self.text)
-            self.clear_queue(Audio.buffer_queue)
-        return self.text
+            # print("text : ", self.text)
+            # mistral.chat_(self.text)
+            # self.clear_queue(Audio.buffer_queue)
+            return self.text
+        else:
+            return None
 
 
 def main(model):
