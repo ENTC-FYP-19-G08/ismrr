@@ -134,8 +134,8 @@ void MainWindow::generateAllPages()
     pages->push_back(Page("Meet Someone", SCREEN_OPTIONS, {PAGE_BASIC_OPTIONS}));
     pages->push_back(Page("About Department", SCREEN_OPTIONS, {PAGE_BASIC_OPTIONS}));
     pages->push_back(Page("Labs", SCREEN_OPTIONS, {PAGE_LABS_ANALOG, PAGE_LABS_DIGITAL}));
-    pages->push_back(Page("Analog Lab", SCREEN_ACTION, {},"navigation/analog_lab"));
-    pages->push_back(Page("Digital Lab", SCREEN_ACTION, {},"navigation/digital_lab"));
+    pages->push_back(Page("UAV", SCREEN_ACTION, {},"navigation/UAV"));
+    pages->push_back(Page("ENTC1", SCREEN_ACTION, {},"navigation/ENTC1"));
   
 
 
