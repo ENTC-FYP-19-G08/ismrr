@@ -16,8 +16,10 @@
 #include <std_msgs/msg/int32.hpp>
 #include <std_msgs/msg/string.hpp>
 
-
-
+typedef rclcpp::Publisher<std_msgs::msg::String>::SharedPtr PubStr;
+typedef rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr PubInt;
+typedef rclcpp::Subscription<std_msgs::msg::String>::SharedPtr SubStr;
+typedef rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr SubInt;
 
 class rclcomm:public QThread
 {
@@ -26,13 +28,22 @@ public:
     rclcomm();
     void publish_topic(int count);
     void recv_callback(const std_msgs::msg::Int32::SharedPtr msg);
+
+    PubStr pubNavigation;
+    PubStr pubTextInput;
+    PubInt pubNumInput;
+  
+    
+
 protected:
     void run();
 private:
-    rclcpp::Publisher<std_msgs::msg::String>::SharedPtr _publisher;
-    rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr _subscription;
+    PubStr _publisher;
+    SubInt _subscription;    
+
+
     std::shared_ptr<rclcpp::Node> node;
-    std_msgs::msg::Int32 pub_msg;
+
 signals:
     void emitTopicData(QString);
 public slots:

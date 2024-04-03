@@ -19,14 +19,18 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    generateAllPages();
+    rosNode = new rclcomm();
     // btnNext_clicked(PAGE_LABS);
     btnNext_clicked(PAGE_HOME);
 
-    rosNode = new rclcomm();
+   
     // connect(rosNode, SIGNAL(emitTopicData(QString)), this, SLOT(updateTopicInfo(QString)));
     // connect(ui->pushButton, &QPushButton::clicked, rosNode, &rclcomm::sendTopicData);
+    generateAllPages();
     qDebug() << "aaa run";
+
+    
+  
 }
 
 MainWindow::~MainWindow()
@@ -131,24 +135,24 @@ void MainWindow::generateAllPages()
     /*PAGE_HOME*/ pages->push_back(Page("Home", SCREEN_OPTIONS, {PAGE_BASIC_OPTIONS}));
     /*PAGE_BASIC_OPTIONS*/ pages->push_back(Page("Let's Talk", SCREEN_OPTIONS, {PAGE_GUIDE, PAGE_MEET, PAGE_ABOUT_DEPARTMENT}));
     /*  PAGE_GUIDE*/ pages->push_back(Page("Guide Me", SCREEN_OPTIONS, {PAGE_GUIDE_OFFICE,PAGE_GUIDE_LABS, PAGE_GUIDE_HALLS,PAGE_GUIDE_OTHER}));
-    /*      PAGE_GUIDE_OFFICE*/ pages->push_back(Page("Office", SCREEN_ACTION, {},"navigation/OFFICE"));
-    /*      PAGE_GUIDE_LABS*/ pages->push_back(Page("Labs", SCREEN_OPTIONS, {PAGE_GUIDE_LAB_ANALOG,PAGE_GUIDE_LAB_DIGITAL,PAGE_GUIDE_LAB_TELECOM,PAGE_GUIDE_LAB_BM}));
-    /*          PAGE_GUIDE_LAB_ANALOG*/ pages->push_back(Page("Analog Lab", SCREEN_ACTION, {},"navigation/LAB_ANALOG"));
-    /*          PAGE_GUIDE_LAB_DIGITAL*/ pages->push_back(Page("Digital Lab", SCREEN_ACTION, {},"navigation/LAB_DIGITAL"));
-    /*          PAGE_GUIDE_LAB_TELECOM*/ pages->push_back(Page("Telecom Lab", SCREEN_ACTION, {},"navigation/LAB_TELECOM"));
-    /*          PAGE_GUIDE_LAB_BM*/ pages->push_back(Page("Bio-Medical Lab", SCREEN_ACTION, {},"navigation/LAB_BM"));
-    /*      PAGE_GUIDE_HALLS*/ pages->push_back(Page("Halls", SCREEN_OPTIONS, {PAGE_GUIDE_HALL_ENTC1,PAGE_GUIDE_HALL_PG,PAGE_GUIDE_HALL_3P5}));
-    /*          PAGE_GUIDE_HALL_ENTC1*/ pages->push_back(Page("ENTC1", SCREEN_ACTION, {},"navigation/HALL_ENTC1"));
-    /*          PAGE_GUIDE_HALL_PG*/ pages->push_back(Page("PG Seminar Room", SCREEN_ACTION, {},"navigation/HALL_PG"));
-    /*          PAGE_GUIDE_HALL_3P5*/ pages->push_back(Page("3.5 Hall", SCREEN_ACTION, {},"navigation/HALL_3P5"));
-    /*      PAGE_GUIDE_OTHER*/ pages->push_back(Page("Other", SCREEN_OPTIONS, {PAGE_GUIDE_OTHER_WASHROOMS,PAGE_GUIDE_OTHER_LIFT,PAGE_GUIDE_OTHER_COMMON_LOWER,PAGE_GUIDE_OTHER_COMMON_UPPER}));
-    /*          PAGE_GUIDE_OTHER_WASHROOMS*/ pages->push_back(Page("Washrooms", SCREEN_ACTION, {},"navigation/WASHROOMS"));
-    /*          PAGE_GUIDE_OTHER_LIFT*/ pages->push_back(Page("Lift", SCREEN_ACTION, {},"navigation/LIFT"));
-    /*          PAGE_GUIDE_OTHER_COMMON_LOWER*/ pages->push_back(Page("Lower Common", SCREEN_ACTION, {},"navigation/COMMON_LOWER"));
-    /*          PAGE_GUIDE_OTHER_COMMON_UPPER*/ pages->push_back(Page("Upper Common", SCREEN_ACTION, {},"navigation/COMMON_UPPER"));
+    /*      PAGE_GUIDE_OFFICE*/ pages->push_back(Page("Office", SCREEN_ACTION, {},rosNode->pubNavigation,"OFFICE"));
+    // /*      PAGE_GUIDE_LABS*/ pages->push_back(Page("Labs", SCREEN_OPTIONS, {PAGE_GUIDE_LAB_ANALOG,PAGE_GUIDE_LAB_DIGITAL,PAGE_GUIDE_LAB_TELECOM,PAGE_GUIDE_LAB_BM}));
+    // /*          PAGE_GUIDE_LAB_ANALOG*/ pages->push_back(Page("Analog Lab", SCREEN_ACTION, {},"navigation/LAB_ANALOG"));
+    // /*          PAGE_GUIDE_LAB_DIGITAL*/ pages->push_back(Page("Digital Lab", SCREEN_ACTION, {},"navigation/LAB_DIGITAL"));
+    // /*          PAGE_GUIDE_LAB_TELECOM*/ pages->push_back(Page("Telecom Lab", SCREEN_ACTION, {},"navigation/LAB_TELECOM"));
+    // /*          PAGE_GUIDE_LAB_BM*/ pages->push_back(Page("Bio-Medical Lab", SCREEN_ACTION, {},"navigation/LAB_BM"));
+    // /*      PAGE_GUIDE_HALLS*/ pages->push_back(Page("Halls", SCREEN_OPTIONS, {PAGE_GUIDE_HALL_ENTC1,PAGE_GUIDE_HALL_PG,PAGE_GUIDE_HALL_3P5}));
+    // /*          PAGE_GUIDE_HALL_ENTC1*/ pages->push_back(Page("ENTC1", SCREEN_ACTION, {},"navigation/HALL_ENTC1"));
+    // /*          PAGE_GUIDE_HALL_PG*/ pages->push_back(Page("PG Seminar Room", SCREEN_ACTION, {},"navigation/HALL_PG"));
+    // /*          PAGE_GUIDE_HALL_3P5*/ pages->push_back(Page("3.5 Hall", SCREEN_ACTION, {},"navigation/HALL_3P5"));
+    // /*      PAGE_GUIDE_OTHER*/ pages->push_back(Page("Other", SCREEN_OPTIONS, {PAGE_GUIDE_OTHER_WASHROOMS,PAGE_GUIDE_OTHER_LIFT,PAGE_GUIDE_OTHER_COMMON_LOWER,PAGE_GUIDE_OTHER_COMMON_UPPER}));
+    // /*          PAGE_GUIDE_OTHER_WASHROOMS*/ pages->push_back(Page("Washrooms", SCREEN_ACTION, {},"navigation/WASHROOMS"));
+    // /*          PAGE_GUIDE_OTHER_LIFT*/ pages->push_back(Page("Lift", SCREEN_ACTION, {},"navigation/LIFT"));
+    // /*          PAGE_GUIDE_OTHER_COMMON_LOWER*/ pages->push_back(Page("Lower Common", SCREEN_ACTION, {},"navigation/COMMON_LOWER"));
+    // /*          PAGE_GUIDE_OTHER_COMMON_UPPER*/ pages->push_back(Page("Upper Common", SCREEN_ACTION, {},"navigation/COMMON_UPPER"));
 
-    /*  PAGE_MEET*/ pages->push_back(Page("Meet Someone", SCREEN_OPTIONS, {PAGE_BASIC_OPTIONS}));
-    /*  PAGE_ABOUT_DEPARTMENT*/ pages->push_back(Page("About Department", SCREEN_OPTIONS, {PAGE_BASIC_OPTIONS}));
+    // /*  PAGE_MEET*/ pages->push_back(Page("Meet Someone", SCREEN_OPTIONS, {PAGE_BASIC_OPTIONS}));
+    // /*  PAGE_ABOUT_DEPARTMENT*/ pages->push_back(Page("About Department", SCREEN_OPTIONS, {PAGE_BASIC_OPTIONS}));
    
 }
 

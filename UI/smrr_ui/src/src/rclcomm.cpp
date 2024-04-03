@@ -12,34 +12,45 @@
 #include <QString>
 #include <QDebug>
 
-rclcomm::rclcomm()  {
-  int argc=0;
-  char **argv=NULL;
-  rclcpp::init(argc,argv);
-  node=rclcpp::Node::make_shared("ros2_qt_demo");
-  _publisher =
-      node->create_publisher<std_msgs::msg::String>("ui_publisher", 10);
-  _subscription = node->create_subscription<std_msgs::msg::Int32>("ros2_qt_demo_publish", 10,std::bind(&rclcomm::recv_callback,this,std::placeholders::_1));
-  this->start();
+rclcomm::rclcomm()
+{
+    int argc = 0;
+    char **argv = NULL;
+    rclcpp::init(argc, argv);
+    node = rclcpp::Node::make_shared("smrr_ui_node");
+    _publisher =
+        node->create_publisher<std_msgs::msg::String>("ui_publisher", 10);
+    _subscription = node->create_subscription<std_msgs::msg::Int32>("ros2_qt_demo_publish", 10, std::bind(&rclcomm::recv_callback, this, std::placeholders::_1));
+
+    pubNavigation = node->create_publisher<std_msgs::msg::String>("navigation", 10);
+    pubTextInput = node->create_publisher<std_msgs::msg::String>("text_input", 10);
+    pubNumInput = node->create_publisher<std_msgs::msg::Int32>("num_input", 10);
+    
+
+    this->start();
 }
-void rclcomm::run(){
-    pub_msg.data=0;    
-    rclcpp::spin(node);    
+void rclcomm::run()
+{
+
+    rclcpp::spin(node);
     rclcpp::shutdown();
 }
-void rclcomm::recv_callback(const std_msgs::msg::Int32::SharedPtr msg){
+void rclcomm::recv_callback(const std_msgs::msg::Int32::SharedPtr msg)
+{
     //  RCLCPP_INFO(node->get_logger(), "I heard: '%d'", msg->data);
-    emitTopicData("Recive:"+QString::fromStdString(std::to_string(msg->data)));
+    emitTopicData("Recive:" + QString::fromStdString(std::to_string(msg->data)));
 }
 
-void rclcomm::sendTopicData(){
-    pub_msg.data++;
+void rclcomm::sendTopicData()
+{
+    // pub_msg.data++;
     // _publisher->publish(pub_msg);
 }
 
-void rclcomm::sendRosData(std::string data){
+void rclcomm::sendRosData(std::string data)
+{
     std_msgs::msg::String rosString;
-    rosString.data=data;
+    rosString.data = data;
     _publisher->publish(rosString);
-    qDebug()<<"sending ros data: "<<QString::fromStdString(data);
+    qDebug() << "sending ros data: " << QString::fromStdString(data);
 }

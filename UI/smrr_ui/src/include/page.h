@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <QtWidgets/qwidget.h>
+#include "rclcomm.h"
 
 using namespace std;
 
@@ -49,8 +50,10 @@ public:
     QString name;
     SCREEN_ID screenId;
     vector<PAGE_ID> nextPageIds;
-    string rosData;
-    Page(QString name, SCREEN_ID screenId, vector<PAGE_ID> nextPageIds, string rosData = "");
+    PubStr pubStr;
+    string rosData;    
+
+    Page(QString name, SCREEN_ID screenId, vector<PAGE_ID> nextPageIds,PubStr pubStr=nullptr, string rosData = "");
     ~Page();
 };
 
