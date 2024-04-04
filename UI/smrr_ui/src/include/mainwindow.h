@@ -29,7 +29,8 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    vector<Page> *pages;
+    vector<Page> *pages=nullptr;
+    vector<Page*> *pagePts=nullptr;
     QWidget *screen=nullptr;
     // static vector<int> tmp;
     
