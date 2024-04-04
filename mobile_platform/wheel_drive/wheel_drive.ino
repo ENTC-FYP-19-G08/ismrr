@@ -2,12 +2,20 @@
 #include "src/CustomServo/CustomServo.hpp"
 #include <NewPing.h>
 
-#define SONAR_NUM     5 // Number of sensors.
+#define SONAR_NUM     3 // Number of sensors.
 #define MAX_DISTANCE 200 // Maximum distance (in cm) to ping.
 #define PING_INTERVAL 33 // Milliseconds between sensor pings (29ms is about the min to avoid cross-sensor echo).
 
-#define S1_TRIG 50
-#define S1_ECHO 51
+#define S1_TRIG 48
+#define S1_ECHO 49
+#define S2_TRIG 53
+#define S2_ECHO 52
+#define S3_TRIG 50
+#define S3_ECHO 51
+
+#define front_US 0
+#define left_US 1
+#define right_US 2
 
 // Pins for the right motor
 #define right_SIGNAL 3 
@@ -51,12 +59,13 @@ CustomServo headServo;
 
 //Ultrasonic sensor array
 NewPing sonar[SONAR_NUM] = {     // Sensor object array.
-  NewPing(34, 33, MAX_DISTANCE),
-  NewPing(35, 36, MAX_DISTANCE),
-  NewPing(37, 38, MAX_DISTANCE),
-  NewPing(39, 40, MAX_DISTANCE),
-  NewPing(S1_TRIG, S1_ECHO, MAX_DISTANCE)
+  NewPing(S1_TRIG, S1_ECHO, MAX_DISTANCE),
+  NewPing(S2_TRIG, S2_ECHO, MAX_DISTANCE),
+  NewPing(S3_TRIG, S3_ECHO, MAX_DISTANCE)
+  
 };
+int isCliff[3] = {0,0,0};
+int isCliffSum = 0;
 
 unsigned long pingTimer[SONAR_NUM]; // Holds the times when the next ping should happen for each sensor.
 unsigned int cm[SONAR_NUM];         // Where the ping distances are stored.
@@ -127,7 +136,8 @@ void readMsg(){
 
       ptr = strtok(NULL,",");
    }
-   Serial.println(String(left_wheel.count)+" "+String(right_wheel.count)+" "+String(cm[0])+" "+String(cm[1])+" "+String(cm[2])+" "+String(cm[3])+" "+String(cm[4]));
+   //Serial.println(String(left_wheel.count)+" "+String(right_wheel.count));
+   Serial.println(String(left_wheel.count)+" "+String(right_wheel.count)+" "+String(cm[0])+" "+String(cm[1])+" "+String(cm[2]));
    timeout_t = millis();
   }  
 }
@@ -155,10 +165,10 @@ void readMsg(){
 //   }  
 // }
 
-void echoCheck() { // If ping received, set the sensor distance to array.
-  if (sonar[currentSensor].check_timer())
-    cm[currentSensor] = sonar[currentSensor].ping_result / US_ROUNDTRIP_CM;
-}
+//void echoCheck() { // If ping received, set the sensor distance to array.
+//  if (sonar[currentSensor].check_timer())
+//    cm[currentSensor] = sonar[currentSensor].ping_result / US_ROUNDTRIP_CM;
+//}
 
 void setup() {
   // put your setup code here, to run once:
@@ -180,9 +190,7 @@ void setup() {
   left_wheel.direction = STOP;
 
   // sonar setup
-  pingTimer[0] = millis() + 75;           // First ping starts at 75ms, gives time for the Arduino to chill before starting.
-  for (uint8_t i = 1; i < SONAR_NUM; i++) // Set the starting time for each sensor.
-    {pingTimer[i] = pingTimer[i - 1] + PING_INTERVAL;}
+//  0.4Timer[i] = pingTimer[i - 1] + PING_INTERVAL;}
   
   
 }
@@ -193,29 +201,60 @@ void loop() {
 
     readMsg();
     // readPWM();
-    right_wheel.calPWM();
-    right_wheel.drive();
-    left_wheel.calPWM();
-    left_wheel.drive();
-    moveServo();
+    
+    
 
-    for (uint8_t i = 0; i < SONAR_NUM; i++) { // Loop through all the sensors.
-    if (millis() >= pingTimer[i]) {         // Is it this sensor's time to ping?
-      pingTimer[i] += PING_INTERVAL * SONAR_NUM;  // Set next time this sensor will be pinged.
-      //if (i == 0 && currentSensor == SONAR_NUM - 1) oneSensorCycle(); // Sensor ping cycle complete, do something with the results.
-      sonar[currentSensor].timer_stop();          // Make sure previous timer is canceled before starting a new ping (insurance).
-      currentSensor = i;                          // Sensor being accessed.
-      cm[currentSensor] = 0;                      // Make distance zero in case there's no ping echo for this sensor.
-      sonar[currentSensor].ping_timer(echoCheck); // Do the ping (processing continues, interrupt will call echoCheck to look for echo).
+    for (uint8_t i = 0; i < SONAR_NUM; i++) { // Loop through each sensor and display results.
+      isCliffSum = 0;
+      delay(50); // Wait 50ms between pings (about 20 pings/sec). 29ms should be the shortest delay between     
+      cm[i]=sonar[i].ping_cm();
+      if (cm[i]>12){
+        isCliff[i] = 1;
+        isCliffSum += 1;
+      }
+      else{
+        isCliff[i]=0;
       }
     }
+
+    if(isCliffSum>0){
+      right_wheel.target_velocity = 0;
+      left_wheel.target_velocity = 0;
+    }
+    else{
+      right_wheel.calPWM(); 
+      
+      left_wheel.calPWM();
+      
+    }
+
+    right_wheel.drive();
+    delay(1);
+    left_wheel.drive(); 
+    
+//    Serial.println(String(cm[0])+" "+String(cm[1])+" "+String(cm[2]));
+//    delay(500);
+  
+    
+    moveServo();
+
+//    for (uint8_t i = 0; i < SONAR_NUM; i++) { // Loop through all the sensors.
+//    if (millis() >= pingTimer[i]) {         // Is it this sensor's time to ping?
+//      pingTimer[i] += PING_INTERVAL * SONAR_NUM;  // Set next time this sensor will be pinged.
+//      //if (i == 0 && currentSensor == SONAR_NUM - 1) oneSensorCycle(); // Sensor ping cycle complete, do something with the results.
+//      sonar[currentSensor].timer_stop();          // Make sure previous timer is canceled before starting a new ping (insurance).
+//      currentSensor = i;                          // Sensor being accessed.
+//      cm[currentSensor] = 0;                      // Make distance zero in case there's no ping echo for this sensor.
+//      sonar[currentSensor].ping_timer(echoCheck); // Do the ping (processing continues, interrupt will call echoCheck to look for echo).
+//      }
+//    }
     
     
     
-//   if((millis()-timeout_t) >= TIME_OUT){
-//     right_wheel.target_velocity = 0;
-//     left_wheel.target_velocity = 0;
-//   }
+   if((millis()-timeout_t) >= TIME_OUT){
+     right_wheel.target_velocity = 0;
+     left_wheel.target_velocity = 0;
+   }
 
     // debugging serial output
     //Serial.println("right = "+String(right_wheel.velocity)+", dir = "+String(right_wheel.direction)+", left = "+String(left_wheel.velocity)+", dir = "+String(left_wheel.direction));
