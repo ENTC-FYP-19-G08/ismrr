@@ -23,6 +23,8 @@ rclcomm::rclcomm()
     _subscription = node->create_subscription<std_msgs::msg::Int32>("ros2_qt_demo_publish", 10, std::bind(&rclcomm::recv_callback, this, std::placeholders::_1));
 
     pubNavigation = node->create_publisher<std_msgs::msg::String>("navigation", 10);
+    pubGuideIns = node->create_publisher<std_msgs::msg::String>("guidance", 10);
+
     pubTextInput = node->create_publisher<std_msgs::msg::String>("text_input", 10);
     pubNumInput = node->create_publisher<std_msgs::msg::Int32>("num_input", 10);
     

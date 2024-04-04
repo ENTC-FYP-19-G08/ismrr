@@ -8,13 +8,14 @@ ScreenInfo::ScreenInfo(QWidget *parent, Page *page)
     : QDialog(parent), ui(new Ui::ScreenInfo)
 {
     ui->setupUi(this);
+    MainWindow *mainWindow = static_cast<MainWindow *>(parent);
 
     qDebug() << "info window loaded";
     ui->label->setText(page->name);
     for (uint i = 0; i < page->nextPageIds.size(); i++)
     {
-        PAGE_ID nextPageId = page->nextPageIds.at(i);
-        QPushButton *btnOption = new QPushButton(MainWindow::pages->at(nextPageId).name,this);
+        int nextPageId = page->nextPageIds.at(i);
+        QPushButton *btnOption = new QPushButton(mainWindow->pages->at(nextPageId).name,this);
         // btnOption->setFixedHeight(60);
         btnOption->setMinimumHeight(100);
         btnOption->setMaximumHeight(110);

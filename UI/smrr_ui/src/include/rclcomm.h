@@ -18,6 +18,8 @@
 
 typedef rclcpp::Publisher<std_msgs::msg::String>::SharedPtr PubStr;
 typedef rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr PubInt;
+
+
 typedef rclcpp::Subscription<std_msgs::msg::String>::SharedPtr SubStr;
 typedef rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr SubInt;
 
@@ -30,6 +32,7 @@ public:
     void recv_callback(const std_msgs::msg::Int32::SharedPtr msg);
 
     PubStr pubNavigation;
+    PubStr pubGuideIns;
     PubStr pubTextInput;
     PubInt pubNumInput;
   

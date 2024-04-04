@@ -11,12 +11,13 @@ using namespace std;
 
 enum SCREEN_ID
 {
-    SCREEN_OPTIONS,
-    SCREEN_ACTION
+    SCREEN_MENU_OPTIONS,
+    SCREEN_ACTION,
+    SCREEN_GUIDE_OPTIONS
     // WINDOW1,WINDOW2,WINDOW3
 };
 
-enum PAGE_ID
+enum PAGE_ID_NOT_DATA_TYPE
 {
     PAGE_HOME,
     PAGE_BASIC_OPTIONS,
@@ -38,7 +39,8 @@ enum PAGE_ID
     PAGE_GUIDE_OTHER_COMMON_UPPER,
 
     PAGE_MEET,
-    PAGE_ABOUT_DEPARTMENT
+    PAGE_ABOUT_DEPARTMENT,
+    PAGE_GUIDE_OPTIONS
     // PAGE1,PAGE2,PAGE3,PAGE4,PAGE5,PAGE6,PAGE7
 };
 
@@ -49,11 +51,11 @@ private:
 public:
     QString name;
     SCREEN_ID screenId;
-    vector<PAGE_ID> nextPageIds;
+    vector<int> nextPageIds;
     PubStr pubStr;
     string rosData;    
 
-    Page(QString name, SCREEN_ID screenId, vector<PAGE_ID> nextPageIds,PubStr pubStr=nullptr, string rosData = "");
+    Page(QString name, SCREEN_ID screenId, vector<int> nextPageIds,PubStr pubStr=nullptr, string rosData = "");
     ~Page();
 };
 

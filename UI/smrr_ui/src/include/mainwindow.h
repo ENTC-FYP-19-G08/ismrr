@@ -29,7 +29,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    static vector<Page> *pages;
+    vector<Page> *pages;
     QWidget *screen=nullptr;
     // static vector<int> tmp;
     
@@ -45,7 +45,7 @@ private:
 
 public slots:
     void updateTopicInfo(QString);    
-    void btnNext_clicked(PAGE_ID nextPageId);
+    void btnNext_clicked(int nextPageId);
     void btnBack_clicked();
     void btnHome_clicked();
     // void on_btnOk_clicked(int);
