@@ -41,11 +41,12 @@ MainWindow::~MainWindow()
 {
     delete ui;
 
-   for (auto p : *pages) {
-        delete p; 
+    for (auto p : *pages)
+    {
+        delete p;
     }
-    pages->clear(); 
-    
+    pages->clear();
+
     delete pages;
     delete rosNode;
 }
@@ -117,29 +118,15 @@ QWidget *MainWindow::createScreen(Page *page)
         return new ScreenOptions(this, page);
         break;
     case SCREEN_GUIDE_OPTIONS:
-        // page->nextPageIds[0]=1;
-        // page->nextPageIds[1]=2;
-        // page->nextPageIds.clear();
-        // page->nextPageIds.push_back(1);
-        page->nextPageIds[0] = 2;
-        // for (int element : page->nextPageIds)
-        // {
-        //     qDebug() << element << " ";
-        // }
-        qDebug() << page->nextPageIds[0] << (page->name) << QString::fromStdString(page->rosData);
 
+        page->nextPageIds.clear();
         qDebug() << "pages count in SCREEN_OPTION_GUIDE_1" << pages->size();
-        // page->nextPageIds.push_back(4);
+        page->nextPageIds.push_back(pages->size());
         pages->push_back(new Page("Let's Go", SCREEN_ACTION, {PAGE_HOME}, rosNode->pubNavigation, page->rosData));
-        // page->nextPageIds.push_back(5);
-        // pages->push_back(Page("Give Instructions", SCREEN_ACTION, {PAGE_HOME}, rosNode->pubGuideIns, page->rosData));
+        page->nextPageIds.push_back(pages->size());
+        pages->push_back(new Page("Give Instructions", SCREEN_ACTION, {PAGE_HOME}, rosNode->pubGuideIns, page->rosData));
 
         qDebug() << "pages count in SCREEN_OPTION_GUIDE_2" << pages->size();
-
-        // for (int element : page->nextPageIds)
-        // {
-        //     qDebug() << element << " ";
-        // }
 
         qDebug() << page->nextPageIds[0] << page->name << QString::fromStdString(page->rosData);
 
@@ -165,8 +152,8 @@ void MainWindow::generateAllPages()
     // pages.push_back(Page("option1",SCREEN_MENU_OPTIONS,{0,1},"rostopic",0));
     // pages.push_back(Page(0));
     // Page *page= new Page(0);
-   
-    pages=new vector<Page*>;
+
+    pages = new vector<Page *>;
     // pages->push_back(Page("pageHome", WINDOW1, {PAGE2}, NULL, 0));
     // pages->push_back(Page("page2", WINDOW1, {PAGE3, PAGE4, PAGE5}, "rostopic", 0));
     // pages->push_back(Page("page3", WINDOW1, {PAGE6, PAGE1}, "rostopic", 0));
