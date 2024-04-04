@@ -40,6 +40,12 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+
+   for (auto p : *pages) {
+        delete p; 
+    }
+    pages->clear(); 
+    
     delete pages;
     delete rosNode;
 }
@@ -72,7 +78,7 @@ void MainWindow::updateTopicInfo(QString data)
 void MainWindow::btnNext_clicked(int nextPageId)
 {
     qDebug() << QString("mainwindow btn ok") + QString(nextPageId);
-    screen = createScreen(pagePts->at(nextPageId));
+    screen = createScreen(pages->at(nextPageId));
     ui->stackedWidget->addWidget(screen);
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->count() - 1);
 }
@@ -124,7 +130,7 @@ QWidget *MainWindow::createScreen(Page *page)
 
         qDebug() << "pages count in SCREEN_OPTION_GUIDE_1" << pages->size();
         // page->nextPageIds.push_back(4);
-        pagePts->push_back(new Page("Let's Go", SCREEN_ACTION, {PAGE_HOME}, rosNode->pubNavigation, page->rosData));
+        pages->push_back(new Page("Let's Go", SCREEN_ACTION, {PAGE_HOME}, rosNode->pubNavigation, page->rosData));
         // page->nextPageIds.push_back(5);
         // pages->push_back(Page("Give Instructions", SCREEN_ACTION, {PAGE_HOME}, rosNode->pubGuideIns, page->rosData));
 
@@ -159,8 +165,8 @@ void MainWindow::generateAllPages()
     // pages.push_back(Page("option1",SCREEN_MENU_OPTIONS,{0,1},"rostopic",0));
     // pages.push_back(Page(0));
     // Page *page= new Page(0);
-    pages = new vector<Page>;
-    pagePts=new vector<Page*>;
+   
+    pages=new vector<Page*>;
     // pages->push_back(Page("pageHome", WINDOW1, {PAGE2}, NULL, 0));
     // pages->push_back(Page("page2", WINDOW1, {PAGE3, PAGE4, PAGE5}, "rostopic", 0));
     // pages->push_back(Page("page3", WINDOW1, {PAGE6, PAGE1}, "rostopic", 0));
@@ -168,15 +174,15 @@ void MainWindow::generateAllPages()
     // pages->push_back(Page("page5", WINDOW1, {PAGE2, PAGE3}, "rostopic", 0));
     // pages->push_back(Page("page6", WINDOW1, {PAGE5, PAGE1}, "rostopic", 0));
 
-    /*PAGE_HOME*/ pages->push_back(Page("Home", SCREEN_MENU_OPTIONS, {PAGE_BASIC_OPTIONS}));
-    /*PAGE_BASIC_OPTIONS*/ pages->push_back(Page("Let's Talk", SCREEN_MENU_OPTIONS, {PAGE_GUIDE}));
-    /*  PAGE_GUIDE*/ pages->push_back(Page("Guide Me", SCREEN_MENU_OPTIONS, {PAGE_GUIDE_OFFICE}));
-    /*      PAGE_GUIDE_OFFICE*/ pages->push_back(Page("Office", SCREEN_GUIDE_OPTIONS, {PAGE_HOME, PAGE_HOME}, rosNode->pubNavigation, "OFFICE"));
+    // /*PAGE_HOME*/ pages->push_back(Page("Home", SCREEN_MENU_OPTIONS, {PAGE_BASIC_OPTIONS}));
+    // /*PAGE_BASIC_OPTIONS*/ pages->push_back(Page("Let's Talk", SCREEN_MENU_OPTIONS, {PAGE_GUIDE}));
+    // /*  PAGE_GUIDE*/ pages->push_back(Page("Guide Me", SCREEN_MENU_OPTIONS, {PAGE_GUIDE_OFFICE}));
+    // /*      PAGE_GUIDE_OFFICE*/ pages->push_back(Page("Office", SCREEN_GUIDE_OPTIONS, {PAGE_HOME, PAGE_HOME}, rosNode->pubNavigation, "OFFICE"));
 
-    /*PAGE_HOME*/ pagePts->push_back(new Page("Home", SCREEN_MENU_OPTIONS, {PAGE_BASIC_OPTIONS}));
-    /*PAGE_BASIC_OPTIONS*/ pagePts->push_back(new Page("Let's Talk", SCREEN_MENU_OPTIONS, {PAGE_GUIDE}));
-    /*  PAGE_GUIDE*/ pagePts->push_back(new Page("Guide Me", SCREEN_MENU_OPTIONS, {PAGE_GUIDE_OFFICE}));
-    /*      PAGE_GUIDE_OFFICE*/ pagePts->push_back(new Page("Office", SCREEN_GUIDE_OPTIONS, {PAGE_HOME, PAGE_HOME}, rosNode->pubNavigation, "OFFICE"));
+    /*PAGE_HOME*/ pages->push_back(new Page("Home", SCREEN_MENU_OPTIONS, {PAGE_BASIC_OPTIONS}));
+    /*PAGE_BASIC_OPTIONS*/ pages->push_back(new Page("Let's Talk", SCREEN_MENU_OPTIONS, {PAGE_GUIDE}));
+    /*  PAGE_GUIDE*/ pages->push_back(new Page("Guide Me", SCREEN_MENU_OPTIONS, {PAGE_GUIDE_OFFICE}));
+    /*      PAGE_GUIDE_OFFICE*/ pages->push_back(new Page("Office", SCREEN_GUIDE_OPTIONS, {PAGE_HOME, PAGE_HOME}, rosNode->pubNavigation, "OFFICE"));
 
     // /*PAGE_HOME*/ pages->push_back(Page("Home", SCREEN_MENU_OPTIONS, {PAGE_BASIC_OPTIONS}));
     // /*PAGE_BASIC_OPTIONS*/ pages->push_back(Page("Let's Talk", SCREEN_MENU_OPTIONS, {PAGE_GUIDE, PAGE_MEET, PAGE_ABOUT_DEPARTMENT}));

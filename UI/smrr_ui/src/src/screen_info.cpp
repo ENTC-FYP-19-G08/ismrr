@@ -15,7 +15,7 @@ ScreenInfo::ScreenInfo(QWidget *parent, Page *page)
     for (uint i = 0; i < page->nextPageIds.size(); i++)
     {
         int nextPageId = page->nextPageIds.at(i);
-        QPushButton *btnOption = new QPushButton(mainWindow->pages->at(nextPageId).name,this);
+        QPushButton *btnOption = new QPushButton(mainWindow->pages->at(nextPageId)->name,this);
         // btnOption->setFixedHeight(60);
         btnOption->setMinimumHeight(100);
         btnOption->setMaximumHeight(110);
