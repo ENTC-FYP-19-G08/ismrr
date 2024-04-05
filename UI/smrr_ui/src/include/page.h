@@ -53,9 +53,10 @@ public:
     SCREEN_ID screenId;
     vector<int> nextPageIds;
     PubStr pubStr;
-    string rosData;    
+    string rosData;
+    bool noHist;
 
-    Page(QString name, SCREEN_ID screenId, vector<int> nextPageIds,PubStr pubStr=nullptr, string rosData = "");
+    Page(QString name, SCREEN_ID screenId, vector<int> nextPageIds, PubStr pubStr = nullptr, string rosData = "", bool noHist = false);
     ~Page();
 };
 

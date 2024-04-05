@@ -22,7 +22,7 @@ ScreenInfo::ScreenInfo(QWidget *parent, Page *page)
 
         // btnOption->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum); 
         connect(btnOption, &QPushButton::clicked, [nextPageId, parent](){
-            static_cast<MainWindow*>(parent)->btnNext_clicked(nextPageId);
+            static_cast<MainWindow*>(parent)->gotoPage(nextPageId);
             qDebug() << "Button " << nextPageId << " clicked"; });
         ui->scrollLayout->addWidget(btnOption);
         // ui->label->setText(ui->label->text()+str);

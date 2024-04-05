@@ -25,11 +25,11 @@ MainWindow::MainWindow(QWidget *parent)
     // qDebug() << pgid;
 
     rosNode = new rclcomm();
-    // // btnNext_clicked(PAGE_LABS);
+    // // gotoPage(PAGE_LABS);
 
     generateAllPages();
-    // btnNext_clicked(PAGE_HOME);
-    btnNext_clicked(PAGE_GUIDE);
+    // gotoPage(PAGE_HOME);
+    gotoPage(PAGE_GUIDE);
 
     // // connect(rosNode, SIGNAL(emitTopicData(QString)), this, SLOT(updateTopicInfo(QString)));
     // // connect(ui->pushButton, &QPushButton::clicked, rosNode, &rclcomm::sendTopicData);
@@ -76,11 +76,21 @@ void MainWindow::updateTopicInfo(QString data)
 //     // ui->stackedWidget->addWidget(m);
 // }
 
-void MainWindow::btnNext_clicked(int nextPageId)
+void MainWindow::gotoPage(int pageId)
 {
-    qDebug() << QString("mainwindow btn ok") + QString(nextPageId);
-    screen = createScreen(pages->at(nextPageId));
-    ui->stackedWidget->addWidget(screen);
+    qDebug() << QString("mainwindow btn ok") + QString(pageId);
+
+    int topScreenIndex = ui->stackedWidget->count() - 1;
+    if (topScreenIndex > 0 && currentScreen != nullptr && currentPage !=nullptr && currentPage->noHist)
+    {
+        ui->stackedWidget->removeWidget(currentScreen);
+        delete currentScreen;        
+    }
+
+
+    currentPage=pages->at(pageId);
+    currentScreen = createScreen(currentPage);
+    ui->stackedWidget->addWidget(currentScreen);
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->count() - 1);
 }
 
@@ -90,11 +100,11 @@ void MainWindow::btnBack_clicked()
     qDebug() << QString("mainwindow btn back");
 
     int topScreenIndex = ui->stackedWidget->count() - 1;
-    if (topScreenIndex > 0 && screen != nullptr)
+    if (topScreenIndex > 0 && currentScreen != nullptr)
     {
-        ui->stackedWidget->removeWidget(screen);
-        delete screen;
-        screen = ui->stackedWidget->widget(topScreenIndex - 1);
+        ui->stackedWidget->removeWidget(currentScreen);
+        delete currentScreen;
+        currentScreen = ui->stackedWidget->widget(topScreenIndex - 1);
     }
 }
 
@@ -104,9 +114,9 @@ void MainWindow::btnHome_clicked()
     int topScreenIndex = ui->stackedWidget->count() - 1;
     while (topScreenIndex > 0)
     {
-        screen = ui->stackedWidget->widget(topScreenIndex--);
-        ui->stackedWidget->removeWidget(screen);
-        delete screen;
+        currentScreen = ui->stackedWidget->widget(topScreenIndex--);
+        ui->stackedWidget->removeWidget(currentScreen);
+        delete currentScreen;
     }
 }
 
@@ -122,9 +132,9 @@ QWidget *MainWindow::createScreen(Page *page)
         page->nextPageIds.clear();
         qDebug() << "pages count in SCREEN_OPTION_GUIDE_1" << pages->size();
         page->nextPageIds.push_back(pages->size());
-        pages->push_back(new Page("Let's Go", SCREEN_ACTION, {PAGE_HOME}, rosNode->pubNavigation, page->rosData));
+        pages->push_back(new Page("Let's Go", SCREEN_ACTION, {PAGE_HOME}, rosNode->pubNavigation, page->rosData,true));
         page->nextPageIds.push_back(pages->size());
-        pages->push_back(new Page("Give Instructions", SCREEN_ACTION, {PAGE_HOME}, rosNode->pubGuideIns, page->rosData));
+        pages->push_back(new Page("Give Instructions", SCREEN_ACTION, {PAGE_HOME}, rosNode->pubGuideIns, page->rosData,true));
 
         qDebug() << "pages count in SCREEN_OPTION_GUIDE_2" << pages->size();
 

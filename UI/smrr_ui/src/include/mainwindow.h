@@ -30,7 +30,8 @@ class MainWindow : public QMainWindow
 
 public:    
     vector<Page*> *pages=nullptr;
-    QWidget *screen=nullptr;
+    QWidget *currentScreen=nullptr;
+    Page *currentPage=nullptr;
     // static vector<int> tmp;
     
     MainWindow(QWidget *parent = nullptr);
@@ -45,7 +46,7 @@ private:
 
 public slots:
     void updateTopicInfo(QString);    
-    void btnNext_clicked(int nextPageId);
+    void gotoPage(int pageId);
     void btnBack_clicked();
     void btnHome_clicked();
     // void on_btnOk_clicked(int);
