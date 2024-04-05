@@ -2,8 +2,8 @@
 
 
 
-Page::Page(QString name,SCREEN_ID screenId, vector<int> nextPageIds,PubStr pubStr, string rosData, bool noHist): 
-name(name),screenId(screenId),nextPageIds(nextPageIds),pubStr(pubStr),rosData(rosData),noHist(noHist)
+Page::Page(QString name,SCREEN_ID screenId, vector<int> nextPageIds,void (*emitPublish)(string), string rosData, bool noHist): 
+name(name),screenId(screenId),nextPageIds(nextPageIds),emitPublish(emitPublish),rosData(rosData),noHist(noHist)
 {
 }
 

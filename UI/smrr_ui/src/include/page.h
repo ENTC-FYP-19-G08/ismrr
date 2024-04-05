@@ -52,11 +52,11 @@ public:
     QString name;
     SCREEN_ID screenId;
     vector<int> nextPageIds;
-    PubStr pubStr;
+    void (*emitPublish)(string);
     string rosData;
     bool noHist;
 
-    Page(QString name, SCREEN_ID screenId, vector<int> nextPageIds, PubStr pubStr = nullptr, string rosData = "", bool noHist = false);
+    Page(QString name, SCREEN_ID screenId, vector<int> nextPageIds, void (*emitPublish)(string) = nullptr, string rosData = "", bool noHist = false);
     ~Page();
 };
 

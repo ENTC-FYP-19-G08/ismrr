@@ -28,24 +28,30 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-public:    
-    vector<Page*> *pages=nullptr;
-    QWidget *currentScreen=nullptr;
-    Page *currentPage=nullptr;
+public:
+    vector<Page *> *pages = nullptr;
+    QWidget *currentScreen = nullptr;
+    Page *currentPage = nullptr;
     // static vector<int> tmp;
-    
+
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     QWidget *createScreen(Page *page);
     rclcomm *rosNode;
-    
+
+    void emitPublishNavigation(string data);
+    void emitPublishGuideIns(string data);
 
 private:
-    Ui::MainWindow *ui;    
+    Ui::MainWindow *ui;
     void generateAllPages();
 
+signals:
+    void publishNavigation(string data);
+    void publishGudeIns(string data);
+
 public slots:
-    void updateTopicInfo(QString);    
+    void updateTopicInfo(QString);
     void gotoPage(int pageId);
     void btnBack_clicked();
     void btnHome_clicked();

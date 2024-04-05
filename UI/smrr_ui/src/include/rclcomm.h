@@ -16,14 +16,13 @@
 #include <std_msgs/msg/int32.hpp>
 #include <std_msgs/msg/string.hpp>
 
-typedef rclcpp::Publisher<std_msgs::msg::String>::SharedPtr PubStr;
-typedef rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr PubInt;
+typedef rclcpp::Publisher<std_msgs::msg::String>::SharedPtr PublisherStr;
+typedef rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr PublisherInt;
 
+typedef rclcpp::Subscription<std_msgs::msg::String>::SharedPtr SubcriberStr;
+typedef rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr SubscriberInt;
 
-typedef rclcpp::Subscription<std_msgs::msg::String>::SharedPtr SubStr;
-typedef rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr SubInt;
-
-class rclcomm:public QThread
+class rclcomm : public QThread
 {
     Q_OBJECT
 public:
@@ -31,26 +30,25 @@ public:
     void publish_topic(int count);
     void recv_callback(const std_msgs::msg::Int32::SharedPtr msg);
 
-    PubStr pubNavigation;
-    PubStr pubGuideIns;
-    PubStr pubTextInput;
-    PubInt pubNumInput;
-  
-    
+    PublisherStr publisherNavigation;
+    PublisherStr publisherGuideIns;
+    PublisherStr publisherTextInput;
+    PublisherInt publisherNumInput;
 
 protected:
     void run();
-private:
-    PubStr _publisher;
-    SubInt _subscription;    
 
+private:
+    PublisherStr _publisher;
+    SubscriberInt _subscription;
 
     std::shared_ptr<rclcpp::Node> node;
-
 signals:
     void emitTopicData(QString);
 public slots:
     void sendTopicData();
     void sendRosData(std::string data);
+    void publishNavigation(std::string data);
+    void publishGuideIns(std::string data);
 };
 #endif // RCLCOMM_H

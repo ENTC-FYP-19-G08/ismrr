@@ -20,13 +20,13 @@ rclcomm::rclcomm()
     node = rclcpp::Node::make_shared("smrr_ui_node");
     _publisher =
         node->create_publisher<std_msgs::msg::String>("ui_publisher", 10);
-    _subscription = node->create_subscription<std_msgs::msg::Int32>("ros2_qt_demo_publish", 10, std::bind(&rclcomm::recv_callback, this, std::placeholders::_1));
+    // _subscription = node->create_subscription<std_msgs::msg::Int32>("ros2_qt_demo_publish", 10, std::bind(&rclcomm::recv_callback, this, std::placeholders::_1));
+    
+    publisherNavigation = node->create_publisher<std_msgs::msg::String>("navigation", 10);
+    publisherGuideIns = node->create_publisher<std_msgs::msg::String>("guidance", 10);
 
-    pubNavigation = node->create_publisher<std_msgs::msg::String>("navigation", 10);
-    pubGuideIns = node->create_publisher<std_msgs::msg::String>("guidance", 10);
-
-    pubTextInput = node->create_publisher<std_msgs::msg::String>("text_input", 10);
-    pubNumInput = node->create_publisher<std_msgs::msg::Int32>("num_input", 10);
+    publisherTextInput = node->create_publisher<std_msgs::msg::String>("text_input", 10);
+    publisherNumInput = node->create_publisher<std_msgs::msg::Int32>("num_input", 10);
     
 
     this->start();
@@ -54,5 +54,19 @@ void rclcomm::sendRosData(std::string data)
     std_msgs::msg::String rosString;
     rosString.data = data;
     _publisher->publish(rosString);
+    qDebug() << "sending ros data: " << QString::fromStdString(data);
+}
+
+void rclcomm::publishNavigation(std::string data){
+    std_msgs::msg::String rosString;
+    rosString.data = data;
+    publisherNavigation->publish(rosString);
+    qDebug() << "sending ros data: " << QString::fromStdString(data);
+}
+
+void rclcomm::publishGuideIns(std::string data){
+    std_msgs::msg::String rosString;
+    rosString.data = data;
+    publisherGuideIns->publish(rosString);
     qDebug() << "sending ros data: " << QString::fromStdString(data);
 }

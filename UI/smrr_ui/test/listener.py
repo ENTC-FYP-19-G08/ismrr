@@ -21,7 +21,7 @@ subscription = node.create_subscription(
 
 
 
-print("listening..")
+print("listening..", topic)
 try:
     rclpy.spin(node)
 except KeyboardInterrupt:
