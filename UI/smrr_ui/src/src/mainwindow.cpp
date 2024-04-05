@@ -132,9 +132,9 @@ QWidget *MainWindow::createScreen(Page *page)
         page->nextPageIds.clear();
         qDebug() << "pages count in SCREEN_OPTION_GUIDE_1" << pages->size();
         page->nextPageIds.push_back(pages->size());
-        pages->push_back(new Page("Let's Go", SCREEN_ACTION, {PAGE_HOME}, rosNode->pubNavigation, page->rosData,true));
+        pages->push_back(new Page("Let's Go", SCREEN_ACTION, {}, rosNode->pubNavigation, page->rosData,true));
         page->nextPageIds.push_back(pages->size());
-        pages->push_back(new Page("Give Instructions", SCREEN_ACTION, {PAGE_HOME}, rosNode->pubGuideIns, page->rosData,true));
+        pages->push_back(new Page("Give Instructions", SCREEN_ACTION, {}, rosNode->pubGuideIns, page->rosData,true));
 
         qDebug() << "pages count in SCREEN_OPTION_GUIDE_2" << pages->size();
 
