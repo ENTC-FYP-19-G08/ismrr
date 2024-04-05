@@ -27,6 +27,10 @@ rclcomm::rclcomm()
 
     pubTextInput = node->create_publisher<std_msgs::msg::String>("text_input", 10);
     pubNumInput = node->create_publisher<std_msgs::msg::Int32>("num_input", 10);
+
+    subNavigationInfo=node->create_subscription<std_msgs::msg::String>("navigation_info", 10, std::bind(&rclcomm::onNavigationInfo_callback, this, std::placeholders::_1));
+    subGuideOptions=node->create_subscription<std_msgs::msg::String>("guide_options", 10, std::bind(&rclcomm::onGuideOptions_callback, this, std::placeholders::_1));
+
     
 
     this->start();
@@ -41,6 +45,18 @@ void rclcomm::recv_callback(const std_msgs::msg::Int32::SharedPtr msg)
 {
     //  RCLCPP_INFO(node->get_logger(), "I heard: '%d'", msg->data);
     emitTopicData("Recive:" + QString::fromStdString(std::to_string(msg->data)));
+}
+
+void rclcomm::onNavigationInfo_callback(const std_msgs::msg::String::SharedPtr msg)
+{
+    //  RCLCPP_INFO(node->get_logger(), "I heard: '%d'", msg->data); 
+    onNavigationInfo(QString::fromStdString(msg->data));
+}
+
+void rclcomm::onGuideOptions_callback(const std_msgs::msg::String::SharedPtr msg)
+{
+    //  RCLCPP_INFO(node->get_logger(), "I heard: '%d'", msg->data); 
+    onGuideOptions(QString::fromStdString(msg->data));
 }
 
 void rclcomm::sendTopicData()

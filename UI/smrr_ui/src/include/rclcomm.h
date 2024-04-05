@@ -30,13 +30,18 @@ public:
     rclcomm();
     void publish_topic(int count);
     void recv_callback(const std_msgs::msg::Int32::SharedPtr msg);
+    void onNavigationInfo_callback(const std_msgs::msg::String::SharedPtr msg);
+    void onGuideOptions_callback(const std_msgs::msg::String::SharedPtr msg);
+
+
 
     PubStr pubNavigation;
     PubStr pubGuideIns;
     PubStr pubTextInput;
     PubInt pubNumInput;
-  
-    
+
+    SubStr subNavigationInfo;
+    SubStr subGuideOptions;
 
 protected:
     void run();
@@ -49,6 +54,9 @@ private:
 
 signals:
     void emitTopicData(QString);
+    void onNavigationInfo(QString);
+    void onGuideOptions(QString);
+
 public slots:
     void sendTopicData();
     void sendRosData(std::string data);

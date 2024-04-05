@@ -1,19 +1,21 @@
 import rclpy
-from std_msgs.msg import Int32
+from std_msgs.msg import String
 
-topic="navigation_info"
+# topic="navigation_info"
+topic="guide_options"
+
 
 # Initialize ROS node
 rclpy.init()
 node = rclpy.create_node('sender')
 
-publisher= node.create_publisher(Int32,topic, 10)
+publisher= node.create_publisher(String,topic, 10)
 
 while True:
     i=input("Enter char to send: ")
     if i=='':break
-    msg = Int32()
-    msg.data = int(i) 
+    msg = String()
+    msg.data = i
     print(msg)   
     publisher.publish(msg)
 

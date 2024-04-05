@@ -50,6 +50,9 @@ public slots:
     void btnBack_clicked();
     void btnHome_clicked();
     // void on_btnOk_clicked(int);
-    // void on_btnBack_clicked();
+    // void on_btnBack_clicked();        
+    void onNavigationInfo(QString);
+    void onGuideOptions(QString);
+    
 };
 #endif // MAINWINDOW_H

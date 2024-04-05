@@ -34,6 +34,9 @@ MainWindow::MainWindow(QWidget *parent)
     // // connect(rosNode, SIGNAL(emitTopicData(QString)), this, SLOT(updateTopicInfo(QString)));
     // // connect(ui->pushButton, &QPushButton::clicked, rosNode, &rclcomm::sendTopicData);
 
+connect(rosNode,&rclcomm::onNavigationInfo,this,&MainWindow::onNavigationInfo);
+connect(rosNode,&rclcomm::onGuideOptions,this,&MainWindow::onGuideOptions);
+
     // qDebug() << "aaa run";
 }
 
@@ -57,6 +60,17 @@ void MainWindow::updateTopicInfo(QString data)
     // ui->label->clear();
     // ui->label->setText(data);
 }
+
+void MainWindow::onNavigationInfo(QString data)
+{
+    qDebug() << data << "onnavigationinfo main";    
+}
+void MainWindow::onGuideOptions(QString data)
+{
+    qDebug() << data << "onguideoptions main"; 
+}
+
+ 
 
 // void MainWindow::on_pushButton2_clicked()
 // {
