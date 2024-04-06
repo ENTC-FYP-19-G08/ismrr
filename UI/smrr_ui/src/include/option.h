@@ -21,7 +21,10 @@ enum PageId
     PAGE_ACTION,
     PAGE_NAVIGATION,
     PAGE_MAP,
-    PAGE_INFO};
+    PAGE_INFO,
+    PAGE_FACE,
+    PAGE_NAME,
+    PAGE_GREET};
 
 class Option
 {

@@ -25,8 +25,8 @@ rclcomm::rclcomm()
     pubGuideNavigation = node->create_publisher<std_msgs::msg::String>("/ui/guide_navigation", 10);
     pubGuideVerbal = node->create_publisher<std_msgs::msg::String>("/ui/guide_verbal", 10);
 
-    pubTrigger = node->create_publisher<std_msgs::msg::String>("text_input", 10);
-    pubUnknownUsername = node->create_publisher<std_msgs::msg::String>("num_input", 10);
+    pubTrigger = node->create_publisher<std_msgs::msg::String>("/ui/trigger", 10);
+    pubUnknownUsername = node->create_publisher<std_msgs::msg::String>("/ui/unkown_username", 10);
 
     subGuideNavigationResult=node->create_subscription<std_msgs::msg::String>("/ui/guide_navigation_result", 10, std::bind(&rclcomm::onGuideNavigationResult_callback, this, std::placeholders::_1));
     subGuideOptions=node->create_subscription<std_msgs::msg::String>("/ui/guide_options", 10, std::bind(&rclcomm::onGuideOptions_callback, this, std::placeholders::_1));

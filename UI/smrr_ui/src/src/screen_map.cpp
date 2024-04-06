@@ -19,8 +19,8 @@ ScreenMap::ScreenMap(QWidget *parent ,QString text, string data)
     rosString.data = data;
     mainWindow->rosNode->pubGuideVerbal->publish(rosString);   
 
-    connect(ui->btnBack, &QPushButton::clicked, static_cast<MainWindow *>(parent), &MainWindow::btnBack_clicked);
-    connect(ui->btnHome, &QPushButton::clicked, static_cast<MainWindow *>(parent), &MainWindow::btnHome_clicked);
+    connect(ui->btnBack, &QPushButton::clicked, mainWindow, &MainWindow::btnBack_clicked);
+    connect(ui->btnHome, &QPushButton::clicked, mainWindow, &MainWindow::btnHome_clicked);
 
 }
 

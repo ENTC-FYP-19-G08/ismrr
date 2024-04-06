@@ -30,8 +30,8 @@ ScreenOptionsTitled::ScreenOptionsTitled(QWidget *parent, vector<Option> *option
         ui->scrollLayout->addWidget(btnOption);
     }
 
-    connect(ui->btnBack, &QPushButton::clicked, static_cast<MainWindow *>(parent), &MainWindow::btnBack_clicked);
-    connect(ui->btnHome, &QPushButton::clicked, static_cast<MainWindow *>(parent), &MainWindow::btnHome_clicked);
+    connect(ui->btnBack, &QPushButton::clicked, mainWindow, &MainWindow::btnBack_clicked);
+    connect(ui->btnHome, &QPushButton::clicked, mainWindow, &MainWindow::btnHome_clicked);
 }
 
 ScreenOptionsTitled::~ScreenOptionsTitled()

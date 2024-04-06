@@ -14,6 +14,10 @@
 #include "screen_navigation.h"
 #include "screen_map.h"
 #include "screen_info.h"
+#include "screen_face.h"
+#include "screen_name.h"
+#include "screen_greet.h"
+
 // #include "screen_action.h"
 
 #include <QString>
@@ -85,10 +89,15 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     {
     case PAGE_HOME:
     {
-        vector<Option> options = {Option(PAGE_GUIDE, "Let's Talk")};
-        QWidget *screen = new ScreenOptionsTitled(this, &options,"Hi!!! \n I'm Devi");
+        vector<Option> options = {Option(PAGE_FACE, "Let's Talk")};
+        QWidget *screen = new ScreenOptionsTitled(this, &options, "Hi!!! \n I'm Devi");
         showScreen(screen);
         break;
+    }
+    case PAGE_FACE:
+    {
+        QWidget *screen = new ScreenFace(this);
+        showScreen(screen, false);
     }
     case PAGE_GUIDE:
     {
@@ -126,7 +135,7 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     case PAGE_INFO:
     {
         QWidget *screen = new ScreenInfo(this, text, data);
-        showScreen(screen,false);
+        showScreen(screen, false);
     }
     default:
         break;
