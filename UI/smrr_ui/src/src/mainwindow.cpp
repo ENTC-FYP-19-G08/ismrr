@@ -108,12 +108,12 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
         showScreen(screen);
         break;
     }case PAGE_NAVIGATION:{
-        QWidget *screen = new ScreenNavigation(this,  "Let' go to " + text + " !!!",data);
+        QWidget *screen = new ScreenNavigation(this,  "Let' go to " + locationMap[data] + " !!!",data);
         showScreen(screen);
         break;
     }
     case PAGE_MAP:{
-        QWidget *screen = new ScreenMap(this,  "Let' go to " + text + ". Map will be displayed here",data);
+        QWidget *screen = new ScreenMap(this,  "Let' go to " + locationMap[data] + ". Map will be displayed here",data);
         showScreen(screen);
         break;
     }
