@@ -39,8 +39,8 @@ MainWindow::MainWindow(QWidget *parent)
     // // connect(rosNode, SIGNAL(emitTopicData(QString)), this, SLOT(updateTopicInfo(QString)));
     // // connect(ui->pushButton, &QPushButton::clicked, rosNode, &rclcomm::sendTopicData);
 
-    // connect(rosNode, &rclcomm::onNavigationResult, this, &MainWindow::onNavigationResult);
-    // connect(rosNode, &rclcomm::onGuideOptions, this, &MainWindow::onGuideOptions);
+    connect(rosNode, &rclcomm::onGuideNavigationResult, this, &MainWindow::onGuideNavigationResult);
+    connect(rosNode, &rclcomm::onGuideOptions, this, &MainWindow::onGuideOptions);
 
     // qDebug() << "aaa run";
 }
@@ -66,13 +66,15 @@ void MainWindow::updateTopicInfo(QString data)
     // ui->label->setText(data);
 }
 
-void MainWindow::onNavigationResult(QString data)
+void MainWindow::onGuideNavigationResult(QString qdata)
 {
-    qDebug() << data << "onnavigationinfo main";
+    qDebug() << qdata << "onnavigationinfo main";
 }
-void MainWindow::onGuideOptions(QString data)
+void MainWindow::onGuideOptions(QString qdata)
 {
-    qDebug() << data << "onguideoptions main";
+    string data=qdata.toStdString();
+    gotoPage(PAGE_GUIDE_OPTIONS,locationMap[data],data);
+    qDebug() << qdata << "onguideoptions main";
 }
 
 void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubStr)

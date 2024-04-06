@@ -60,7 +60,7 @@ public slots:
     void btnHome_clicked();
     // void on_btnOk_clicked(int);
     // void on_btnBack_clicked();
-    void onNavigationResult(QString);
+    void onGuideNavigationResult(QString);
     void onGuideOptions(QString);
 };
 #endif // MAINWINDOW_H

@@ -30,7 +30,7 @@ public:
     rclcomm();
     void publish_topic(int count);
     void recv_callback(const std_msgs::msg::Int32::SharedPtr msg);
-    void onNavigationInfo_callback(const std_msgs::msg::String::SharedPtr msg);
+    void onGuideNavigationResult_callback(const std_msgs::msg::String::SharedPtr msg);
     void onGuideOptions_callback(const std_msgs::msg::String::SharedPtr msg);
 
 
@@ -40,7 +40,7 @@ public:
     PubStr pubTrigger;
     PubStr pubUnknownUsername;
 
-    SubStr subNavigationResult;
+    SubStr subGuideNavigationResult;
     SubStr subGuideOptions;
     SubStr subUsername;
 
@@ -55,7 +55,7 @@ private:
 
 signals:
     void emitTopicData(QString);
-    void onNavigationResult(QString);
+    void onGuideNavigationResult(QString);
     void onGuideOptions(QString);
     
 
