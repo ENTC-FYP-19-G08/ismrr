@@ -20,7 +20,8 @@ enum PageId
     PAGE_ABOUT_DEPARTMENT,
     PAGE_ACTION,
     PAGE_NAVIGATION,
-    PAGE_MAP};
+    PAGE_MAP,
+    PAGE_INFO};
 
 class Option
 {

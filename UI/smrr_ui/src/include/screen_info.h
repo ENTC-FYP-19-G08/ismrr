@@ -23,7 +23,7 @@ class ScreenInfo : public QDialog
     Q_OBJECT
 
 public:
-    explicit ScreenInfo(QWidget *parent = nullptr /*TODO: , vector<Option> *options=nullptr, QString text="", PubStr *pubStr = nullptr*, string data="" */);
+    explicit ScreenInfo(QWidget *parent = nullptr  , QString text="", string data="");
     ~ScreenInfo();
 
 private:

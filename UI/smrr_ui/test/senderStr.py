@@ -2,7 +2,9 @@ import rclpy
 from std_msgs.msg import String
 
 # topic="navigation_info"
-topic="guide_options"
+# topic="guide_options"
+topic="/ui/guide_navigation_result"
+
 
 
 # Initialize ROS node

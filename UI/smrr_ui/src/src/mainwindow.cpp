@@ -13,6 +13,7 @@
 #include "screen_optionstitled.h"
 #include "screen_navigation.h"
 #include "screen_map.h"
+#include "screen_info.h"
 // #include "screen_action.h"
 
 #include <QString>
@@ -28,10 +29,9 @@ MainWindow::MainWindow(QWidget *parent)
     // qDebug() << pgid;
 
     rosNode = new rclcomm();
-  
-  generateLocationMap();
-  qDebug()<<locationMap["ANALOG_LAB"];
 
+    generateLocationMap();
+    qDebug() << locationMap["ANALOG_LAB"];
 
     // gotoPage(PAGE_HOME);
     gotoPage(PAGE_HOME);
@@ -68,12 +68,13 @@ void MainWindow::updateTopicInfo(QString data)
 
 void MainWindow::onGuideNavigationResult(QString qdata)
 {
+    gotoPage(PAGE_INFO, "Navigation Result", qdata.toStdString());
     qDebug() << qdata << "onnavigationinfo main";
 }
 void MainWindow::onGuideOptions(QString qdata)
 {
-    string data=qdata.toStdString();
-    gotoPage(PAGE_GUIDE_OPTIONS,locationMap[data],data);
+    string data = qdata.toStdString();
+    gotoPage(PAGE_GUIDE_OPTIONS, locationMap[data], data);
     qDebug() << qdata << "onguideoptions main";
 }
 
@@ -109,22 +110,32 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
         QWidget *screen = new ScreenOptionsTitled(this, &options, "Do you want to go to " + text + "?");
         showScreen(screen);
         break;
-    }case PAGE_NAVIGATION:{
-        QWidget *screen = new ScreenNavigation(this,  "Let' go to " + locationMap[data] + " !!!",data);
+    }
+    case PAGE_NAVIGATION:
+    {
+        QWidget *screen = new ScreenNavigation(this, "Let' go to " + locationMap[data] + " !!!", data);
         showScreen(screen);
         break;
     }
-    case PAGE_MAP:{
-        QWidget *screen = new ScreenMap(this,  "Let' go to " + locationMap[data] + ". Map will be displayed here",data);
+    case PAGE_MAP:
+    {
+        QWidget *screen = new ScreenMap(this, "Let' go to " + locationMap[data] + ". Map will be displayed here", data);
         showScreen(screen);
         break;
+    }
+    case PAGE_INFO:
+    {
+        QWidget *screen = new ScreenInfo(this, text, data);
+        showScreen(screen,false);
     }
     default:
         break;
     }
-    QString pub="null";
-    if(pubStr==rosNode->pubGuideNavigation) pub="nav";
-    else if(pubStr==rosNode->pubGuideVerbal) pub="ver";
+    QString pub = "null";
+    if (pubStr == rosNode->pubGuideNavigation)
+        pub = "nav";
+    else if (pubStr == rosNode->pubGuideVerbal)
+        pub = "ver";
     qDebug() << "pageId:" << pageId << " text:" << text << " data:" << QString::fromStdString(data) << " pubStr:" << pub;
 }
 
@@ -175,14 +186,15 @@ QWidget *MainWindow::createScreen(Page *page)
     return nullptr;
 }
 
-void MainWindow::generateLocationMap(){
-    locationMap["VISION_LAB"]="Vision Lab";
-    locationMap["LIFT"]="Lift";
-    locationMap["PG_ROOM"]="PG Semminar Room";
-    locationMap["TELECOM_LAB"]="Telecom Lab";
-    locationMap["PG_LAB"]="PG Lab";
-    locationMap["3.5_LECTURE_HALL"]="3.5 Lecture Hall";
-    locationMap["WASHROOM"]="Washrooms";
+void MainWindow::generateLocationMap()
+{
+    locationMap["VISION_LAB"] = "Vision Lab";
+    locationMap["LIFT"] = "Lift";
+    locationMap["PG_ROOM"] = "PG Semminar Room";
+    locationMap["TELECOM_LAB"] = "Telecom Lab";
+    locationMap["PG_LAB"] = "PG Lab";
+    locationMap["3.5_LECTURE_HALL"] = "3.5 Lecture Hall";
+    locationMap["WASHROOM"] = "Washrooms";
 }
 
 void MainWindow::generateAllPages()

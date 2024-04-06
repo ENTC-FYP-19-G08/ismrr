@@ -4,7 +4,7 @@
 
 #include <QDebug>
 
-ScreenInfo::ScreenInfo(QWidget *parent /*TODO: , vector<Option> *options, QString text, PubStr *pubStr, string data="" */)
+ScreenInfo::ScreenInfo(QWidget *parent , QString text,  string data )
     : QDialog(parent), ui(new Ui::ScreenInfo)
 {
     ui->setupUi(this);
@@ -13,23 +13,7 @@ ScreenInfo::ScreenInfo(QWidget *parent /*TODO: , vector<Option> *options, QStrin
 
     qDebug() << "Info window loaded";
 
-    // ui->label->setText();
-
-    for (uint i = 0; i < options->size(); i++)
-    {
-        qDebug() << "screen_options:i" << i;
-
-        Option option = options->at(i);
-        QPushButton *btnOption = new QPushButton(option.text, this);
-        
-        btnOption->setMinimumHeight(100);
-        btnOption->setMaximumHeight(110);
-        
-        connect(btnOption, &QPushButton::clicked, [mainWindow, option]()
-                { mainWindow->gotoPage(option.pageId, option.text, option.data); });
-        ui->scrollLayout->addWidget(btnOption);
-       
-    }
+    ui->label->setText(text + " : " + QString::fromStdString(data));   
 
     connect(ui->btnBack, &QPushButton::clicked, static_cast<MainWindow *>(parent), &MainWindow::btnBack_clicked);
     connect(ui->btnHome, &QPushButton::clicked, static_cast<MainWindow *>(parent), &MainWindow::btnHome_clicked);
