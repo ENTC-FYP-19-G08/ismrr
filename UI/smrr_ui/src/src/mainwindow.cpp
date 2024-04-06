@@ -86,7 +86,7 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     case PAGE_HOME:
     {
         vector<Option> options = {Option(PAGE_GUIDE, "Let's Talk")};
-        QWidget *screen = new ScreenOptions(this, &options);
+        QWidget *screen = new ScreenOptionsTitled(this, &options,"Hi!!! \n I'm Devi");
         showScreen(screen);
         break;
     }
