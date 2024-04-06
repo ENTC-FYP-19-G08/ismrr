@@ -13,10 +13,14 @@
 #include <QMainWindow>
 #include <QMessageBox>
 
+#include <string>
+#include <map>
+
 #include "rclcomm.h"
 #include "page.h"
 #include "option.h"
-#include <iostream>
+
+using namespace std;
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -34,7 +38,7 @@ public:
     QWidget *currentScreen = nullptr;
     bool currentScreenHist = true;
     Page *currentPage = nullptr;
-
+    map<string, QString> locationMap;
     // static vector<int> tmp;
 
     MainWindow(QWidget *parent = nullptr);
@@ -43,6 +47,7 @@ public:
     rclcomm *rosNode;
 
     void showScreen(QWidget *screen, bool screenHist = true);
+    void generateLocationMap();
 
 private:
     Ui::MainWindow *ui;

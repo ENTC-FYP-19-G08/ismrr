@@ -28,9 +28,11 @@ MainWindow::MainWindow(QWidget *parent)
     // qDebug() << pgid;
 
     rosNode = new rclcomm();
-    // // gotoPage(PAGE_LABS);
+  
+  generateLocationMap();
+  qDebug()<<locationMap["ANALOG_LAB"];
 
-    generateAllPages();
+
     // gotoPage(PAGE_HOME);
     gotoPage(PAGE_HOME);
 
@@ -171,6 +173,16 @@ QWidget *MainWindow::createScreen(Page *page)
     return nullptr;
 }
 
+void MainWindow::generateLocationMap(){
+    locationMap["VISION_LAB"]="Vision Lab";
+    locationMap["LIFT"]="Lift";
+    locationMap["PG_ROOM"]="PG Semminar Room";
+    locationMap["TELECOM_LAB"]="Telecom Lab";
+    locationMap["PG_LAB"]="PG Lab";
+    locationMap["3.5_LECTURE_HALL"]="3.5 Lecture Hall";
+    locationMap["WASHROOM"]="Washrooms";
+}
+
 void MainWindow::generateAllPages()
 {
     // //     pages=new Page[1]{
@@ -178,8 +190,7 @@ void MainWindow::generateAllPages()
     // //     };
 
     // // pages.push_back(Page("option1",SCREEN_MENU_OPTIONS,{0,1},"rostopic",0));
-    // // pages.push_back(Page(0));
-    // // Page *page= new Page(0);
+    // // pages.push_back(Page(0));    // // Page *page= new Page(0);
 
     // pages = new vector<Page *>;
     // // pages->push_back(Page("pageHome", WINDOW1, {PAGE2}, NULL, 0));
