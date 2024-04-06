@@ -15,6 +15,7 @@
 
 #include "rclcomm.h"
 #include "page.h"
+#include "option.h"
 #include <iostream>
 
 QT_BEGIN_NAMESPACE
@@ -28,31 +29,32 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-public:    
-    vector<Page*> *pages=nullptr;
-    QWidget *currentScreen=nullptr;
-    Page *currentPage=nullptr;
+public:
+    vector<Page *> *pages = nullptr;
+    QWidget *currentScreen = nullptr;
+    bool currentScreenHist = true;
+    Page *currentPage = nullptr;
+
     // static vector<int> tmp;
-    
+
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     QWidget *createScreen(Page *page);
     rclcomm *rosNode;
-    
 
-private:
-    Ui::MainWindow *ui;    
+    void showScreen(QWidget *screen, bool screenHist = true)
+
+        private : Ui::MainWindow *ui;
     void generateAllPages();
 
 public slots:
-    void updateTopicInfo(QString);    
-    void gotoPage(int pageId);
+    void updateTopicInfo(QString);
+    void gotoPage(PageId pageId, QString text, string data);
     void btnBack_clicked();
     void btnHome_clicked();
     // void on_btnOk_clicked(int);
-    // void on_btnBack_clicked();        
+    // void on_btnBack_clicked();
     void onNavigationResult(QString);
     void onGuideOptions(QString);
-    
 };
 #endif // MAINWINDOW_H

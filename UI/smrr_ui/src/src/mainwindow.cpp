@@ -34,8 +34,8 @@ MainWindow::MainWindow(QWidget *parent)
     // // connect(rosNode, SIGNAL(emitTopicData(QString)), this, SLOT(updateTopicInfo(QString)));
     // // connect(ui->pushButton, &QPushButton::clicked, rosNode, &rclcomm::sendTopicData);
 
-connect(rosNode,&rclcomm::onNavigationResult,this,&MainWindow::onNavigationResult);
-connect(rosNode,&rclcomm::onGuideOptions,this,&MainWindow::onGuideOptions);
+    connect(rosNode, &rclcomm::onNavigationResult, this, &MainWindow::onNavigationResult);
+    connect(rosNode, &rclcomm::onGuideOptions, this, &MainWindow::onGuideOptions);
 
     // qDebug() << "aaa run";
 }
@@ -63,49 +63,42 @@ void MainWindow::updateTopicInfo(QString data)
 
 void MainWindow::onNavigationResult(QString data)
 {
-    qDebug() << data << "onnavigationinfo main";    
+    qDebug() << data << "onnavigationinfo main";
 }
 void MainWindow::onGuideOptions(QString data)
 {
-    qDebug() << data << "onguideoptions main"; 
+    qDebug() << data << "onguideoptions main";
 }
 
- 
-
-// void MainWindow::on_pushButton2_clicked()
-// {
-//     //    qDebug() << "button 2 click";
-//     //    ScreenOptions q;
-//     //    q.setModal(false);
-//     //    q.exec();
-//     //     q.show();
-//     // static int a=0;
-//     // vector<QString> strings={"aa","bb","ccccc","dd","ee","ih","hello"};
-//     // ScreenOptions *p=new ScreenOptions(this,&strings);
-//     // // p->showFullScreen();
-//     // // p->setAttribute(Qt::WA_DeleteOnClose);
-//     // ui->stackedWidget->addWidget(p);
-//     // ui->stackedWidget->setCurrentIndex(ui->stackedWidget->count()-1);
-//     // ScreenOptions *m=new ScreenOptions(this);
-//     // ui->stackedWidget->addWidget(m);
-// }
-
-void MainWindow::gotoPage(int pageId)
+void MainWindow::gotoPage(ageId pageId, QString text, string data)
 {
-    qDebug() << QString("mainwindow btn ok") + QString(pageId);
 
-    int topScreenIndex = ui->stackedWidget->count() - 1;
-    if (topScreenIndex > 0 && currentScreen != nullptr && currentPage !=nullptr && currentPage->noHist)
+    switch (pageId)
     {
-        ui->stackedWidget->removeWidget(currentScreen);
-        delete currentScreen;        
+    case PAGE_HOME:
+    {
+        vector<Option> options={Option(aa)}
+        break;
     }
 
+    default:
+        break;
+    }
+}
 
-    currentPage=pages->at(pageId);
-    currentScreen = createScreen(currentPage);
-    ui->stackedWidget->addWidget(currentScreen);
+void MainWindow::showScreen(QWidget *screen, bool screenHist)
+{
+    int topScreenIndex = ui->stackedWidget->count() - 1;
+    if (topScreenIndex > 0 && currentScreen != nullptr && currentScreenHist == false)
+    {
+        ui->stackedWidget->removeWidget(currentScreen);
+        delete currentScreen;
+    }
+    ui->stackedWidget->addWidget(screen);
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->count() - 1);
+
+    currentScreen = screen;
+    currentScreenHist = screenHist;
 }
 
 void MainWindow::btnBack_clicked()
@@ -146,9 +139,9 @@ QWidget *MainWindow::createScreen(Page *page)
         page->nextPageIds.clear();
         qDebug() << "pages count in SCREEN_OPTION_GUIDE_1" << pages->size();
         page->nextPageIds.push_back(pages->size());
-        pages->push_back(new Page("Let's Go", SCREEN_ACTION, {}, rosNode->pubGuideNavigation, page->rosData,true));
+        pages->push_back(new Page("Let's Go", SCREEN_ACTION, {}, rosNode->pubGuideNavigation, page->rosData, true));
         page->nextPageIds.push_back(pages->size());
-        pages->push_back(new Page("Give Instructions", SCREEN_ACTION, {}, rosNode->pubGuideVerbal, page->rosData,true));
+        pages->push_back(new Page("Give Instructions", SCREEN_ACTION, {}, rosNode->pubGuideVerbal, page->rosData, true));
 
         qDebug() << "pages count in SCREEN_OPTION_GUIDE_2" << pages->size();
 

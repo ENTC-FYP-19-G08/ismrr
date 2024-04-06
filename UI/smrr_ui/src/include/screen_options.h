@@ -5,6 +5,7 @@
 #include <vector>
 #include <QString>
 #include "page.h"
+#include "option.h"
 #include "mainwindow.h"
 
 using namespace std;
@@ -18,7 +19,7 @@ class ScreenOptions : public QDialog
     Q_OBJECT
 
 public:
-    explicit ScreenOptions(QWidget *parent = nullptr, Page *page = nullptr);
+    explicit ScreenOptions(QWidget *parent = nullptr, vector<Option> *options=nullptr);
     ~ScreenOptions();
 
 private:
