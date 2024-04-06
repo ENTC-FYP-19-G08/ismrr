@@ -98,6 +98,7 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     {
         QWidget *screen = new ScreenFace(this);
         showScreen(screen, false);
+        break;
     }
     case PAGE_GUIDE:
     {

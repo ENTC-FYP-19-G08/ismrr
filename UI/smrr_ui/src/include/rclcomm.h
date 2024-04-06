@@ -32,6 +32,7 @@ public:
     void recv_callback(const std_msgs::msg::Int32::SharedPtr msg);
     void onGuideNavigationResult_callback(const std_msgs::msg::String::SharedPtr msg);
     void onGuideOptions_callback(const std_msgs::msg::String::SharedPtr msg);
+    void onUsername_callback(const std_msgs::msg::String::SharedPtr msg);
 
 
 
@@ -57,6 +58,7 @@ signals:
     void emitTopicData(QString);
     void onGuideNavigationResult(QString);
     void onGuideOptions(QString);
+    void onUsername(QString);
     
 
 public slots:

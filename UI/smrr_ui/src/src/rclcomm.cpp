@@ -28,10 +28,9 @@ rclcomm::rclcomm()
     pubTrigger = node->create_publisher<std_msgs::msg::String>("/ui/trigger", 10);
     pubUnknownUsername = node->create_publisher<std_msgs::msg::String>("/ui/unkown_username", 10);
 
-    subGuideNavigationResult=node->create_subscription<std_msgs::msg::String>("/ui/guide_navigation_result", 10, std::bind(&rclcomm::onGuideNavigationResult_callback, this, std::placeholders::_1));
-    subGuideOptions=node->create_subscription<std_msgs::msg::String>("/ui/guide_options", 10, std::bind(&rclcomm::onGuideOptions_callback, this, std::placeholders::_1));
-
-    
+    subGuideNavigationResult = node->create_subscription<std_msgs::msg::String>("/ui/guide_navigation_result", 10, std::bind(&rclcomm::onGuideNavigationResult_callback, this, std::placeholders::_1));
+    subGuideOptions = node->create_subscription<std_msgs::msg::String>("/ui/guide_options", 10, std::bind(&rclcomm::onGuideOptions_callback, this, std::placeholders::_1));
+    subUsername = node->create_subscription<std_msgs::msg::String>("/ui/username", 10, std::bind(&rclcomm::onUsername_callback, this, std::placeholders::_1));
 
     this->start();
 }
@@ -49,14 +48,18 @@ void rclcomm::recv_callback(const std_msgs::msg::Int32::SharedPtr msg)
 
 void rclcomm::onGuideNavigationResult_callback(const std_msgs::msg::String::SharedPtr msg)
 {
-    //  RCLCPP_INFO(node->get_logger(), "I heard: '%d'", msg->data); 
+    //  RCLCPP_INFO(node->get_logger(), "I heard: '%d'", msg->data);
     onGuideNavigationResult(QString::fromStdString(msg->data));
 }
 
 void rclcomm::onGuideOptions_callback(const std_msgs::msg::String::SharedPtr msg)
 {
-    //  RCLCPP_INFO(node->get_logger(), "I heard: '%d'", msg->data); 
+    //  RCLCPP_INFO(node->get_logger(), "I heard: '%d'", msg->data);
     onGuideOptions(QString::fromStdString(msg->data));
+}
+
+void rclcomm::onUsername_callback(const std_msgs::msg::String::SharedPtr msg){
+    onUsername(QString::fromStdString(msg->data));
 }
 
 void rclcomm::sendTopicData()
