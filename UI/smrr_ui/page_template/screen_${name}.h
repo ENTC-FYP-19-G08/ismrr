@@ -2,9 +2,14 @@
 #define SCREEN_${NAME}_H
 
 #include <QDialog>
-#include <vector>
 #include <QString>
-#include "page.h"
+
+// #include <string>
+// #include <vector>
+
+// #include "rclcomm.h"
+// #include "option.h"
+
 #include "mainwindow.h"
 
 using namespace std;
@@ -18,7 +23,7 @@ class Screen${Name} : public QDialog
     Q_OBJECT
 
 public:
-    explicit Screen${Name}(QWidget *parent = nullptr, Page *page = nullptr);
+    explicit Screen${Name}(QWidget *parent = nullptr /*TODO: , vector<Option> *options=nullptr, string text="", PubStr *pubStr = nullptr*/);
     ~Screen${Name}();
 
 private:

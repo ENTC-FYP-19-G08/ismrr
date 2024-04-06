@@ -4,28 +4,31 @@
 
 #include <QDebug>
 
-Screen${Name}::Screen${Name}(QWidget *parent, Page *page)
+Screen${Name}::Screen${Name}(QWidget *parent /*TODO: , vector<Option> *options, string text, PubStr *pubStr */)
     : QDialog(parent), ui(new Ui::Screen${Name})
 {
     ui->setupUi(this);
 
-    qDebug() << "${name} window loaded";
-    ui->label->setText(page->name);
-    for (uint i = 0; i < page->nextPageIds.size(); i++)
+      MainWindow *mainWindow = static_cast<MainWindow *>(parent);
+
+    qDebug() << "${Name} window loaded";
+
+    // ui->label->setText();
+
+    for (uint i = 0; i < options->size(); i++)
     {
-        int nextPageId = page->nextPageIds.at(i);
-        QPushButton *btnOption = new QPushButton(MainWindow::pages->at(nextPageId).name,this);
-        // btnOption->setFixedHeight(60);
+        qDebug() << "screen_options:i" << i;
+
+        Option option = options->at(i);
+        QPushButton *btnOption = new QPushButton(option.text, this);
+        
         btnOption->setMinimumHeight(100);
         btnOption->setMaximumHeight(110);
-
-        // btnOption->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum); 
-        connect(btnOption, &QPushButton::clicked, [nextPageId, parent](){
-            static_cast<MainWindow*>(parent)->gotoPage(nextPageId);
-            qDebug() << "Button " << nextPageId << " clicked"; });
+        
+        connect(btnOption, &QPushButton::clicked, [mainWindow, option]()
+                { mainWindow->gotoPage(option.pageId, option.text, option.data); });
         ui->scrollLayout->addWidget(btnOption);
-        // ui->label->setText(ui->label->text()+str);
-        // qDebug()<<str;
+       
     }
 
     connect(ui->btnBack, &QPushButton::clicked, static_cast<MainWindow *>(parent), &MainWindow::btnBack_clicked);

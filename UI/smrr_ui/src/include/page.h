@@ -2,7 +2,7 @@
 #define PAGE_H
 
 #include <QString>
-#include <iostream>
+#include <string>
 #include <vector>
 #include <QtWidgets/qwidget.h>
 #include "rclcomm.h"
