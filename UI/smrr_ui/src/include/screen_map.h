@@ -23,7 +23,7 @@ class ScreenMap : public QDialog
     Q_OBJECT
 
 public:
-    explicit ScreenMap(QWidget *parent = nullptr /*TODO: , vector<Option> *options=nullptr, QString text="", PubStr *pubStr = nullptr*/);
+    explicit ScreenMap(QWidget *parent = nullptr ,QString text="", string data="");
     ~ScreenMap();
 
 private:

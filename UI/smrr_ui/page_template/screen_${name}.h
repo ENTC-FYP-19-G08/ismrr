@@ -23,7 +23,7 @@ class Screen${Name} : public QDialog
     Q_OBJECT
 
 public:
-    explicit Screen${Name}(QWidget *parent = nullptr /*TODO: , vector<Option> *options=nullptr, QString text="", PubStr *pubStr = nullptr*/);
+    explicit Screen${Name}(QWidget *parent = nullptr /*TODO: , vector<Option> *options=nullptr, QString text="", PubStr *pubStr = nullptr*, string data="" */);
     ~Screen${Name}();
 
 private:

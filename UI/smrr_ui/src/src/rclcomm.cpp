@@ -22,8 +22,8 @@ rclcomm::rclcomm()
         node->create_publisher<std_msgs::msg::String>("ui_publisher", 10);
     _subscription = node->create_subscription<std_msgs::msg::Int32>("ros2_qt_demo_publish", 10, std::bind(&rclcomm::recv_callback, this, std::placeholders::_1));
 
-    pubGuideNavigation = node->create_publisher<std_msgs::msg::String>("navigation", 10);
-    pubGuideVerbal = node->create_publisher<std_msgs::msg::String>("guidance", 10);
+    pubGuideNavigation = node->create_publisher<std_msgs::msg::String>("/ui/guide_navigation", 10);
+    pubGuideVerbal = node->create_publisher<std_msgs::msg::String>("/ui/guide_verbal", 10);
 
     pubTrigger = node->create_publisher<std_msgs::msg::String>("text_input", 10);
     pubUnknownUsername = node->create_publisher<std_msgs::msg::String>("num_input", 10);

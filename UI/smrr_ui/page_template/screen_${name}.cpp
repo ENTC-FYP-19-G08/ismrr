@@ -4,12 +4,12 @@
 
 #include <QDebug>
 
-Screen${Name}::Screen${Name}(QWidget *parent /*TODO: , vector<Option> *options, QString text, PubStr *pubStr */)
+Screen${Name}::Screen${Name}(QWidget *parent /*TODO: , vector<Option> *options, QString text, PubStr *pubStr, string data="" */)
     : QDialog(parent), ui(new Ui::Screen${Name})
 {
     ui->setupUi(this);
 
-      MainWindow *mainWindow = static_cast<MainWindow *>(parent);
+    MainWindow *mainWindow = static_cast<MainWindow *>(parent);
 
     qDebug() << "${Name} window loaded";
 

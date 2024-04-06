@@ -11,8 +11,10 @@
 #include "./ui_mainwindow.h"
 #include "screen_options.h"
 #include "screen_optionstitled.h"
+#include "screen_navigation.h"
+#include "screen_map.h"
 // #include "screen_action.h"
-// #include "./ui_screen_options.h"
+
 #include <QString>
 #include <QDebug>
 
@@ -99,8 +101,17 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     }
     case PAGE_GUIDE_OPTIONS:
     {
-        vector<Option> options = {Option(PAGE_ACTION, "Guide Me", data, rosNode->pubGuideNavigation), Option(PAGE_ACTION, "Verbal Instruction", data, rosNode->pubGuideVerbal)};
+        vector<Option> options = {Option(PAGE_NAVIGATION, "Guide Me", data, rosNode->pubGuideNavigation), Option(PAGE_MAP, "Verbal Instruction", data, rosNode->pubGuideVerbal)};
         QWidget *screen = new ScreenOptionsTitled(this, &options, "Do you want to go to " + text + "?");
+        showScreen(screen);
+        break;
+    }case PAGE_NAVIGATION:{
+        QWidget *screen = new ScreenNavigation(this,  "Let' go to " + text + " !!!",data);
+        showScreen(screen);
+        break;
+    }
+    case PAGE_MAP:{
+        QWidget *screen = new ScreenMap(this,  "Let' go to " + text + ". Map will be displayed here",data);
         showScreen(screen);
         break;
     }

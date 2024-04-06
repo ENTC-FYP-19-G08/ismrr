@@ -18,9 +18,9 @@ enum PageId
     PAGE_GUIDE_OPTIONS,
     PAGE_MEET,
     PAGE_ABOUT_DEPARTMENT,
-    PAGE_ACTION
-
-};
+    PAGE_ACTION,
+    PAGE_NAVIGATION,
+    PAGE_MAP};
 
 class Option
 {

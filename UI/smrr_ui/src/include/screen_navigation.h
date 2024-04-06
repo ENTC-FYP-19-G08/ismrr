@@ -4,18 +4,19 @@
 #include <QDialog>
 #include <QString>
 
-// #include <string>
+#include <string>
 // #include <vector>
 
-// #include "rclcomm.h"
+#include "rclcomm.h"
 // #include "option.h"
 
 #include "mainwindow.h"
 
 using namespace std;
 
-namespace Ui {
-class ScreenNavigation;
+namespace Ui
+{
+    class ScreenNavigation;
 }
 
 class ScreenNavigation : public QDialog
@@ -23,7 +24,7 @@ class ScreenNavigation : public QDialog
     Q_OBJECT
 
 public:
-    explicit ScreenNavigation(QWidget *parent = nullptr /*TODO: , vector<Option> *options=nullptr, QString text="", PubStr *pubStr = nullptr*/);
+    explicit ScreenNavigation(QWidget *parent = nullptr, QString text = "", string data = "");
     ~ScreenNavigation();
 
 private:

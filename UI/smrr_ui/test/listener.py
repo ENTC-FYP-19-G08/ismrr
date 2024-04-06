@@ -3,7 +3,7 @@ from std_msgs.msg import Int32,String
 from rclpy.node import Node
 
 
-topic="guidance"
+topic="/ui/guide_navigation"
 
 def message_callback(msg):   
     print("Received message:", msg.data, type(msg.data))
