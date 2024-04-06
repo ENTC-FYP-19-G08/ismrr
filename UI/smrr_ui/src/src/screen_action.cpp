@@ -8,17 +8,17 @@ ScreenAction::ScreenAction(QWidget *parent, Page *page)
     : QDialog(parent), ui(new Ui::ScreenAction)
 {
     ui->setupUi(this);
-    MainWindow *mainWindow = static_cast<MainWindow *>(parent);
-    qDebug() << "action window loaded";
-    ui->label->setText(page->name +" : "+ QString::fromStdString(page->rosData));
+    // MainWindow *mainWindow = static_cast<MainWindow *>(parent);
+    // qDebug() << "action window loaded";
+    // ui->label->setText(page->name +" : "+ QString::fromStdString(page->rosData));
 
-    // mainWindow->rosNode->sendRosData(page->rosData);
-    std_msgs::msg::String str;
-    str.data = page->rosData;   
-    page->pubStr->publish(str);
+    // // mainWindow->rosNode->sendRosData(page->rosData);
+    // std_msgs::msg::String str;
+    // str.data = page->rosData;   
+    // page->pubStr->publish(str);
 
-    connect(ui->btnBack, &QPushButton::clicked, mainWindow, &MainWindow::btnBack_clicked);
-    connect(ui->btnHome, &QPushButton::clicked, mainWindow, &MainWindow::btnHome_clicked);
+    // connect(ui->btnBack, &QPushButton::clicked, mainWindow, &MainWindow::btnBack_clicked);
+    // connect(ui->btnHome, &QPushButton::clicked, mainWindow, &MainWindow::btnHome_clicked);
 }
 
 ScreenAction::~ScreenAction()

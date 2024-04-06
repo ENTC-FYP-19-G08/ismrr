@@ -42,14 +42,15 @@ public:
     QWidget *createScreen(Page *page);
     rclcomm *rosNode;
 
-    void showScreen(QWidget *screen, bool screenHist = true)
+    void showScreen(QWidget *screen, bool screenHist = true);
 
-        private : Ui::MainWindow *ui;
+private:
+    Ui::MainWindow *ui;
     void generateAllPages();
 
 public slots:
     void updateTopicInfo(QString);
-    void gotoPage(PageId pageId, QString text, string data);
+    void gotoPage(PageId pageId, QString text="", string data="");
     void btnBack_clicked();
     void btnHome_clicked();
     // void on_btnOk_clicked(int);

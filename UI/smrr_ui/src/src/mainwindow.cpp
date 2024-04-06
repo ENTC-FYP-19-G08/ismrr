@@ -29,13 +29,13 @@ MainWindow::MainWindow(QWidget *parent)
 
     generateAllPages();
     // gotoPage(PAGE_HOME);
-    gotoPage(PAGE_GUIDE);
+    gotoPage(PAGE_HOME);
 
     // // connect(rosNode, SIGNAL(emitTopicData(QString)), this, SLOT(updateTopicInfo(QString)));
     // // connect(ui->pushButton, &QPushButton::clicked, rosNode, &rclcomm::sendTopicData);
 
-    connect(rosNode, &rclcomm::onNavigationResult, this, &MainWindow::onNavigationResult);
-    connect(rosNode, &rclcomm::onGuideOptions, this, &MainWindow::onGuideOptions);
+    // connect(rosNode, &rclcomm::onNavigationResult, this, &MainWindow::onNavigationResult);
+    // connect(rosNode, &rclcomm::onGuideOptions, this, &MainWindow::onGuideOptions);
 
     // qDebug() << "aaa run";
 }
@@ -70,17 +70,29 @@ void MainWindow::onGuideOptions(QString data)
     qDebug() << data << "onguideoptions main";
 }
 
-void MainWindow::gotoPage(ageId pageId, QString text, string data)
+void MainWindow::gotoPage(PageId pageId, QString text, string data)
 {
 
     switch (pageId)
     {
     case PAGE_HOME:
     {
-        vector<Option> options={Option(aa)}
+        vector<Option> options={Option(PAGE_GUIDE,"Let's Talk")};
+        QWidget *screen= new ScreenOptions(this,&options);
+        showScreen(screen);
+        break;
+    } case PAGE_GUIDE:{
+        vector<Option> options={Option(PAGE_GUIDE_LABS,"Labs"),Option(PAGE_GUIDE_HALLS,"Halls")};
+        QWidget *screen= new ScreenOptions(this,&options);
+        showScreen(screen);
         break;
     }
-
+    case PAGE_GUIDE_LABS:{
+        vector<Option> options={Option(PAGE_ACTION,"Analog Lab","LAB_ANALOG"),Option(PAGE_ACTION,"Digital Lab","LAB_DIGITAL")};
+        QWidget *screen= new ScreenOptions(this,&options);
+        showScreen(screen);
+        break;
+    }
     default:
         break;
     }
@@ -129,86 +141,86 @@ void MainWindow::btnHome_clicked()
 
 QWidget *MainWindow::createScreen(Page *page)
 {
-    switch (page->screenId)
-    {
-    case SCREEN_MENU_OPTIONS:
-        return new ScreenOptions(this, page);
-        break;
-    case SCREEN_GUIDE_OPTIONS:
+    // switch (page->screenId)
+    // {
+    // case SCREEN_MENU_OPTIONS:
+    //     return new ScreenOptions(this, page);
+    //     break;
+    // case SCREEN_GUIDE_OPTIONS:
 
-        page->nextPageIds.clear();
-        qDebug() << "pages count in SCREEN_OPTION_GUIDE_1" << pages->size();
-        page->nextPageIds.push_back(pages->size());
-        pages->push_back(new Page("Let's Go", SCREEN_ACTION, {}, rosNode->pubGuideNavigation, page->rosData, true));
-        page->nextPageIds.push_back(pages->size());
-        pages->push_back(new Page("Give Instructions", SCREEN_ACTION, {}, rosNode->pubGuideVerbal, page->rosData, true));
+    //     page->nextPageIds.clear();
+    //     qDebug() << "pages count in SCREEN_OPTION_GUIDE_1" << pages->size();
+    //     page->nextPageIds.push_back(pages->size());
+    //     pages->push_back(new Page("Let's Go", SCREEN_ACTION, {}, rosNode->pubGuideNavigation, page->rosData, true));
+    //     page->nextPageIds.push_back(pages->size());
+    //     pages->push_back(new Page("Give Instructions", SCREEN_ACTION, {}, rosNode->pubGuideVerbal, page->rosData, true));
 
-        qDebug() << "pages count in SCREEN_OPTION_GUIDE_2" << pages->size();
+    //     qDebug() << "pages count in SCREEN_OPTION_GUIDE_2" << pages->size();
 
-        qDebug() << page->nextPageIds[0] << page->name << QString::fromStdString(page->rosData);
+    //     qDebug() << page->nextPageIds[0] << page->name << QString::fromStdString(page->rosData);
 
-        return new ScreenOptions(this, page);
-        break;
+    //     return new ScreenOptions(this, page);
+    //     break;
 
-    case SCREEN_ACTION:
-        return new ScreenAction(this, page);
-        break;
+    // case SCREEN_ACTION:
+    //     return new ScreenAction(this, page);
+    //     break;
 
-    default:
-        break;
-    }
+    // default:
+    //     break;
+    // }
     return nullptr;
 }
 
 void MainWindow::generateAllPages()
 {
-    //     pages=new Page[1]{
-    // {"option1",0,{0,1},"rostopic",0}
-    //     };
+    // //     pages=new Page[1]{
+    // // {"option1",0,{0,1},"rostopic",0}
+    // //     };
 
-    // pages.push_back(Page("option1",SCREEN_MENU_OPTIONS,{0,1},"rostopic",0));
-    // pages.push_back(Page(0));
-    // Page *page= new Page(0);
+    // // pages.push_back(Page("option1",SCREEN_MENU_OPTIONS,{0,1},"rostopic",0));
+    // // pages.push_back(Page(0));
+    // // Page *page= new Page(0);
 
-    pages = new vector<Page *>;
-    // pages->push_back(Page("pageHome", WINDOW1, {PAGE2}, NULL, 0));
-    // pages->push_back(Page("page2", WINDOW1, {PAGE3, PAGE4, PAGE5}, "rostopic", 0));
-    // pages->push_back(Page("page3", WINDOW1, {PAGE6, PAGE1}, "rostopic", 0));
-    // pages->push_back(Page("page4", WINDOW1, {PAGE1, PAGE2}, "rostopic", 0));
-    // pages->push_back(Page("page5", WINDOW1, {PAGE2, PAGE3}, "rostopic", 0));
-    // pages->push_back(Page("page6", WINDOW1, {PAGE5, PAGE1}, "rostopic", 0));
+    // pages = new vector<Page *>;
+    // // pages->push_back(Page("pageHome", WINDOW1, {PAGE2}, NULL, 0));
+    // // pages->push_back(Page("page2", WINDOW1, {PAGE3, PAGE4, PAGE5}, "rostopic", 0));
+    // // pages->push_back(Page("page3", WINDOW1, {PAGE6, PAGE1}, "rostopic", 0));
+    // // pages->push_back(Page("page4", WINDOW1, {PAGE1, PAGE2}, "rostopic", 0));
+    // // pages->push_back(Page("page5", WINDOW1, {PAGE2, PAGE3}, "rostopic", 0));
+    // // pages->push_back(Page("page6", WINDOW1, {PAGE5, PAGE1}, "rostopic", 0));
 
-    // /*PAGE_HOME*/ pages->push_back(Page("Home", SCREEN_MENU_OPTIONS, {PAGE_BASIC_OPTIONS}));
-    // /*PAGE_BASIC_OPTIONS*/ pages->push_back(Page("Let's Talk", SCREEN_MENU_OPTIONS, {PAGE_GUIDE}));
-    // /*  PAGE_GUIDE*/ pages->push_back(Page("Guide Me", SCREEN_MENU_OPTIONS, {PAGE_GUIDE_OFFICE}));
-    // /*      PAGE_GUIDE_OFFICE*/ pages->push_back(Page("Office", SCREEN_GUIDE_OPTIONS, {PAGE_HOME, PAGE_HOME}, rosNode->pubGuideNavigation, "OFFICE"));
+    // // /*PAGE_HOME*/ pages->push_back(Page("Home", SCREEN_MENU_OPTIONS, {PAGE_BASIC_OPTIONS}));
+    // // /*PAGE_BASIC_OPTIONS*/ pages->push_back(Page("Let's Talk", SCREEN_MENU_OPTIONS, {PAGE_GUIDE}));
+    // // /*  PAGE_GUIDE*/ pages->push_back(Page("Guide Me", SCREEN_MENU_OPTIONS, {PAGE_GUIDE_OFFICE}));
+    // // /*      PAGE_GUIDE_OFFICE*/ pages->push_back(Page("Office", SCREEN_GUIDE_OPTIONS, {PAGE_HOME, PAGE_HOME}, rosNode->pubGuideNavigation, "OFFICE"));
 
-    /*PAGE_HOME*/ pages->push_back(new Page("Home", SCREEN_MENU_OPTIONS, {PAGE_BASIC_OPTIONS}));
-    /*PAGE_BASIC_OPTIONS*/ pages->push_back(new Page("Let's Talk", SCREEN_MENU_OPTIONS, {PAGE_GUIDE}));
-    /*  PAGE_GUIDE*/ pages->push_back(new Page("Guide Me", SCREEN_MENU_OPTIONS, {PAGE_GUIDE_OFFICE}));
-    /*      PAGE_GUIDE_OFFICE*/ pages->push_back(new Page("Office", SCREEN_GUIDE_OPTIONS, {PAGE_HOME, PAGE_HOME}, rosNode->pubGuideNavigation, "OFFICE"));
+    // /*PAGE_HOME*/ pages->push_back(new Page("Home", SCREEN_MENU_OPTIONS, {PAGE_BASIC_OPTIONS}));
+    // /*PAGE_BASIC_OPTIONS*/ pages->push_back(new Page("Let's Talk", SCREEN_MENU_OPTIONS, {PAGE_GUIDE}));
+    // /*  PAGE_GUIDE*/ pages->push_back(new Page("Guide Me", SCREEN_MENU_OPTIONS, {PAGE_GUIDE_OFFICE}));
+    // /*      PAGE_GUIDE_OFFICE*/ pages->push_back(new Page("Office", SCREEN_GUIDE_OPTIONS, {PAGE_HOME, PAGE_HOME}, rosNode->pubGuideNavigation, "OFFICE"));
 
-    // /*PAGE_HOME*/ pages->push_back(Page("Home", SCREEN_MENU_OPTIONS, {PAGE_BASIC_OPTIONS}));
-    // /*PAGE_BASIC_OPTIONS*/ pages->push_back(Page("Let's Talk", SCREEN_MENU_OPTIONS, {PAGE_GUIDE, PAGE_MEET, PAGE_ABOUT_DEPARTMENT}));
-    // /*  PAGE_GUIDE*/ pages->push_back(Page("Guide Me", SCREEN_MENU_OPTIONS, {PAGE_GUIDE_OFFICE,PAGE_GUIDE_LABS, PAGE_GUIDE_HALLS,PAGE_GUIDE_OTHER}));
-    // /*      PAGE_GUIDE_OFFICE*/ pages->push_back(Page("Office", SCREEN_ACTION, {},rosNode->pubGuideNavigation,"OFFICE"));
-    // /*      PAGE_GUIDE_LABS*/ pages->push_back(Page("Labs", SCREEN_MENU_OPTIONS, {PAGE_GUIDE_LAB_ANALOG,PAGE_GUIDE_LAB_DIGITAL,PAGE_GUIDE_LAB_TELECOM,PAGE_GUIDE_LAB_BM}));
-    // /*          PAGE_GUIDE_LAB_ANALOG*/ pages->push_back(Page("Analog Lab", SCREEN_ACTION, {},"navigation/LAB_ANALOG"));
-    // /*          PAGE_GUIDE_LAB_DIGITAL*/ pages->push_back(Page("Digital Lab", SCREEN_ACTION, {},"navigation/LAB_DIGITAL"));
-    // /*          PAGE_GUIDE_LAB_TELECOM*/ pages->push_back(Page("Telecom Lab", SCREEN_ACTION, {},"navigation/LAB_TELECOM"));
-    // /*          PAGE_GUIDE_LAB_BM*/ pages->push_back(Page("Bio-Medical Lab", SCREEN_ACTION, {},"navigation/LAB_BM"));
-    // /*      PAGE_GUIDE_HALLS*/ pages->push_back(Page("Halls", SCREEN_MENU_OPTIONS, {PAGE_GUIDE_HALL_ENTC1,PAGE_GUIDE_HALL_PG,PAGE_GUIDE_HALL_3P5}));
-    // /*          PAGE_GUIDE_HALL_ENTC1*/ pages->push_back(Page("ENTC1", SCREEN_ACTION, {},"navigation/HALL_ENTC1"));
-    // /*          PAGE_GUIDE_HALL_PG*/ pages->push_back(Page("PG Seminar Room", SCREEN_ACTION, {},"navigation/HALL_PG"));
-    // /*          PAGE_GUIDE_HALL_3P5*/ pages->push_back(Page("3.5 Hall", SCREEN_ACTION, {},"navigation/HALL_3P5"));
-    // /*      PAGE_GUIDE_OTHER*/ pages->push_back(Page("Other", SCREEN_MENU_OPTIONS, {PAGE_GUIDE_OTHER_WASHROOMS,PAGE_GUIDE_OTHER_LIFT,PAGE_GUIDE_OTHER_COMMON_LOWER,PAGE_GUIDE_OTHER_COMMON_UPPER}));
-    // /*          PAGE_GUIDE_OTHER_WASHROOMS*/ pages->push_back(Page("Washrooms", SCREEN_ACTION, {},"navigation/WASHROOMS"));
-    // /*          PAGE_GUIDE_OTHER_LIFT*/ pages->push_back(Page("Lift", SCREEN_ACTION, {},"navigation/LIFT"));
-    // /*          PAGE_GUIDE_OTHER_COMMON_LOWER*/ pages->push_back(Page("Lower Common", SCREEN_ACTION, {},"navigation/COMMON_LOWER"));
-    // /*          PAGE_GUIDE_OTHER_COMMON_UPPER*/ pages->push_back(Page("Upper Common", SCREEN_ACTION, {},"navigation/COMMON_UPPER"));
+    // // /*PAGE_HOME*/ pages->push_back(Page("Home", SCREEN_MENU_OPTIONS, {PAGE_BASIC_OPTIONS}));
+    // // /*PAGE_BASIC_OPTIONS*/ pages->push_back(Page("Let's Talk", SCREEN_MENU_OPTIONS, {PAGE_GUIDE, PAGE_MEET, PAGE_ABOUT_DEPARTMENT}));
+    // // /*  PAGE_GUIDE*/ pages->push_back(Page("Guide Me", SCREEN_MENU_OPTIONS, {PAGE_GUIDE_OFFICE,PAGE_GUIDE_LABS, PAGE_GUIDE_HALLS,PAGE_GUIDE_OTHER}));
+    // // /*      PAGE_GUIDE_OFFICE*/ pages->push_back(Page("Office", SCREEN_ACTION, {},rosNode->pubGuideNavigation,"OFFICE"));
+    // // /*      PAGE_GUIDE_LABS*/ pages->push_back(Page("Labs", SCREEN_MENU_OPTIONS, {PAGE_GUIDE_LAB_ANALOG,PAGE_GUIDE_LAB_DIGITAL,PAGE_GUIDE_LAB_TELECOM,PAGE_GUIDE_LAB_BM}));
+    // // /*          PAGE_GUIDE_LAB_ANALOG*/ pages->push_back(Page("Analog Lab", SCREEN_ACTION, {},"navigation/LAB_ANALOG"));
+    // // /*          PAGE_GUIDE_LAB_DIGITAL*/ pages->push_back(Page("Digital Lab", SCREEN_ACTION, {},"navigation/LAB_DIGITAL"));
+    // // /*          PAGE_GUIDE_LAB_TELECOM*/ pages->push_back(Page("Telecom Lab", SCREEN_ACTION, {},"navigation/LAB_TELECOM"));
+    // // /*          PAGE_GUIDE_LAB_BM*/ pages->push_back(Page("Bio-Medical Lab", SCREEN_ACTION, {},"navigation/LAB_BM"));
+    // // /*      PAGE_GUIDE_HALLS*/ pages->push_back(Page("Halls", SCREEN_MENU_OPTIONS, {PAGE_GUIDE_HALL_ENTC1,PAGE_GUIDE_HALL_PG,PAGE_GUIDE_HALL_3P5}));
+    // // /*          PAGE_GUIDE_HALL_ENTC1*/ pages->push_back(Page("ENTC1", SCREEN_ACTION, {},"navigation/HALL_ENTC1"));
+    // // /*          PAGE_GUIDE_HALL_PG*/ pages->push_back(Page("PG Seminar Room", SCREEN_ACTION, {},"navigation/HALL_PG"));
+    // // /*          PAGE_GUIDE_HALL_3P5*/ pages->push_back(Page("3.5 Hall", SCREEN_ACTION, {},"navigation/HALL_3P5"));
+    // // /*      PAGE_GUIDE_OTHER*/ pages->push_back(Page("Other", SCREEN_MENU_OPTIONS, {PAGE_GUIDE_OTHER_WASHROOMS,PAGE_GUIDE_OTHER_LIFT,PAGE_GUIDE_OTHER_COMMON_LOWER,PAGE_GUIDE_OTHER_COMMON_UPPER}));
+    // // /*          PAGE_GUIDE_OTHER_WASHROOMS*/ pages->push_back(Page("Washrooms", SCREEN_ACTION, {},"navigation/WASHROOMS"));
+    // // /*          PAGE_GUIDE_OTHER_LIFT*/ pages->push_back(Page("Lift", SCREEN_ACTION, {},"navigation/LIFT"));
+    // // /*          PAGE_GUIDE_OTHER_COMMON_LOWER*/ pages->push_back(Page("Lower Common", SCREEN_ACTION, {},"navigation/COMMON_LOWER"));
+    // // /*          PAGE_GUIDE_OTHER_COMMON_UPPER*/ pages->push_back(Page("Upper Common", SCREEN_ACTION, {},"navigation/COMMON_UPPER"));
 
-    // /*  PAGE_MEET*/ pages->push_back(Page("Meet Someone", SCREEN_MENU_OPTIONS, {PAGE_BASIC_OPTIONS}));
-    // /*  PAGE_ABOUT_DEPARTMENT*/ pages->push_back(Page("About Department", SCREEN_MENU_OPTIONS, {PAGE_BASIC_OPTIONS}));
+    // // /*  PAGE_MEET*/ pages->push_back(Page("Meet Someone", SCREEN_MENU_OPTIONS, {PAGE_BASIC_OPTIONS}));
+    // // /*  PAGE_ABOUT_DEPARTMENT*/ pages->push_back(Page("About Department", SCREEN_MENU_OPTIONS, {PAGE_BASIC_OPTIONS}));
 }
 
 // vector<Page> *MainWindow::pages = nullptr;

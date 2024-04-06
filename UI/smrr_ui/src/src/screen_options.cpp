@@ -25,10 +25,8 @@ ScreenOptions::ScreenOptions(QWidget *parent, vector<Option> *options)
         btnOption->setMaximumHeight(110);
 
         // btnOption->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-        connect(btnOption, &QPushButton::clicked, [option]()
-                {
-            mainWindow->gotoPage(option.pageId,option.text,option.option.data);
-            qDebug() << "Button " << nextPageId << " clicked"; });
+        connect(btnOption, &QPushButton::clicked, [mainWindow, option]()
+                { mainWindow->gotoPage(option.pageId, option.text, option.data); });
         ui->scrollLayout->addWidget(btnOption);
         // ui->label->setText(ui->label->text()+str);
         // qDebug()<<str;

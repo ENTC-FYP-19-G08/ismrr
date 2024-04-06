@@ -16,7 +16,8 @@ enum PageId
     PAGE_GUIDE_OTHER,
     PAGE_GUIDE_OPTIONS,
     PAGE_MEET,
-    PAGE_ABOUT_DEPARTMENT
+    PAGE_ABOUT_DEPARTMENT,
+    PAGE_ACTION
 
 };
 
@@ -27,7 +28,7 @@ public:
     PageId pageId;
     QString text;
     string data;
-    Option(PageId pageId, QString text, string data = "");
+    Option(PageId pageId, QString text="", string data = "");
 };
 
 #endif // OPTION_H
