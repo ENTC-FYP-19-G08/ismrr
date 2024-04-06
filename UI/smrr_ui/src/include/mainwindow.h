@@ -51,7 +51,7 @@ public slots:
     void btnHome_clicked();
     // void on_btnOk_clicked(int);
     // void on_btnBack_clicked();        
-    void onNavigationInfo(QString);
+    void onNavigationResult(QString);
     void onGuideOptions(QString);
     
 };

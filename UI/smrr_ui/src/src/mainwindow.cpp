@@ -34,7 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     // // connect(rosNode, SIGNAL(emitTopicData(QString)), this, SLOT(updateTopicInfo(QString)));
     // // connect(ui->pushButton, &QPushButton::clicked, rosNode, &rclcomm::sendTopicData);
 
-connect(rosNode,&rclcomm::onNavigationInfo,this,&MainWindow::onNavigationInfo);
+connect(rosNode,&rclcomm::onNavigationResult,this,&MainWindow::onNavigationResult);
 connect(rosNode,&rclcomm::onGuideOptions,this,&MainWindow::onGuideOptions);
 
     // qDebug() << "aaa run";
@@ -61,7 +61,7 @@ void MainWindow::updateTopicInfo(QString data)
     // ui->label->setText(data);
 }
 
-void MainWindow::onNavigationInfo(QString data)
+void MainWindow::onNavigationResult(QString data)
 {
     qDebug() << data << "onnavigationinfo main";    
 }
@@ -146,9 +146,9 @@ QWidget *MainWindow::createScreen(Page *page)
         page->nextPageIds.clear();
         qDebug() << "pages count in SCREEN_OPTION_GUIDE_1" << pages->size();
         page->nextPageIds.push_back(pages->size());
-        pages->push_back(new Page("Let's Go", SCREEN_ACTION, {}, rosNode->pubNavigation, page->rosData,true));
+        pages->push_back(new Page("Let's Go", SCREEN_ACTION, {}, rosNode->pubGuideNavigation, page->rosData,true));
         page->nextPageIds.push_back(pages->size());
-        pages->push_back(new Page("Give Instructions", SCREEN_ACTION, {}, rosNode->pubGuideIns, page->rosData,true));
+        pages->push_back(new Page("Give Instructions", SCREEN_ACTION, {}, rosNode->pubGuideVerbal, page->rosData,true));
 
         qDebug() << "pages count in SCREEN_OPTION_GUIDE_2" << pages->size();
 
@@ -188,17 +188,17 @@ void MainWindow::generateAllPages()
     // /*PAGE_HOME*/ pages->push_back(Page("Home", SCREEN_MENU_OPTIONS, {PAGE_BASIC_OPTIONS}));
     // /*PAGE_BASIC_OPTIONS*/ pages->push_back(Page("Let's Talk", SCREEN_MENU_OPTIONS, {PAGE_GUIDE}));
     // /*  PAGE_GUIDE*/ pages->push_back(Page("Guide Me", SCREEN_MENU_OPTIONS, {PAGE_GUIDE_OFFICE}));
-    // /*      PAGE_GUIDE_OFFICE*/ pages->push_back(Page("Office", SCREEN_GUIDE_OPTIONS, {PAGE_HOME, PAGE_HOME}, rosNode->pubNavigation, "OFFICE"));
+    // /*      PAGE_GUIDE_OFFICE*/ pages->push_back(Page("Office", SCREEN_GUIDE_OPTIONS, {PAGE_HOME, PAGE_HOME}, rosNode->pubGuideNavigation, "OFFICE"));
 
     /*PAGE_HOME*/ pages->push_back(new Page("Home", SCREEN_MENU_OPTIONS, {PAGE_BASIC_OPTIONS}));
     /*PAGE_BASIC_OPTIONS*/ pages->push_back(new Page("Let's Talk", SCREEN_MENU_OPTIONS, {PAGE_GUIDE}));
     /*  PAGE_GUIDE*/ pages->push_back(new Page("Guide Me", SCREEN_MENU_OPTIONS, {PAGE_GUIDE_OFFICE}));
-    /*      PAGE_GUIDE_OFFICE*/ pages->push_back(new Page("Office", SCREEN_GUIDE_OPTIONS, {PAGE_HOME, PAGE_HOME}, rosNode->pubNavigation, "OFFICE"));
+    /*      PAGE_GUIDE_OFFICE*/ pages->push_back(new Page("Office", SCREEN_GUIDE_OPTIONS, {PAGE_HOME, PAGE_HOME}, rosNode->pubGuideNavigation, "OFFICE"));
 
     // /*PAGE_HOME*/ pages->push_back(Page("Home", SCREEN_MENU_OPTIONS, {PAGE_BASIC_OPTIONS}));
     // /*PAGE_BASIC_OPTIONS*/ pages->push_back(Page("Let's Talk", SCREEN_MENU_OPTIONS, {PAGE_GUIDE, PAGE_MEET, PAGE_ABOUT_DEPARTMENT}));
     // /*  PAGE_GUIDE*/ pages->push_back(Page("Guide Me", SCREEN_MENU_OPTIONS, {PAGE_GUIDE_OFFICE,PAGE_GUIDE_LABS, PAGE_GUIDE_HALLS,PAGE_GUIDE_OTHER}));
-    // /*      PAGE_GUIDE_OFFICE*/ pages->push_back(Page("Office", SCREEN_ACTION, {},rosNode->pubNavigation,"OFFICE"));
+    // /*      PAGE_GUIDE_OFFICE*/ pages->push_back(Page("Office", SCREEN_ACTION, {},rosNode->pubGuideNavigation,"OFFICE"));
     // /*      PAGE_GUIDE_LABS*/ pages->push_back(Page("Labs", SCREEN_MENU_OPTIONS, {PAGE_GUIDE_LAB_ANALOG,PAGE_GUIDE_LAB_DIGITAL,PAGE_GUIDE_LAB_TELECOM,PAGE_GUIDE_LAB_BM}));
     // /*          PAGE_GUIDE_LAB_ANALOG*/ pages->push_back(Page("Analog Lab", SCREEN_ACTION, {},"navigation/LAB_ANALOG"));
     // /*          PAGE_GUIDE_LAB_DIGITAL*/ pages->push_back(Page("Digital Lab", SCREEN_ACTION, {},"navigation/LAB_DIGITAL"));

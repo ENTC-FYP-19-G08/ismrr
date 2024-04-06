@@ -35,13 +35,14 @@ public:
 
 
 
-    PubStr pubNavigation;
-    PubStr pubGuideIns;
-    PubStr pubTextInput;
-    PubInt pubNumInput;
+    PubStr pubGuideNavigation;
+    PubStr pubGuideVerbal;
+    PubStr pubTrigger;
+    PubStr pubUnknownUsername;
 
-    SubStr subNavigationInfo;
+    SubStr subNavigationResult;
     SubStr subGuideOptions;
+    SubStr subUsername;
 
 protected:
     void run();
@@ -54,8 +55,9 @@ private:
 
 signals:
     void emitTopicData(QString);
-    void onNavigationInfo(QString);
+    void onNavigationResult(QString);
     void onGuideOptions(QString);
+    
 
 public slots:
     void sendTopicData();
