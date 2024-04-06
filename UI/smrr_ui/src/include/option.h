@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <vector>
+#include "rclcomm.h"
 
 using namespace std;
 
@@ -28,7 +29,8 @@ public:
     PageId pageId;
     QString text;
     string data;
-    Option(PageId pageId, QString text="", string data = "");
+    PubStr pubStr;
+    Option(PageId pageId, QString text = "", string data = "", PubStr pubStr = nullptr);
 };
 
 #endif // OPTION_H

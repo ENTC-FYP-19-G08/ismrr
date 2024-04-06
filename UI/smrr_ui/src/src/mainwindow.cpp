@@ -10,7 +10,8 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include "screen_options.h"
-#include "screen_action.h"
+#include "screen_optionstitled.h"
+// #include "screen_action.h"
 // #include "./ui_screen_options.h"
 #include <QString>
 #include <QDebug>
@@ -70,32 +71,46 @@ void MainWindow::onGuideOptions(QString data)
     qDebug() << data << "onguideoptions main";
 }
 
-void MainWindow::gotoPage(PageId pageId, QString text, string data)
+void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubStr)
 {
 
     switch (pageId)
     {
     case PAGE_HOME:
     {
-        vector<Option> options={Option(PAGE_GUIDE,"Let's Talk")};
-        QWidget *screen= new ScreenOptions(this,&options);
-        showScreen(screen);
-        break;
-    } case PAGE_GUIDE:{
-        vector<Option> options={Option(PAGE_GUIDE_LABS,"Labs"),Option(PAGE_GUIDE_HALLS,"Halls")};
-        QWidget *screen= new ScreenOptions(this,&options);
+        vector<Option> options = {Option(PAGE_GUIDE, "Let's Talk")};
+        QWidget *screen = new ScreenOptions(this, &options);
         showScreen(screen);
         break;
     }
-    case PAGE_GUIDE_LABS:{
-        vector<Option> options={Option(PAGE_ACTION,"Analog Lab","LAB_ANALOG"),Option(PAGE_ACTION,"Digital Lab","LAB_DIGITAL")};
-        QWidget *screen= new ScreenOptions(this,&options);
+    case PAGE_GUIDE:
+    {
+        vector<Option> options = {Option(PAGE_GUIDE_LABS, "Labs"), Option(PAGE_GUIDE_HALLS, "Halls")};
+        QWidget *screen = new ScreenOptions(this, &options);
+        showScreen(screen);
+        break;
+    }
+    case PAGE_GUIDE_LABS:
+    {
+        vector<Option> options = {Option(PAGE_GUIDE_OPTIONS, "Vision Lab", "VISION_LAB"), Option(PAGE_GUIDE_OPTIONS, "Telecom Lab", "TELECOM_LAB")};
+        QWidget *screen = new ScreenOptions(this, &options);
+        showScreen(screen);
+        break;
+    }
+    case PAGE_GUIDE_OPTIONS:
+    {
+        vector<Option> options = {Option(PAGE_ACTION, "Guide Me", data, rosNode->pubGuideNavigation), Option(PAGE_ACTION, "Verbal Instruction", data, rosNode->pubGuideVerbal)};
+        QWidget *screen = new ScreenOptionsTitled(this, &options, "Do you want to go to " + text + "?");
         showScreen(screen);
         break;
     }
     default:
         break;
     }
+    QString pub="null";
+    if(pubStr==rosNode->pubGuideNavigation) pub="nav";
+    else if(pubStr==rosNode->pubGuideVerbal) pub="ver";
+    qDebug() << "pageId:" << pageId << " text:" << text << " data:" << QString::fromStdString(data) << " pubStr:" << pub;
 }
 
 void MainWindow::showScreen(QWidget *screen, bool screenHist)
@@ -141,34 +156,7 @@ void MainWindow::btnHome_clicked()
 
 QWidget *MainWindow::createScreen(Page *page)
 {
-    // switch (page->screenId)
-    // {
-    // case SCREEN_MENU_OPTIONS:
-    //     return new ScreenOptions(this, page);
-    //     break;
-    // case SCREEN_GUIDE_OPTIONS:
 
-    //     page->nextPageIds.clear();
-    //     qDebug() << "pages count in SCREEN_OPTION_GUIDE_1" << pages->size();
-    //     page->nextPageIds.push_back(pages->size());
-    //     pages->push_back(new Page("Let's Go", SCREEN_ACTION, {}, rosNode->pubGuideNavigation, page->rosData, true));
-    //     page->nextPageIds.push_back(pages->size());
-    //     pages->push_back(new Page("Give Instructions", SCREEN_ACTION, {}, rosNode->pubGuideVerbal, page->rosData, true));
-
-    //     qDebug() << "pages count in SCREEN_OPTION_GUIDE_2" << pages->size();
-
-    //     qDebug() << page->nextPageIds[0] << page->name << QString::fromStdString(page->rosData);
-
-    //     return new ScreenOptions(this, page);
-    //     break;
-
-    // case SCREEN_ACTION:
-    //     return new ScreenAction(this, page);
-    //     break;
-
-    // default:
-    //     break;
-    // }
     return nullptr;
 }
 

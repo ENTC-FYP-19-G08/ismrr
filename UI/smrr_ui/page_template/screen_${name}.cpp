@@ -4,7 +4,7 @@
 
 #include <QDebug>
 
-Screen${Name}::Screen${Name}(QWidget *parent /*TODO: , vector<Option> *options, string text, PubStr *pubStr */)
+Screen${Name}::Screen${Name}(QWidget *parent /*TODO: , vector<Option> *options, QString text, PubStr *pubStr */)
     : QDialog(parent), ui(new Ui::Screen${Name})
 {
     ui->setupUi(this);

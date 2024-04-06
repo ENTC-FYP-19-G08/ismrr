@@ -26,7 +26,7 @@ ScreenOptions::ScreenOptions(QWidget *parent, vector<Option> *options)
 
         // btnOption->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
         connect(btnOption, &QPushButton::clicked, [mainWindow, option]()
-                { mainWindow->gotoPage(option.pageId, option.text, option.data); });
+                { mainWindow->gotoPage(option.pageId, option.text, option.data,option.pubStr); });
         ui->scrollLayout->addWidget(btnOption);
         // ui->label->setText(ui->label->text()+str);
         // qDebug()<<str;

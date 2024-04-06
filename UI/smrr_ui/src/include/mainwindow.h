@@ -50,7 +50,7 @@ private:
 
 public slots:
     void updateTopicInfo(QString);
-    void gotoPage(PageId pageId, QString text="", string data="");
+    void gotoPage(PageId pageId, QString text="", string data="",PubStr pubStr=nullptr);
     void btnBack_clicked();
     void btnHome_clicked();
     // void on_btnOk_clicked(int);
