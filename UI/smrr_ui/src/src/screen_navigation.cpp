@@ -9,7 +9,7 @@ ScreenNavigation::ScreenNavigation(QWidget *parent, QString text,string data)
 {
     ui->setupUi(this);
 
-    MainWindow *mainWindow = static_cast<MainWindow *>(parent);
+    mainWindow = static_cast<MainWindow *>(parent);
 
     qDebug() << "Navigation window loaded";
 
@@ -19,6 +19,8 @@ ScreenNavigation::ScreenNavigation(QWidget *parent, QString text,string data)
     rosString.data = data;
     mainWindow->rosNode->pubGuideNavigation->publish(rosString);
 
+    connect(mainWindow->rosNode, &rclcomm::onGuideNavigationResult, this, &ScreenNavigation::onGuideNavigationResult);
+
     connect(ui->btnBack, &QPushButton::clicked, mainWindow, &MainWindow::btnBack_clicked);
     connect(ui->btnHome, &QPushButton::clicked, mainWindow, &MainWindow::btnHome_clicked);
 
@@ -27,4 +29,10 @@ ScreenNavigation::ScreenNavigation(QWidget *parent, QString text,string data)
 ScreenNavigation::~ScreenNavigation()
 {
     delete ui;
+}
+
+void ScreenNavigation::onGuideNavigationResult(QString qdata)
+{
+    mainWindow->gotoPage(PAGE_INFO, "Navigation Result", qdata.toStdString());
+    qDebug() << qdata << "onnavigationinfo main";
 }

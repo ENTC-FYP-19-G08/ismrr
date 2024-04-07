@@ -38,12 +38,12 @@ MainWindow::MainWindow(QWidget *parent)
     qDebug() << locationMap["ANALOG_LAB"];
 
     // gotoPage(PAGE_HOME);
-    gotoPage(PAGE_HOME);
+    gotoPage(PAGE_GUIDE);
 
     // // connect(rosNode, SIGNAL(emitTopicData(QString)), this, SLOT(updateTopicInfo(QString)));
     // // connect(ui->pushButton, &QPushButton::clicked, rosNode, &rclcomm::sendTopicData);
 
-    connect(rosNode, &rclcomm::onGuideNavigationResult, this, &MainWindow::onGuideNavigationResult);
+    // connect(rosNode, &rclcomm::onGuideNavigationResult, this, &MainWindow::onGuideNavigationResult);
     connect(rosNode, &rclcomm::onGuideOptions, this, &MainWindow::onGuideOptions);
 
     // qDebug() << "aaa run";
@@ -124,7 +124,7 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     case PAGE_NAVIGATION:
     {
         QWidget *screen = new ScreenNavigation(this, "Let' go to " + locationMap[data] + " !!!", data);
-        showScreen(screen);
+        showScreen(screen,false);
         break;
     }
     case PAGE_MAP:

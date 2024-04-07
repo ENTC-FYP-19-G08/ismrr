@@ -8,7 +8,7 @@
 // #include <vector>
 
 #include "rclcomm.h"
-// #include "option.h"
+#include "option.h"
 
 #include "mainwindow.h"
 
@@ -24,8 +24,12 @@ class ScreenNavigation : public QDialog
     Q_OBJECT
 
 public:
+    MainWindow *mainWindow;
     explicit ScreenNavigation(QWidget *parent = nullptr, QString text = "", string data = "");
     ~ScreenNavigation();
+
+public slots:
+    void onGuideNavigationResult(QString);
 
 private:
     Ui::ScreenNavigation *ui;
