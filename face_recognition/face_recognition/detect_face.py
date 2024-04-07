@@ -5,6 +5,7 @@ import cv2 as cv
 import time
 import shutil
 import operator
+import numpy as np
 
 import rclpy
 from rclpy.node import Node
@@ -27,14 +28,14 @@ class face_recog(Node):
         self.image_path = path_prefix + '/src/face_recognition/images'
         self.unkown_path = path_prefix + '/src/face_recognition/cached_images'
 
-        self.people_publisher = self.create_publisher(String, '/smrr/face_recog/people', 2)
+        # self.people_publisher = self.create_publisher(String, '/smrr/face_recog/people', 2)
 
         self.br = CvBridge()
         self.image_subscriber = self.create_subscription(Image, '/zed/zed_node/left/image_rect_color',self.captureCam,2)
-        self.vid_frame = None
-        # self.trigger_subscriber = self.create_subscription(Bool, '/smrr/face_recog/trigger',self.triggerDetection,2)
+        self.vid_frame = [None]
+        self.name_subscriber = self.create_subscription(String, '/ui/unknown_username',self.setUnknownName,2)
 
-        self.recognition_service = self.create_service(FaceRecogRequest, '/smrr/face_recog_srv', self.checkFrame)
+        self.recognition_service = self.create_service(FaceRecogRequest, '/smrr_face_recog_srv', self.checkFrame)
 
         self.known_count = 0
         self.unknown_count = 0    
@@ -43,6 +44,7 @@ class face_recog(Node):
         self.face_x_coord = {'unknown':0}
 
         self.frame_count = 10
+        self.frame_buffer = 20
         self.current_frame = 0
         self.frame_w = 0
         self.frame_h = 0
@@ -51,20 +53,58 @@ class face_recog(Node):
         self.max_angle = 145
         self.min_angle = 45
         self.person_name = ""
+        self.received_name = [""]
+        self.max_count_name = ""
 
         # self.triggered = False
 
     def captureCam(self,msg):
-        self.vid_frame = msg
+        self.vid_frame.append(msg)
+        # print(">> Image added")
+        if len(self.vid_frame)>self.frame_buffer:
+            self.vid_frame = self.vid_frame[1:]
+
+    def setUnknownName(self,msg):
+        print(">> recieved: ",msg.data)
+        self.received_name.append(msg.data)
+        if len(self.received_name)==10:
+            self.received_name = self.received_name[9:]
+
+        if self.max_count_name == 'unknown' and self.known_stats['unknown']!=0:
+            # unknown_name = input("Give me your name: ") 
+            
+            # print("waiting for name")
+            # while(self.received_name[-1]==""):
+            #     pass
+
+            unknown_name = self.received_name[-1]
+            print("Setting unknown name")
+
+            if (unknown_name != "SKIP"):
+
+                # rename and moves the files to new location
+                os.rename(self.unkown_path,osp.join(self.image_path,'people',unknown_name))
+                print("New person registered."+unknown_name)
+
+            else:
+                shutil.rmtree(self.unkown_path)
+                print("cached images deleted because name is not given.")
     
     def checkFrame(self,request,response):
         print("request received")
         need_name = request.name_request
         need_angle = request.angle_request
 
+        # reset stats
+        self.current_frame = 0
+        self.known_count=0
+        self.unknown_count=0
+        self.known_stats = {'unknown':0}
+        self.max_count_name = ""
+
         while self.current_frame<self.frame_count:
 
-            video_frame = self.br.imgmsg_to_cv2(self.vid_frame)
+            video_frame = self.br.imgmsg_to_cv2(self.vid_frame[self.current_frame])
             if self.frame_h==0 and self.frame_w==0:
                 # print(video_frame.shape)
                 self.frame_h = video_frame.shape[0]
@@ -93,41 +133,25 @@ class face_recog(Node):
 
             self.current_frame+=1
 
-            if self.current_frame==self.frame_count:
-                # self.camera.release()
-                cv.destroyAllWindows()
+        # end of loop
 
-                max_count_name = max(self.known_stats.items(), key=operator.itemgetter(1))[0]
+        cv.destroyAllWindows()
 
-                if max_count_name == 'unknown' and self.known_stats['unknown']!=0:
-                    unknown_name = input("Give me your name: ") 
-                    # rename and moves the files to new location
-                    os.rename(self.unkown_path,osp.join(self.image_path,'people',unknown_name))
-                    print("New person registered."+unknown_name)
-                else:
-                    if osp.exists(self.unkown_path):
-                        shutil.rmtree(self.unkown_path)
-                        print("cached images deleted because person is identified.")
-                    
-                 # publish results
-                msg = String()
-                msg.data = str(self.known_stats)
-                self.people_publisher.publish(msg)
+        self.max_count_name = max(self.known_stats.items(), key=operator.itemgetter(1))[0]
 
-                # reset stats
-                self.current_frame = 0
-                self.known_count=0
-                self.unknown_count=0
-                self.known_stats = {'unknown':0}
-
-                # self.triggered = False
-
-               
-                # print(self.face_x_coord[max_count_name])
-                response.name = max_count_name
-                response.angle = self.x_coord_to_angle(self.face_x_coord[max_count_name])
+        if self.max_count_name != 'unknown':
+            if osp.exists(self.unkown_path):
+                shutil.rmtree(self.unkown_path)
+                print("cached images deleted because person is identified.")
                 
-                return response
+            
+
+            
+            # print(self.face_x_coord[max_count_name])
+        response.name = self.max_count_name
+        response.angle = self.x_coord_to_angle(self.face_x_coord[self.max_count_name])
+        
+        return response
 
         
 
@@ -177,14 +201,7 @@ class face_recog(Node):
 
                     cv.rectangle(vid, (x, y), (x + w, y + h), (0, 255, 0), 4)
                     cv.putText(vid, person_name, (x,y+h+20), cv.FONT_HERSHEY_SIMPLEX, 0.75, (0, 255, 0), 2, cv.LINE_AA) 
-        #       
-            
-                # for h in person['identity']:
-                #     print(h.split('/')[8])
-            # else:
-            #     person_name = person[0]['identity'][0].split('/')[8]
-            #     cv.putText(vid, person_name, (x,y+h+20), cv.FONT_HERSHEY_SIMPLEX, 0.75, (0, 255, 0), 2, cv.LINE_AA) 
-            # print(person_path[8])
+   
 
         else: 
             self.unknown_count+=1
