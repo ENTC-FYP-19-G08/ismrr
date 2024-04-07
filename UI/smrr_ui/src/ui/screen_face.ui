@@ -95,6 +95,19 @@
     <bool>false</bool>
    </property>
   </widget>
+  <widget class="QPushButton" name="btnSkip">
+   <property name="geometry">
+    <rect>
+     <x>650</x>
+     <y>400</y>
+     <width>111</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Skip</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
