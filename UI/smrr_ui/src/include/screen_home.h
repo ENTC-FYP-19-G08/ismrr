@@ -8,14 +8,15 @@
 // #include <vector>
 
 // #include "rclcomm.h"
-// #include "option.h"
+#include "option.h"
 
 #include "mainwindow.h"
 
 using namespace std;
 
-namespace Ui {
-class ScreenHome;
+namespace Ui
+{
+    class ScreenHome;
 }
 
 class ScreenHome : public QDialog
@@ -23,8 +24,12 @@ class ScreenHome : public QDialog
     Q_OBJECT
 
 public:
-    explicit ScreenHome(QWidget *parent = nullptr /*TODO: , vector<Option> *options=nullptr, QString text="", PubStr *pubStr = nullptr*, string data="" */);
+    MainWindow *mainWindow;
+    explicit ScreenHome(QWidget *parent = nullptr, vector<Option> *options = nullptr, QString text = "");
     ~ScreenHome();
+
+public slots:
+    void onUsername(QString);
 
 private:
     Ui::ScreenHome *ui;

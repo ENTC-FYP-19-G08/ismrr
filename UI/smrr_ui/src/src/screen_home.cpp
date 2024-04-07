@@ -4,16 +4,17 @@
 
 #include <QDebug>
 
-ScreenHome::ScreenHome(QWidget *parent /*TODO: , vector<Option> *options, QString text, PubStr *pubStr, string data */)
+ScreenHome::ScreenHome(QWidget *parent, vector<Option> *options, QString text)
     : QDialog(parent), ui(new Ui::ScreenHome)
 {
     ui->setupUi(this);
 
-    MainWindow *mainWindow = static_cast<MainWindow *>(parent);
+    mainWindow = static_cast<MainWindow *>(parent);
+    MainWindow *_mainWindow = mainWindow;
 
     qDebug() << "Home window loaded";
 
-    // ui->label->setText();
+    ui->label->setText(text);
 
     for (uint i = 0; i < options->size(); i++)
     {
@@ -21,22 +22,32 @@ ScreenHome::ScreenHome(QWidget *parent /*TODO: , vector<Option> *options, QStrin
 
         Option option = options->at(i);
         QPushButton *btnOption = new QPushButton(option.text, this);
-        
+
         btnOption->setMinimumHeight(100);
         btnOption->setMaximumHeight(110);
-        
-        connect(btnOption, &QPushButton::clicked, [mainWindow, option]()
-                { mainWindow->gotoPage(option.pageId, option.text, option.data); });
+
+        connect(btnOption, &QPushButton::clicked, [_mainWindow, option]()
+                { _mainWindow->gotoPage(option.pageId, option.text, option.data); });
         ui->scrollLayout->addWidget(btnOption);
-       
     }
+
+    connect(mainWindow->rosNode, &rclcomm::onUsername, this, &ScreenHome::onUsername);
 
     connect(ui->btnBack, &QPushButton::clicked, mainWindow, &MainWindow::btnBack_clicked);
     connect(ui->btnHome, &QPushButton::clicked, mainWindow, &MainWindow::btnHome_clicked);
-
 }
 
 ScreenHome::~ScreenHome()
 {
     delete ui;
+}
+
+void ScreenHome::onUsername(QString qdata)
+{
+    qDebug() << "ScreenFace Sub:" << qdata;
+    // ui->label->setText(qdata);
+    if (qdata == "unknown")
+        mainWindow->gotoPage(PAGE_NAME);
+    else
+        mainWindow->gotoPage(PAGE_GREET, qdata);
 }

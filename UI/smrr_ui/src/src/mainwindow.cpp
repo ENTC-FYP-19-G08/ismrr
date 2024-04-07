@@ -17,6 +17,7 @@
 #include "screen_face.h"
 #include "screen_name.h"
 #include "screen_greet.h"
+#include "screen_home.h"
 
 // #include "screen_action.h"
 
@@ -78,7 +79,7 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     case PAGE_HOME:
     {
         vector<Option> options = {Option(PAGE_FACE, "Let's Talk")};
-        QWidget *screen = new ScreenOptionsTitled(this, &options, "Hi!!! \n I'm Devi");
+        QWidget *screen = new ScreenHome(this, &options, "Hi!!! \n I'm Devi");
         showScreen(screen);
         break;
     }
