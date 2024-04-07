@@ -4,7 +4,7 @@
 
 #include <QDebug>
 
-ScreenGreet::ScreenGreet(QWidget *parent /*TODO: , vector<Option> *options, QString text, PubStr *pubStr, string data */)
+ScreenGreet::ScreenGreet(QWidget *parent, QString text)
     : QDialog(parent), ui(new Ui::ScreenGreet)
 {
     ui->setupUi(this);
@@ -13,16 +13,21 @@ ScreenGreet::ScreenGreet(QWidget *parent /*TODO: , vector<Option> *options, QStr
 
     qDebug() << "Greet window loaded";
 
-    // ui->label->setText();
+    ui->label->setText(text);
 
-    
+    QPushButton *btnOption = new QPushButton("Options", this);   
+    btnOption->setMinimumHeight(100);
+    btnOption->setMaximumHeight(110);  
+    connect(btnOption, &QPushButton::clicked, [mainWindow]()
+            { mainWindow->gotoPage(PAGE_GUIDE); });
+    ui->scrollLayout->addWidget(btnOption);
 
     connect(ui->btnBack, &QPushButton::clicked, mainWindow, &MainWindow::btnBack_clicked);
     connect(ui->btnHome, &QPushButton::clicked, mainWindow, &MainWindow::btnHome_clicked);
-
 }
 
 ScreenGreet::~ScreenGreet()
 {
+    qDebug() << "SCREEN_GREET_DECONSTRUCTOR";
     delete ui;
 }

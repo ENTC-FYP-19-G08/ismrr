@@ -9,7 +9,7 @@ ScreenFace::ScreenFace(QWidget *parent)
 {
     ui->setupUi(this);
 
-    MainWindow *mainWindow = static_cast<MainWindow *>(parent);
+    mainWindow = static_cast<MainWindow *>(parent);
 
     qDebug() << "Face window loaded";
 
@@ -30,6 +30,10 @@ ScreenFace::~ScreenFace()
 
 void ScreenFace::onUsername(QString qdata)
 {
-    qDebug()<<"ScreenFace Sub:"<<qdata;
-    ui->label->setText(qdata);
+    qDebug() << "ScreenFace Sub:" << qdata;
+    // ui->label->setText(qdata);
+    if (qdata == "unknown")
+        mainWindow->gotoPage(PAGE_NAME);
+    else
+        mainWindow->gotoPage(PAGE_GREET, qdata);
 }

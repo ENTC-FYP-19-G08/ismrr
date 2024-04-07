@@ -4,7 +4,7 @@
 #include <QDialog>
 #include <QString>
 
-// #include <string>
+#include <string>
 // #include <vector>
 
 // #include "rclcomm.h"

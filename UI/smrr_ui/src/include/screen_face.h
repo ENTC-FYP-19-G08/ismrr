@@ -14,8 +14,9 @@
 
 using namespace std;
 
-namespace Ui {
-class ScreenFace;
+namespace Ui
+{
+    class ScreenFace;
 }
 
 class ScreenFace : public QDialog
@@ -23,7 +24,8 @@ class ScreenFace : public QDialog
     Q_OBJECT
 
 public:
-    explicit ScreenFace(QWidget *parent = nullptr );
+    MainWindow *mainWindow;
+    explicit ScreenFace(QWidget *parent = nullptr);
     ~ScreenFace();
 
 public slots:

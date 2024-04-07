@@ -37,8 +37,8 @@ MainWindow::MainWindow(QWidget *parent)
     generateLocationMap();
     qDebug() << locationMap["ANALOG_LAB"];
 
-    // gotoPage(PAGE_HOME);
-    gotoPage(PAGE_GUIDE);
+    gotoPage(PAGE_HOME);
+    // gotoPage(PAGE_GUIDE);
 
     // // connect(rosNode, SIGNAL(emitTopicData(QString)), this, SLOT(updateTopicInfo(QString)));
     // // connect(ui->pushButton, &QPushButton::clicked, rosNode, &rclcomm::sendTopicData);
@@ -100,6 +100,16 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
         showScreen(screen, false);
         break;
     }
+    case PAGE_NAME:{
+        QWidget *screen = new ScreenName(this);
+        showScreen(screen, false);
+        break;
+    }
+    case PAGE_GREET:{
+        QWidget *screen = new ScreenGreet(this,"Hi "+text+"! \n How can I help you today ?");
+        showScreen(screen, false);
+        break;
+    }
     case PAGE_GUIDE:
     {
         vector<Option> options = {Option(PAGE_GUIDE_LABS, "Labs"), Option(PAGE_GUIDE_HALLS, "Halls")};
@@ -141,6 +151,7 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     default:
         break;
     }
+
     QString pub = "null";
     if (pubStr == rosNode->pubGuideNavigation)
         pub = "nav";
@@ -151,12 +162,13 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
 
 void MainWindow::showScreen(QWidget *screen, bool screenHist)
 {
-    int topScreenIndex = ui->stackedWidget->count() - 1;
-    if (topScreenIndex > 0 && currentScreen != nullptr && currentScreenHist == false)
-    {
-        ui->stackedWidget->removeWidget(currentScreen);
-        delete currentScreen;
-    }
+    // int topScreenIndex = ui->stackedWidget->count() - 1;
+    // if (topScreenIndex > 0 && currentScreen != nullptr && currentScreenHist == false)
+    // {
+    //     ui->stackedWidget->removeWidget(currentScreen);
+    //     delete currentScreen;
+    // }
+
     ui->stackedWidget->addWidget(screen);
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->count() - 1);
 

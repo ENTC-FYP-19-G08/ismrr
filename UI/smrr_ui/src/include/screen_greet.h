@@ -8,7 +8,7 @@
 // #include <vector>
 
 // #include "rclcomm.h"
-// #include "option.h"
+#include "option.h"
 
 #include "mainwindow.h"
 
@@ -23,7 +23,7 @@ class ScreenGreet : public QDialog
     Q_OBJECT
 
 public:
-    explicit ScreenGreet(QWidget *parent = nullptr /*TODO: , vector<Option> *options=nullptr, QString text="", PubStr *pubStr = nullptr*, string data="" */);
+    explicit ScreenGreet(QWidget *parent = nullptr , QString text="");
     ~ScreenGreet();
 
 private:
