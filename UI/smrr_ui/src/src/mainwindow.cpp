@@ -15,10 +15,8 @@
 #include "screen_map.h"
 #include "screen_info.h"
 #include "screen_face.h"
-#include "screen_name.h"
-#include "screen_greet.h"
 #include "screen_home.h"
-
+#include "screen_name.h"
 // #include "screen_action.h"
 
 #include <QString>
@@ -35,9 +33,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     generateLocationMap();
 
-    // gotoPage(PAGE_HOME);
+    gotoPage(PAGE_HOME);
     // gotoPage(PAGE_GUIDE);
-    gotoPage(PAGE_GUIDE_OPTIONS);
+    // gotoPage(PAGE_GUIDE_OPTIONS);
 
 
     // // connect(rosNode, SIGNAL(emitTopicData(QString)), this, SLOT(updateTopicInfo(QString)));
@@ -94,9 +92,10 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
         showScreen(screen, false);
         break;
     }
-    case PAGE_GREET:
+    case PAGE_BASIC_OPTIONS:
     {
-        QWidget *screen = new ScreenGreet(this, "Hi " + text + "! \n How can I help you today ?");
+        vector<Option> options = {Option(PAGE_GUIDE, "Guide Me"), Option(PAGE_MEET, "Meet Someone"), Option(PAGE_ABOUT_DEPARTMENT, "About Department")};
+        QWidget *screen = new ScreenOptionsTitled(this, &options,"Hi " + text + "! \n How can I assist you today?");
         showScreen(screen, false);
         break;
     }

@@ -17,7 +17,7 @@ ScreenFace::ScreenFace(QWidget *parent)
 
     connect(ui->btnSkip, &QPushButton::clicked, [this]()
             {   mainWindow->publishStr(mainWindow->rosNode->pubUnknownUsername,"<SKIP>");
-                mainWindow->gotoPage(PAGE_GREET); });
+                mainWindow->gotoPage(PAGE_BASIC_OPTIONS); });
 
     connect(ui->btnBack, &QPushButton::clicked, mainWindow, &MainWindow::btnBack_clicked);
     connect(ui->btnHome, &QPushButton::clicked, mainWindow, &MainWindow::btnHome_clicked);
@@ -35,5 +35,5 @@ void ScreenFace::onUsername(QString qdata)
     if (qdata == "unknown")
         mainWindow->gotoPage(PAGE_NAME);
     else
-        mainWindow->gotoPage(PAGE_GREET, qdata);
+        mainWindow->gotoPage(PAGE_BASIC_OPTIONS, qdata);
 }

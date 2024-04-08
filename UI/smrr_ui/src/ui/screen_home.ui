@@ -32,7 +32,7 @@
    </property>
    <property name="text">
     <string>Hi !
-Im DEVI</string>
+I'm DEVI</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
