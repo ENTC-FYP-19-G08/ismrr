@@ -4,87 +4,92 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ActivityRemote"
-    android:keepScreenOn="true">
+    android:keepScreenOn="true"
+    tools:context=".ActivityRemote">
 
 
-    <ImageButton
-        android:id="@+id/btnFront"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="50dp"
-
-        android:layout_marginTop="50dp"
-        android:background="@drawable/btn_round_0"
-        android:padding="10dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_up"
-        android:tag="F" />
-
-    <ImageButton
-        android:id="@+id/btnLeft"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="250dp"
         android:layout_centerVertical="true"
-        android:layout_toStartOf="@id/btnRight"
-        android:layout_marginEnd="50dp"
-        android:background="@drawable/btn_round_1"
-        android:padding="10dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_left"
-        android:tag="L" />
-    <ImageButton
-        android:id="@+id/btnPlay"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="125dp"
-        android:background="@drawable/btn_round_5"
-        android:padding="16dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_play"
-        android:tag="P" />
+        android:layout_marginStart="50dp">
 
-    <ImageButton
-        android:id="@+id/btnStop"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp"
-        android:layout_marginEnd="125dp"
-        android:background="@drawable/btn_round_4"
-        android:padding="12dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_x"
-        android:tag="S" />
+        <ImageButton
+            android:id="@+id/btnFront"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/btn_round_0"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_up"
+            android:tag="F" />
 
-    <ImageButton
-        android:id="@+id/btnRight"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_alignParentEnd="true"
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/btn_round_0"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_down"
+            android:tag="B" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="250dp"
+        android:layout_height="250dp"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="50dp"
-        android:background="@drawable/btn_round_1"
-        android:padding="10dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_right"
-        android:tag="R" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="50dp">
 
-    <ImageButton
-        android:id="@+id/btnBack"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="50dp"
-        android:layout_marginBottom="50dp"
-        android:background="@drawable/btn_round_0"
-        android:padding="10dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_down"
-        android:tag="B" />
+        <ImageButton
+            android:id="@+id/btnLeft"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/btn_round_1"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_left"
+            android:tag="L" />
 
+        <ImageButton
+            android:id="@+id/btnPlay"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/btn_round_5"
+            android:padding="16dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_play"
+            android:tag="P" />
+
+        <ImageButton
+            android:id="@+id/btnStop"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/btn_round_4"
+            android:padding="12dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_x"
+            android:tag="S" />
+
+        <ImageButton
+            android:id="@+id/btnRight"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/btn_round_1"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_right"
+            android:tag="R" />
+
+    </RelativeLayout>
 
 </RelativeLayout>
