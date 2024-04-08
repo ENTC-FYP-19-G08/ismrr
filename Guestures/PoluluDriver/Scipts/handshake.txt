@@ -1,0 +1,28 @@
+# Handshake
+begin
+  1000 6877 6016 6827 9345 4900 5680 frame_0..5 # Frame 1
+  1000 6597 6642 4411 frame_0_2_4 # Frame 2
+  1000 6877 6827 4900 frame_0_2_4 # Frame 1
+  1000 6597 6642 4411 frame_0_2_4 # Frame 2
+  1000 6877 6827 4900 frame_0_2_4 # Frame 1
+  1000 6597 6642 4411 frame_0_2_4 # Frame 2
+  1000 5404 6080 5600 frame_0_2_4 # Frame 6
+repeat
+
+sub frame_0..5
+  5 servo
+  4 servo
+  3 servo
+  2 servo
+  1 servo
+  0 servo
+  delay
+  return
+
+sub frame_0_2_4
+  4 servo
+  2 servo
+  0 servo
+  delay
+  return
+

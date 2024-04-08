@@ -1,0 +1,120 @@
+
+### Sequence subroutines: ###
+
+# Ayubowan
+sub Ayubowan
+  1000 5404 6016 6777 8674 5600 5680 frame_0..5 # Frame 0
+  1000 5609 3200 8192 frame_0_4_5 # Frame 1
+  1000 8275 2560 frame_0_1 # Frame 2
+  3000 8237 7280 8221 7868 frame_0_2_3_5 # Frame 3
+  1000 8275 6777 8674 8192 frame_0_2_3_5 # Frame 2
+  1000 5609 6016 frame_0_1 # Frame 1
+  1000 5404 5600 5680 frame_0_4_5 # Frame 0
+  1000 6080 9345 frame_2_3 # Frame 7
+  return
+# Handshake
+sub Handshake
+  1000 6877 6016 6827 9345 4900 5680 frame_0..5 # Frame 1
+  1000 6597 6642 4411 frame_0_2_4 # Frame 2
+  1000 6877 6827 4900 frame_0_2_4 # Frame 1
+  1000 6597 6642 4411 frame_0_2_4 # Frame 2
+  1000 6877 6827 4900 frame_0_2_4 # Frame 1
+  1000 6597 6642 4411 frame_0_2_4 # Frame 2
+  1000 5404 6080 5600 frame_0_2_4 # Frame 6
+  return
+# ShowUserLeft
+sub ShowUserLeft
+  1000 5404 6016 6080 8514 5600 7465 frame_0..5 # Frame 0
+  1000 3697 frame_1 # Frame 1
+  2000 2560 4577 frame_1_5 # Frame 2
+  1000 3697 6273 frame_1_5 # Frame 1
+  1000 6016 6515 frame_1_5 # Frame 0
+  1000 9345 5680 frame_3_5 # Frame 3
+  return
+# ShowUserRight
+sub ShowUserRight
+  1000 5404 6016 6953 9345 3456 5680 frame_0..5 # Frame 0
+  1000 7510 frame_0 # Frame 1
+  1000 8014 5949 frame_0_4 # Frame 2
+  1000 7510 5273 frame_0_4 # Frame 1
+  1000 5404 4807 frame_0_4 # Frame 0
+  1000 6080 5600 frame_2_4 # Frame 5
+  return
+
+sub frame_0..5
+  5 servo
+  4 servo
+  3 servo
+  2 servo
+  1 servo
+  0 servo
+  delay
+  return
+
+sub frame_0_4_5
+  5 servo
+  4 servo
+  0 servo
+  delay
+  return
+
+sub frame_0_1
+  1 servo
+  0 servo
+  delay
+  return
+
+sub frame_0_2_3_5
+  5 servo
+  3 servo
+  2 servo
+  0 servo
+  delay
+  return
+
+sub frame_2_3
+  3 servo
+  2 servo
+  delay
+  return
+
+sub frame_0_2_4
+  4 servo
+  2 servo
+  0 servo
+  delay
+  return
+
+sub frame_1
+  1 servo
+  delay
+  return
+
+sub frame_1_5
+  5 servo
+  1 servo
+  delay
+  return
+
+sub frame_3_5
+  5 servo
+  3 servo
+  delay
+  return
+
+sub frame_0
+  0 servo
+  delay
+  return
+
+sub frame_0_4
+  4 servo
+  0 servo
+  delay
+  return
+
+sub frame_2_4
+  4 servo
+  2 servo
+  delay
+  return

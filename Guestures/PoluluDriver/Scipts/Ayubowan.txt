@@ -1,12 +1,13 @@
 # Ayubowan
 begin
-  500 6080 6016 6272 9280 5600 5680 frame_0..5 # Frame 0
-  1000 6752 8800 4854 6196 frame_2..5 # Frame 1
-  1000 8411 4102 3223 7360 frame_0_1_4_5 # Frame 2
-  5000 9282 3200 7232 8320 3689 6923 frame_0..5 # Frame 3
-  1000 8050 4389 frame_0_1 # Frame 4
-  1000 6761 8804 frame_2_3 # Frame 5
-  2000 6080 6016 6272 9280 5600 5680 frame_0..5 # Frame 0
+  500 5404 6016 6777 8674 5600 5680 frame_0..5 # Frame 0
+  500 5609 3200 8192 frame_0_4_5 # Frame 1
+  500 8275 2560 frame_0_1 # Frame 2
+  500 8237 7280 8221 7868 frame_0_2_3_5 # Frame 3
+  500 8275 6777 8674 8192 frame_0_2_3_5 # Frame 2
+  500 5609 6016 frame_0_1 # Frame 1
+  500 5404 5600 5680 frame_0_4_5 # Frame 0
+  500 8237 2560 7280 8221 3200 7868 frame_0..5 # Frame 7
 repeat
 
 sub frame_0..5
@@ -19,18 +20,9 @@ sub frame_0..5
   delay
   return
 
-sub frame_2..5
+sub frame_0_4_5
   5 servo
   4 servo
-  3 servo
-  2 servo
-  delay
-  return
-
-sub frame_0_1_4_5
-  5 servo
-  4 servo
-  1 servo
   0 servo
   delay
   return
@@ -41,9 +33,11 @@ sub frame_0_1
   delay
   return
 
-sub frame_2_3
+sub frame_0_2_3_5
+  5 servo
   3 servo
   2 servo
+  0 servo
   delay
   return
 
