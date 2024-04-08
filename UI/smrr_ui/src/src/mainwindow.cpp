@@ -96,19 +96,33 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     {
         vector<Option> options = {Option(PAGE_GUIDE, "Guide Me"), Option(PAGE_MEET, "Meet Someone"), Option(PAGE_ABOUT_DEPARTMENT, "About Department")};
         QWidget *screen = new ScreenOptionsTitled(this, &options,"Hi " + text + "! \n How can I assist you today?");
-        showScreen(screen, false);
+        showScreen(screen);
         break;
     }
     case PAGE_GUIDE:
     {
-        vector<Option> options = {Option(PAGE_GUIDE_LABS, "Labs"), Option(PAGE_GUIDE_HALLS, "Halls")};
+        vector<Option> options = {Option(PAGE_GUIDE_LABS, "Labs"), Option(PAGE_GUIDE_HALLS, "Halls"), Option(PAGE_GUIDE_OTHER, "Other")};
         QWidget *screen = new ScreenOptions(this, &options);
         showScreen(screen);
         break;
     }
     case PAGE_GUIDE_LABS:
     {
-        vector<Option> options = {Option(PAGE_GUIDE_OPTIONS, "Vision Lab", "VISION_LAB"), Option(PAGE_GUIDE_OPTIONS, "Telecom Lab", "TELECOM_LAB")};
+        vector<Option> options = {Option(PAGE_GUIDE_OPTIONS, locationMap["VISION_LAB"], "VISION_LAB"), Option(PAGE_GUIDE_OPTIONS, locationMap["TELECOM_LAB"], "TELECOM_LAB")};
+        QWidget *screen = new ScreenOptions(this, &options);
+        showScreen(screen);
+        break;
+    }
+    case PAGE_GUIDE_HALLS:
+    {
+        vector<Option> options = {Option(PAGE_GUIDE_OPTIONS, locationMap["PG_ROOM"], "PG_ROOM"), Option(PAGE_GUIDE_OPTIONS, locationMap["3.5_LECTURE_HALL"],"3.5_LECTURE_HALL" )};
+        QWidget *screen = new ScreenOptions(this, &options);
+        showScreen(screen);
+        break;
+    }
+    case PAGE_GUIDE_OTHER:
+    {
+        vector<Option> options = {Option(PAGE_GUIDE_OPTIONS, locationMap["WASHROOM"], "WASHROOM"), Option(PAGE_GUIDE_OPTIONS, locationMap["LIFT"], "LIFT")};
         QWidget *screen = new ScreenOptions(this, &options);
         showScreen(screen);
         break;
