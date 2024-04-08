@@ -3,6 +3,7 @@
 #include "./ui_screen_options.h"
 
 #include <QDebug>
+#include <QScrollBar>
 
 ScreenOptions::ScreenOptions(QWidget *parent, vector<Option> *options)
     : QDialog(parent), ui(new Ui::ScreenOptions)
@@ -31,6 +32,10 @@ ScreenOptions::ScreenOptions(QWidget *parent, vector<Option> *options)
         // ui->label->setText(ui->label->text()+str);
         // qDebug()<<str;
     }
+
+    
+   
+    ui->scrollArea->verticalScrollBar()->setStyleSheet("width: 40px;"); // Set the width as desired
 
     connect(ui->btnBack, &QPushButton::clicked, mainWindow, &MainWindow::btnBack_clicked);
     connect(ui->btnHome, &QPushButton::clicked, mainWindow, &MainWindow::btnHome_clicked);
