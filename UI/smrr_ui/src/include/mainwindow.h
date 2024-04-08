@@ -1,0 +1,61 @@
+/*
+ * @Author: chengyangkj
+ * @Date: 2021-10-30 02:09:08
+ * @LastEditTime: 2021-12-01 06:01:17
+ * @LastEditors: chengyangkj
+ * @Description:
+ * @FilePath: /ros2_qt_demo/include/ros2_qt_demo/mainwindow.h
+ * https://github.com/chengyangkj
+ */
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
+
+#include <QMainWindow>
+#include <QMessageBox>
+
+#include <string>
+#include <map>
+
+#include "rclcomm.h"
+#include "page.h"
+#include "option.h"
+
+using namespace std;
+
+QT_BEGIN_NAMESPACE
+namespace Ui
+{
+    class MainWindow;
+}
+QT_END_NAMESPACE
+
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT
+
+public:
+    QWidget *currentScreen = nullptr;
+    bool currentScreenHist = true;
+
+    map<string, QString> locationMap;
+    rclcomm *rosNode;
+
+    MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
+
+    QWidget *createScreen(Page *page);
+    void showScreen(QWidget *screen, bool screenHist = true);
+    void generateLocationMap();
+
+private:
+    Ui::MainWindow *ui;
+
+public slots:
+    void updateTopicInfo(QString);
+    void gotoPage(PageId pageId, QString text = "", string data = "", PubStr pubStr = nullptr);
+    void btnBack_clicked();
+    void btnHome_clicked();
+    void onGuideNavigationResult(QString);
+    void onGuideOptions(QString);
+};
+#endif // MAINWINDOW_H
