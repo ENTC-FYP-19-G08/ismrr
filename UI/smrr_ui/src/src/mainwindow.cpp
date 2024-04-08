@@ -29,11 +29,11 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    qDebug() << "ui run";    
+    qDebug() << "ui run";
 
     rosNode = new rclcomm();
 
-    generateLocationMap();    
+    generateLocationMap();
 
     gotoPage(PAGE_HOME);
     // gotoPage(PAGE_GUIDE);
@@ -41,9 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
     // // connect(rosNode, SIGNAL(emitTopicData(QString)), this, SLOT(updateTopicInfo(QString)));
     // // connect(ui->pushButton, &QPushButton::clicked, rosNode, &rclcomm::sendTopicData);
 
-    
     connect(rosNode, &rclcomm::onGuideOptions, this, &MainWindow::onGuideOptions);
-
 }
 
 MainWindow::~MainWindow()
@@ -89,13 +87,15 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
         showScreen(screen, false);
         break;
     }
-    case PAGE_NAME:{
+    case PAGE_NAME:
+    {
         QWidget *screen = new ScreenName(this);
         showScreen(screen, false);
         break;
     }
-    case PAGE_GREET:{
-        QWidget *screen = new ScreenGreet(this,"Hi "+text+"! \n How can I help you today ?");
+    case PAGE_GREET:
+    {
+        QWidget *screen = new ScreenGreet(this, "Hi " + text + "! \n How can I help you today ?");
         showScreen(screen, false);
         break;
     }
@@ -123,7 +123,7 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     case PAGE_NAVIGATION:
     {
         QWidget *screen = new ScreenNavigation(this, "Let' go to " + locationMap[data] + " !!!", data);
-        showScreen(screen,false);
+        showScreen(screen, false);
         break;
     }
     case PAGE_MAP:
@@ -206,4 +206,17 @@ void MainWindow::generateLocationMap()
     locationMap["PG_LAB"] = "PG Lab";
     locationMap["3.5_LECTURE_HALL"] = "3.5 Lecture Hall";
     locationMap["WASHROOM"] = "Washrooms";
+}
+
+void MainWindow::publishStr(PubStr pubStr, QString qdata)
+{
+    std_msgs::msg::String rosString;
+    rosString.data = qdata.toStdString();
+    pubStr->publish(rosString);
+}
+void MainWindow::publishStr(PubStr pubStr, string data)
+{
+    std_msgs::msg::String rosString;
+    rosString.data = data;
+    pubStr->publish(rosString);
 }
