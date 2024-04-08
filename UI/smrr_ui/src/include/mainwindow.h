@@ -46,7 +46,7 @@ public:
     QWidget *createScreen(Page *page);
     void showScreen(QWidget *screen, bool screenHist = true);
     void generateLocationMap();
-    void publishStr(PubStr pubStr,QString data);
+    // void publishStr(PubStr pubStr,QString data);
     void publishStr(PubStr pubStr,string data);
     
 

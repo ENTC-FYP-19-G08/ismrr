@@ -4,7 +4,9 @@ from rclpy.node import Node
 
 
 # topic="/ui/guide_navigation"
-topic="/ui/trigger"
+# topic="trigger"
+topic="/ui/unknown_username"
+
 
 
 def message_callback(msg):   
@@ -23,7 +25,7 @@ subscription = node.create_subscription(
 
 
 
-print("listening..")
+print("listening.."+topic)
 try:
     rclpy.spin(node)
 except KeyboardInterrupt:

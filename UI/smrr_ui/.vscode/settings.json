@@ -68,6 +68,7 @@
         "typeinfo": "cpp",
         "variant": "cpp",
         "bit": "cpp",
-        "qdebug": "cpp"
+        "qdebug": "cpp",
+        "*.ui": "cpp"
     }
 }

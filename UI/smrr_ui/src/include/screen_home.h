@@ -25,11 +25,11 @@ class ScreenHome : public QDialog
 
 public:
     MainWindow *mainWindow;
-    explicit ScreenHome(QWidget *parent = nullptr, vector<Option> *options = nullptr, QString text = "");
+    explicit ScreenHome(QWidget *parent = nullptr);
     ~ScreenHome();
 
 public slots:
-    void onUsername(QString);
+    void onTrigger(QString);
 
 private:
     Ui::ScreenHome *ui;

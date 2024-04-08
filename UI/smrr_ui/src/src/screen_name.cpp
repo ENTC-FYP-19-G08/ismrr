@@ -13,8 +13,7 @@ ScreenName::ScreenName(QWidget *parent /*TODO: , vector<Option> *options, QStrin
 
     qDebug() << "Name window loaded";
 
-    
-    QLineEdit *txtName=ui->txtName;
+    QLineEdit *txtName = ui->txtName;
 
     connect(ui->btnSave, &QPushButton::clicked, [mainWindow, txtName]()
             { 
@@ -27,10 +26,8 @@ ScreenName::ScreenName(QWidget *parent /*TODO: , vector<Option> *options, QStrin
 
     connect(ui->btnSkip, &QPushButton::clicked, [mainWindow]()
             {  
-                qDebug()<<"NAME: SKIP";
-                std_msgs::msg::String rosString;
-                rosString.data = "SKIP";
-                mainWindow->rosNode->pubUnknownUsername->publish(rosString);
+                qDebug()<<"NAME: SKIP";                
+                mainWindow->publishStr(mainWindow->rosNode->pubUnknownUsername,"<SKIP>");
                 mainWindow->gotoPage(PAGE_GREET); });
 
     connect(ui->btnBack, &QPushButton::clicked, mainWindow, &MainWindow::btnBack_clicked);

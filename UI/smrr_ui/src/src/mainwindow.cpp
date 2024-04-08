@@ -75,13 +75,12 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     switch (pageId)
     {
     case PAGE_HOME:
-    {
-        vector<Option> options = {Option(PAGE_FACE, "Let's Talk")};
-        QWidget *screen = new ScreenHome(this, &options, "Hi!!! \n I'm Devi");
+    {        
+        QWidget *screen = new ScreenHome(this);
         showScreen(screen);
         break;
     }
-    case PAGE_FACE:
+    case PAGE_FACE: //let me remind your name
     {
         QWidget *screen = new ScreenFace(this);
         showScreen(screen, false);
@@ -208,12 +207,12 @@ void MainWindow::generateLocationMap()
     locationMap["WASHROOM"] = "Washrooms";
 }
 
-void MainWindow::publishStr(PubStr pubStr, QString qdata)
-{
-    std_msgs::msg::String rosString;
-    rosString.data = qdata.toStdString();
-    pubStr->publish(rosString);
-}
+// void MainWindow::publishStr(PubStr pubStr, QString qdata)
+// {
+//     std_msgs::msg::String rosString;
+//     rosString.data = qdata.toStdString();
+//     pubStr->publish(rosString);
+// }
 void MainWindow::publishStr(PubStr pubStr, string data)
 {
     std_msgs::msg::String rosString;
