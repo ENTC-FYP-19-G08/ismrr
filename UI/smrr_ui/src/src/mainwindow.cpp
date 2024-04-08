@@ -35,8 +35,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     generateLocationMap();
 
-    gotoPage(PAGE_HOME);
+    // gotoPage(PAGE_HOME);
     // gotoPage(PAGE_GUIDE);
+    gotoPage(PAGE_GUIDE_OPTIONS);
+
 
     // // connect(rosNode, SIGNAL(emitTopicData(QString)), this, SLOT(updateTopicInfo(QString)));
     // // connect(ui->pushButton, &QPushButton::clicked, rosNode, &rclcomm::sendTopicData);
