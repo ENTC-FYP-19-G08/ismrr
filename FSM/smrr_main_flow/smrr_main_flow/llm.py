@@ -303,7 +303,7 @@ class LLM:
             self.user_prompts = self.user_prompts[1:]
             self.responses_ids = self.responses_ids[1:]
 
-    def make_sentence(self, chunk_, flag, funct):
+    def make_sentence(self, chunk_, flag, funct, funct2):
         if flag:
             # return self.model_responses
             self.model_responses.append(self.model_response)
@@ -313,6 +313,9 @@ class LLM:
             # funct(self.model_response)
             # print(self.model_response)
             self.model_response = ""
+            while True:
+                if funct2:
+                    break
             return
         elif chunk_ in [".", ",", "?", "!"]:
             self.model_response += chunk_
@@ -407,7 +410,7 @@ class LLM:
             # self.can_play=True
             return
 
-    def chat_(self, user_p, tts_func):
+    def chat_(self, user_p, tts_func, q_check_func):
         # while True:
         # self.engine = pyttsx3.init()
         # pygame.init()
@@ -490,7 +493,7 @@ class LLM:
 
                 # Print formatted
                 print(chunk, end="")
-                self.make_sentence(chunk, eos, tts_func)
+                self.make_sentence(chunk, eos, tts_func, q_check_func)
                 # temp.append(chunk)
                 # pass
 

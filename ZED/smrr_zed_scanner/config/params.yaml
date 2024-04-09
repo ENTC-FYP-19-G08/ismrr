@@ -13,8 +13,8 @@ smrr_zed_scanner_node:
     cliff_range_min: 0.35
     cliff_range_max: 5.0
     obstacle_range_min: 0.35
-    obstacle_range_max: 9.0
-    obstacle_height_min: 0.4
+    obstacle_range_max: 4.0
+    obstacle_height_min: 0.5
     obstacle_height_max: 2.0  
     use_inf: True
     inf_epsilon: 1.0

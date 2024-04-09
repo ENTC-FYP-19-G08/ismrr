@@ -118,7 +118,7 @@ def generate_launch_description():
     ld.add_action(start_diff_drive_cmd)
     ld.add_action(start_lidar_cutter_cmd)
     # ld.add_action(TimerAction(period=1.0, actions=[start_laser_merger_cmd]))
-    ld.add_action(TimerAction(period=2.0,actions=[start_teleop_cmd]))
+    # ld.add_action(TimerAction(period=2.0,actions=[start_teleop_cmd]))
     ld.add_action(TimerAction(period=4.0, actions=[start_rplidar_cmd]))
     ld.add_action(TimerAction(period=8.0,actions=[start_mpu_cmd]))
     ld.add_action(TimerAction(period=12.0,actions=[start_localization_cmd]))

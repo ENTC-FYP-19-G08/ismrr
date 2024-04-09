@@ -45,15 +45,16 @@ class SMRRCoversation:
         self.trigerring_words =  ["hi","hello","hey"]
         self.ending_words =  ["thank you","bye","thanks", "thank"]
         self.triggered = False
+        self.vad_audio = VADAudio(
+            aggressiveness=2,
+            input_rate=16000,
+            # device = 33,
+        )
 
     def call_back(self,msg):
         self.triggered = True
 
     def start_listening(self):
-        self.vad_audio = VADAudio(
-            aggressiveness=2,
-            input_rate=16000,
-        )
         print("Listening ... ")
         frames = self.vad_audio.vad_collector()
         spinner = Halo(spinner="line")
@@ -92,10 +93,6 @@ class SMRRCoversation:
                 wav_data = bytearray()
 
     def wait_idle(self):
-        self.vad_audio = VADAudio(
-            aggressiveness=2,
-            input_rate=16000,
-        )
         print("Listening ... ")
         frames = self.vad_audio.vad_collector()
         spinner = Halo(spinner="line")
@@ -143,10 +140,13 @@ class SMRRCoversation:
         self.classifier.kill_processes()
 
     def language_understanding_and_generation(self, text):
-        self.llm.chat_(text, self.text_to_speech)
+        self.llm.chat_(text, self.text_to_speech,self.text_to_speech_queue_check)
         pass
 
     def text_to_speech(self, text):
         self.tts.convert_text_to_speech(text)
+
+    def text_to_speech_queue_check(self):
+        self.tts.check_output_queue()
 
 

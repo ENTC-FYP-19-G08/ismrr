@@ -19,6 +19,9 @@ def kill_ros_processes():
 # Example: List files in the current directory
 bringup_cmd = "ros2 launch smrr_bringup smrr_bringup_launch.py".split()
 navigation_cmd = "ros2 launch nav2_bringup navigation_launch.py".split()
+arduino_serial_cmd = "ros2 run smrr_arduino_serial arduino_serial".split()
+teleop_cmd = "ros2 launch tele_op teleop_launch.py".split()
+collison_monitor_cmd = "ros2 run collison_monitor collison_monitor".split()
 slam_cmd = "ros2 launch slam_toolbox online_async_launch.py".split()
 rviz_cmd = "rviz2".split()
 
@@ -33,6 +36,16 @@ try:
     bringup = subprocess.Popen(bringup_cmd)
     processes.append(bringup)
     time.sleep(15)
+    arduino_serial = subprocess.Popen(arduino_serial_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    processes.append(arduino_serial)
+    time.sleep(1)
+    teleop = subprocess.Popen(teleop_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    processes.append(teleop)  
+    time.sleep(1)
+    collison_monitor = subprocess.Popen(collison_monitor_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    processes.append(collison_monitor_cmd)
+    time.sleep(1)
+
     slam = subprocess.Popen(slam_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     processes.append(slam)
 
@@ -44,6 +57,8 @@ try:
                 processes.remove(proc)
 
         time.sleep(1)  # Sleep briefly to reduce CPU usage
+
+
 
 except KeyboardInterrupt:
     print("Ctrl+C detected, terminating subprocesses...")

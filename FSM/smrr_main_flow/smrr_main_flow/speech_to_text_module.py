@@ -50,6 +50,7 @@ class Audio:
             "input": True,
             "frames_per_buffer": self.block_size_input,
             "stream_callback": proxy_callback,
+            "input_device_index": self.device,
         }
 
         self.chunk = None

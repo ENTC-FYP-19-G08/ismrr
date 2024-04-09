@@ -32,7 +32,8 @@
     <string/>
    </property>
    <property name="icon">
-    <iconset theme="back"/>
+    <iconset theme="back">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="autoDefault">
     <bool>false</bool>
@@ -47,11 +48,14 @@
   <widget class="QScrollArea" name="scrollArea">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>70</y>
-     <width>701</width>
-     <height>391</height>
+     <x>10</x>
+     <y>220</y>
+     <width>771</width>
+     <height>241</height>
     </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::NoFrame</enum>
    </property>
    <property name="widgetResizable">
     <bool>true</bool>
@@ -61,32 +65,39 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>699</width>
-      <height>389</height>
+      <width>771</width>
+      <height>241</height>
      </rect>
     </property>
-   <layout class="QVBoxLayout" name="scrollLayout">
-    <property name="spacing">
-        <number>10</number>
-    </property>
-</layout>
-
+    <layout class="QHBoxLayout" name="scrollLayout">
+     <property name="spacing">
+      <number>30</number>
+     </property>
+    </layout>
    </widget>
   </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>220</x>
+     <x>100</x>
      <y>20</y>
-     <width>411</width>
-     <height>31</height>
+     <width>601</width>
+     <height>131</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>30</pointsize>
+    </font>
    </property>
    <property name="text">
     <string/>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
+   </property>
+   <property name="wordWrap">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QPushButton" name="btnHome">
@@ -105,7 +116,8 @@
     <string/>
    </property>
    <property name="icon">
-    <iconset theme="go-home"/>
+    <iconset theme="go-home">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="autoDefault">
     <bool>false</bool>

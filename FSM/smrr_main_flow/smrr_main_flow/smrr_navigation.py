@@ -31,10 +31,10 @@ class SMRRNavigation():
         self.node = node
         self.locations = LoadLocations(self.node).locations
         self.goal = None
-        self.ui_sub = self.node.create_subscription(String, '/ui_publisher', self.ui_callback, 1)
+        self.ui_sub = self.node.create_subscription(String, '/ui/guide_navigation', self.ui_callback, 1)
         self.timer = None 
         self.navi_obj = RobotNavigator()
-        self.nav_state = self.node.create_publisher(String, '/nav_goal_state', 1)
+        self.nav_state = self.node.create_publisher(String, '/ui/guide_navigation_result', 1)
 
     def execute_thread(self):
         self.navi_obj.busy  = True

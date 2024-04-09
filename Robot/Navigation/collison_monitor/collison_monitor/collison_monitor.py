@@ -15,20 +15,20 @@ class CollisonMonitor(Node):
         super().__init__(node_name='collison_monitor_node')
         
         ############## Subscribers ##############
-        self.subscription = self.create_subscription(Odometry,'/odom',  self.odom_callback,10  )
+        self.subscription = self.create_subscription(Odometry,'/odometry/filtered',  self.odom_callback,10  )
         self.subscription = self.create_subscription(LaserScan,'/scan',  self.laser_callback,10  )
-        self.raw_velocity_subscription = self.create_subscription(Twist,'/cmd_vel_raw',  self.raw_velocity_callback,10)
+        self.raw_velocity_subscription = self.create_subscription(Twist,'cmd_vel_raw',  self.raw_velocity_callback,10)
         
         ############## Publishers ##############
-        self.velocity_publisher = self.create_publisher(Twist,'/cmd_vel', 10)
+        self.velocity_publisher = self.create_publisher(Twist,'/cmd_vel_smoothen', 10)
         self.slow_down_polygon_publisher = self.create_publisher(PolygonStamped,'/collison_slow_down_polygon', 10)
         self.stop_polygon_publisher = self.create_publisher(PolygonStamped,'/collison_stop_polygon', 10)
      
 
         ################################# Set these to handle collisions ########################
-        self.slow_down_radius = 0.4
-        self.stop_radius = 0.1
-        self.reducing_factor = 0.5 
+        self.slow_down_radius = 0.5
+        self.stop_radius = 0.35
+        self.reducing_factor = 0.6 
 
         self.warning_level = 0 #0-no obstacle 1-slow_down 2-stop
 

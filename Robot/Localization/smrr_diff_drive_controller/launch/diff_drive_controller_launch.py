@@ -38,7 +38,7 @@ def generate_launch_description():
    
     
     ld = LaunchDescription()
-    ld.add_action(serial_node)
+    # ld.add_action(serial_node)
     ld.add_action(diff_node)
 
     

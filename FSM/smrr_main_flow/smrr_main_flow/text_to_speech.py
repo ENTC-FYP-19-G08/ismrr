@@ -11,6 +11,7 @@ class TextToSpeech:
     def __init__(self):
         self.input_queue_1 = multiprocessing.Queue()
         self.output_queue = multiprocessing.Queue()
+        self.delete_queue = multiprocessing.Queue()
 
     def initialize_processes(self):
         self.process_1 = multiprocessing.Process(
@@ -31,6 +32,11 @@ class TextToSpeech:
             self.process_1.kill()
         if self.process_2.is_alive():
             self.process_2.kill()
+
+    def check_output_queue(self):
+        if self.delete_queue.empty():
+            return True
+        else: return False
 
     def delete_wav_file(self, file_path):
         if os.path.exists(file_path):
@@ -86,6 +92,7 @@ class TextToSpeech:
                 text=True,
             )
             output_queue.put(name)
+            self.delete_queue.put(name)
 
     def play_wav(self, input_queue):
         while True:
@@ -96,6 +103,7 @@ class TextToSpeech:
             self.play_wav_file(item)
             self.delete_wav_file(item)
             print("not ending")
+            self.delete_queue.get()
 
     def convert_text_to_speech(self, text):
         self.input_queue_1.put(text)

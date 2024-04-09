@@ -10,17 +10,14 @@ ScreenFace::ScreenFace(QWidget *parent)
     ui->setupUi(this);
 
     mainWindow = static_cast<MainWindow *>(parent);
-    MainWindow *_mainWindow = mainWindow;
+
     qDebug() << "Face window loaded";
 
     connect(mainWindow->rosNode, &rclcomm::onUsername, this, &ScreenFace::onUsername);
 
-    connect(ui->btnSkip, &QPushButton::clicked, [_mainWindow]()
-            { _mainWindow->gotoPage(PAGE_GREET); });
-
-    std_msgs::msg::String rosString;
-    rosString.data = "TRIG";
-    mainWindow->rosNode->pubTrigger->publish(rosString);
+    connect(ui->btnSkip, &QPushButton::clicked, [this]()
+            {   mainWindow->publishStr(mainWindow->rosNode->pubUnknownUsername,"<SKIP>");
+                mainWindow->gotoPage(PAGE_BASIC_OPTIONS); });
 
     connect(ui->btnBack, &QPushButton::clicked, mainWindow, &MainWindow::btnBack_clicked);
     connect(ui->btnHome, &QPushButton::clicked, mainWindow, &MainWindow::btnHome_clicked);
@@ -38,5 +35,5 @@ void ScreenFace::onUsername(QString qdata)
     if (qdata == "unknown")
         mainWindow->gotoPage(PAGE_NAME);
     else
-        mainWindow->gotoPage(PAGE_GREET, qdata);
+        mainWindow->gotoPage(PAGE_BASIC_OPTIONS, qdata);
 }

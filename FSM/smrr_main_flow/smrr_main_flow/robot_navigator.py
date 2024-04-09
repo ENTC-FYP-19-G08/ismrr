@@ -61,7 +61,7 @@ class RobotNavigator(Node):
                     self.cancelTask()
 
                 # Some navigation request change to demo preemption
-                if Duration.from_msg(feedback.navigation_time) > Duration(seconds=100.0):
+                if Duration.from_msg(feedback.navigation_time) > Duration(seconds=600.0):
                     goal_pose.pose.position.x = -3.0
                     self.goToPose(goal_pose)
 
@@ -84,7 +84,7 @@ class RobotNavigator(Node):
 
     def goToPose(self, pose, behavior_tree=''):
         """Send a `NavToPose` action request."""
-        self.debug("Waiting for 'NavigateToPose' action server")
+        print("Waiting")
         while not self.nav_to_pose_client.wait_for_server(timeout_sec=1.0):
             self.info("'NavigateToPose' action server not available, waiting...")
 

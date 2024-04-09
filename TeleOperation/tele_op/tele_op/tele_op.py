@@ -23,7 +23,8 @@ class TeleOp(Node):
     def __init__(self):
         super().__init__(node_name='tele_op_node')
 
-        self.publisher =  self.create_publisher(Twist, '/cmd_vel_smoothen', 1)
+        self.publisher =  self.create_publisher(Twist, '/cmd_vel_raw', 1)
+        self.goal_pub =  self.create_publisher(PoseStamped, '/app_goal', 4)
         self.pose_plisher = self.create_publisher(String,'/sender_test_topic', 10)
         
         self.subscription = self.create_subscription(String,'/tele_op_cmd',  self.tele_op_callback,10  )
@@ -36,17 +37,17 @@ class TeleOp(Node):
         # self.navigator.waitUntilNav2Active()
 
         self.resolution = 0.05
-        self.origin_x = -9.5
-        self.origin_y = -11.8
-        self.width = 352
-        self.height = 461
+        self.origin_x = -21.3
+        self.origin_y = -20.1
+        self.width = 607
+        self.height = 653
 
         self.pose_x = None
         self.pose_y = None
 
 
         self.timer = self.create_timer(0.01, self.timer_callback)
-        # self.timer2 = self.create_timer(0.5, self.tf_callback)
+        self.timer2 = self.create_timer(0.5, self.tf_callback)
 
     def timer_callback(self):
         global l_speed,r_speed, state
@@ -132,10 +133,10 @@ class TeleOp(Node):
         grid_loc = self.pixel_to_grid_cvt([pixel_loc_x,pixel_loc_y])
         goal_pose = PoseStamped()
         goal_pose.header.frame_id = 'map'
-        goal_pose.header.stamp = self.navigator.get_clock().now().to_msg()
+        goal_pose.header.stamp = self.get_clock().now().to_msg()
         goal_pose.pose.position.x = grid_loc[0]
         goal_pose.pose.position.y = grid_loc[1]
-        self.navigator.goToPose(goal_pose)
+        self.goal_pub.publish(goal_pose)
     
     def tf_callback(self):
         from_frame_rel = "base_link"

@@ -99,7 +99,7 @@ def generate_launch_description():
             executable='controller_server',
             output='screen',
             parameters=[configured_params],
-            remappings=remappings+[('cmd_vel', 'cmd_vel_smoothen'),('/odom', '/odometry/filtered')]),
+            remappings=remappings+[('cmd_vel', 'cmd_vel_raw'),('/odom', '/odometry/filtered')]),
 
         Node(
             package='nav2_planner',

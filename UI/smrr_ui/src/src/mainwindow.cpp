@@ -15,10 +15,8 @@
 #include "screen_map.h"
 #include "screen_info.h"
 #include "screen_face.h"
-#include "screen_name.h"
-#include "screen_greet.h"
 #include "screen_home.h"
-
+#include "screen_name.h"
 // #include "screen_action.h"
 
 #include <QString>
@@ -29,21 +27,21 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    qDebug() << "ui run";    
+    qDebug() << "ui run";
 
     rosNode = new rclcomm();
 
-    generateLocationMap();    
+    generateLocationMap();
 
     gotoPage(PAGE_HOME);
     // gotoPage(PAGE_GUIDE);
+    // gotoPage(PAGE_GUIDE_OPTIONS);
+
 
     // // connect(rosNode, SIGNAL(emitTopicData(QString)), this, SLOT(updateTopicInfo(QString)));
     // // connect(ui->pushButton, &QPushButton::clicked, rosNode, &rclcomm::sendTopicData);
 
-    
     connect(rosNode, &rclcomm::onGuideOptions, this, &MainWindow::onGuideOptions);
-
 }
 
 MainWindow::~MainWindow()
@@ -77,38 +75,54 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     switch (pageId)
     {
     case PAGE_HOME:
-    {
-        vector<Option> options = {Option(PAGE_FACE, "Let's Talk")};
-        QWidget *screen = new ScreenHome(this, &options, "Hi!!! \n I'm Devi");
+    {        
+        QWidget *screen = new ScreenHome(this);
         showScreen(screen);
         break;
     }
-    case PAGE_FACE:
+    case PAGE_FACE: //let me remind your name
     {
         QWidget *screen = new ScreenFace(this);
         showScreen(screen, false);
         break;
     }
-    case PAGE_NAME:{
+    case PAGE_NAME:
+    {
         QWidget *screen = new ScreenName(this);
         showScreen(screen, false);
         break;
     }
-    case PAGE_GREET:{
-        QWidget *screen = new ScreenGreet(this,"Hi "+text+"! \n How can I help you today ?");
-        showScreen(screen, false);
+    case PAGE_BASIC_OPTIONS:
+    {
+        vector<Option> options = {Option(PAGE_GUIDE, "Guide Me"), Option(PAGE_MEET, "Meet Someone"), Option(PAGE_ABOUT_DEPARTMENT, "About Department")};
+        QWidget *screen = new ScreenOptionsTitled(this, &options,"Hi " + text + "! \n How can I assist you today?");
+        showScreen(screen);
         break;
     }
     case PAGE_GUIDE:
     {
-        vector<Option> options = {Option(PAGE_GUIDE_LABS, "Labs"), Option(PAGE_GUIDE_HALLS, "Halls")};
+        vector<Option> options = {Option(PAGE_GUIDE_LABS, "Labs"), Option(PAGE_GUIDE_HALLS, "Halls"), Option(PAGE_GUIDE_OTHER, "Other")};
         QWidget *screen = new ScreenOptions(this, &options);
         showScreen(screen);
         break;
     }
     case PAGE_GUIDE_LABS:
     {
-        vector<Option> options = {Option(PAGE_GUIDE_OPTIONS, "Vision Lab", "VISION_LAB"), Option(PAGE_GUIDE_OPTIONS, "Telecom Lab", "TELECOM_LAB")};
+        vector<Option> options = {Option(PAGE_GUIDE_OPTIONS, locationMap["VISION_LAB"], "VISION_LAB"), Option(PAGE_GUIDE_OPTIONS, locationMap["TELECOM_LAB"], "TELECOM_LAB")};
+        QWidget *screen = new ScreenOptions(this, &options);
+        showScreen(screen);
+        break;
+    }
+    case PAGE_GUIDE_HALLS:
+    {
+        vector<Option> options = {Option(PAGE_GUIDE_OPTIONS, locationMap["PG_ROOM"], "PG_ROOM"), Option(PAGE_GUIDE_OPTIONS, locationMap["3.5_LECTURE_HALL"],"3.5_LECTURE_HALL" )};
+        QWidget *screen = new ScreenOptions(this, &options);
+        showScreen(screen);
+        break;
+    }
+    case PAGE_GUIDE_OTHER:
+    {
+        vector<Option> options = {Option(PAGE_GUIDE_OPTIONS, locationMap["WASHROOM"], "WASHROOM"), Option(PAGE_GUIDE_OPTIONS, locationMap["LIFT"], "LIFT")};
         QWidget *screen = new ScreenOptions(this, &options);
         showScreen(screen);
         break;
@@ -123,7 +137,7 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     case PAGE_NAVIGATION:
     {
         QWidget *screen = new ScreenNavigation(this, "Let' go to " + locationMap[data] + " !!!", data);
-        showScreen(screen,false);
+        showScreen(screen, false);
         break;
     }
     case PAGE_MAP:
@@ -206,4 +220,17 @@ void MainWindow::generateLocationMap()
     locationMap["PG_LAB"] = "PG Lab";
     locationMap["3.5_LECTURE_HALL"] = "3.5 Lecture Hall";
     locationMap["WASHROOM"] = "Washrooms";
+}
+
+// void MainWindow::publishStr(PubStr pubStr, QString qdata)
+// {
+//     std_msgs::msg::String rosString;
+//     rosString.data = qdata.toStdString();
+//     pubStr->publish(rosString);
+// }
+void MainWindow::publishStr(PubStr pubStr, string data)
+{
+    std_msgs::msg::String rosString;
+    rosString.data = data;
+    pubStr->publish(rosString);
 }

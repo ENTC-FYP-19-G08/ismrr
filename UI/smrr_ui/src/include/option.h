@@ -10,6 +10,8 @@ using namespace std;
 enum PageId
 {
     PAGE_HOME,
+    PAGE_FACE,
+    PAGE_NAME,
     PAGE_BASIC_OPTIONS,
     PAGE_GUIDE,
     PAGE_GUIDE_LABS,
@@ -21,10 +23,8 @@ enum PageId
     PAGE_ACTION,
     PAGE_NAVIGATION,
     PAGE_MAP,
-    PAGE_INFO,
-    PAGE_FACE,
-    PAGE_NAME,
-    PAGE_GREET};
+    PAGE_INFO
+    };
 
 class Option
 {
