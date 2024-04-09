@@ -13,8 +13,8 @@ from std_msgs.msg import String, Int8
 
 
 # from smrr_navigation import TaskResult
-# from smrr_gestures import SMRRGestures
-# from smrr_gestures import GestureType
+from smrr_gestures import SMRRGestures
+from smrr_gestures import GestureType
 # from smrr_face_recognition import SMRRFaceRecogition
 from load_locations import LoadLocations
 from smrr_conversation import SMRRCoversation
@@ -49,7 +49,7 @@ class LoadModules(State):
         time.sleep(1)
         return SUCCEED
        
-
+random.choice(welcoming_messages)
 class Idle(State):
     def __init__(self, node):
         super().__init__(["trigger","end"])
@@ -101,6 +101,8 @@ class Conversation(State):
         print("Executing Conversation state")
         # blackboard.conv_obj.text_to_speech(random.choice(welcoming_messages))
 
+        SMRRGestures.do_gesture(GestureType.AYUBOWAN)
+        blackboard.conv_obj.text_to_speech("Ayubowan")
         
         # blackboard.conv_obj.text_to_speech(random.choice(waiting_messages))
         name, angle = self.trigger_func()
