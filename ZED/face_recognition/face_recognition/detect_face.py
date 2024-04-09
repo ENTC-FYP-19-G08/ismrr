@@ -60,12 +60,12 @@ class face_recog(Node):
 
     def captureCam(self,msg):
         self.vid_frame.append(msg)
-        print(">> Image added")
+        # print(">> Image added")
         if len(self.vid_frame)>self.frame_buffer:
             self.vid_frame = self.vid_frame[1:]
 
     def setUnknownName(self,msg):
-        print(">> recieved: ",msg.data)
+        print(">> recieved name: ",msg.data)
         self.received_name.append(msg.data)
         if len(self.received_name)==10:
             self.received_name = self.received_name[9:]
@@ -97,13 +97,14 @@ class face_recog(Node):
         need_angle = request.angle_request
 
         # reset stats
-        self.current_frame = 0
+        self.current_frame = (len(self.vid_frame) - self.frame_count)//2
         self.known_count=0
         self.unknown_count=0
         self.known_stats = {'unknown':0}
         self.max_count_name = ""
+        i = 0
 
-        while self.current_frame<self.frame_count:
+        while i<self.frame_count:
 
             video_frame = self.br.imgmsg_to_cv2(self.vid_frame[self.current_frame])
             if self.frame_h==0 and self.frame_w==0:
@@ -133,6 +134,7 @@ class face_recog(Node):
                 
 
             self.current_frame+=1
+            i+=1
 
         # end of loop
 
