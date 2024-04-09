@@ -24,7 +24,7 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
     private List<Pin> pins = new ArrayList<>();
     private Pin targetPin = new Pin(500, 500);
     private Pin currentPin;
-    private Paint targetPinPaint, currentPinPaint;
+    private Paint targetPinPaint, currentPinPaint, labelPinPaint,labelTextPaint;
     private OnMapTapListener onMapTapListener;
 
     private int mapImageWidth = 0;
@@ -59,6 +59,15 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
         currentPinPaint = new Paint();
         currentPinPaint.setColor(Color.GREEN);
         currentPinPaint.setStyle(Paint.Style.FILL);
+
+        labelPinPaint = new Paint();
+        labelPinPaint.setColor(Color.BLUE);
+        labelPinPaint.setStyle(Paint.Style.FILL);
+
+        labelTextPaint = new Paint();
+        labelTextPaint.setColor(Color.BLACK);
+        labelTextPaint.setTextSize(24);
+        labelTextPaint.setTextAlign(Paint.Align.CENTER);
 
         matrix = getImageMatrix();
 
@@ -152,6 +161,8 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
             float[] currentPoint = {currentPin.x, currentPin.y};
             matrix.mapPoints(currentPoint);
             canvas.drawCircle(currentPoint[0], currentPoint[1], pinSize, currentPinPaint);
+//            labelTextPaint.setTextSize(pinSize*3);
+            canvas.drawText("Label", currentPoint[0], currentPoint[1] - 20, labelTextPaint);
         }
 
 
