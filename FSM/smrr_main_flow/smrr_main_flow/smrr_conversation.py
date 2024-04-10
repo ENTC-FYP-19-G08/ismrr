@@ -66,7 +66,13 @@ class SMRRCoversation:
         )
 
         self.llm_process = multiprocessing.Process(
-            target=self.start_llm, args=(self.stt_queue,)
+            target=self.start_llm,
+            args=(
+                self.stt_queue,
+                self.text_to_speech,
+                self.text_to_speech_queue_check,
+                self.sleep_queue(),
+            ),
         )
         self.whisper_process.start()
         self.llm_process.start()
@@ -81,7 +87,7 @@ class SMRRCoversation:
             text = self.whisper.transcribe_(audio_)
             output_q.put(text)
 
-    def start_llm(self, input_q):
+    def start_llm(self, input_q, tts_func, q_check_func, sleep_q):
         self.llm = LLM(
             m="/SSD/exllamav2_old/my_model",
             mode="llama",
@@ -93,9 +99,9 @@ class SMRRCoversation:
             text_input = input_q.get()
             self.llm.chat_(
                 text_input,
-                self.text_to_speech,
-                self.text_to_speech_queue_check,
-                self.sleep_queue(),
+                tts_func,
+                q_check_func,
+                sleep_q,
             )
 
     def start_listening(self):
