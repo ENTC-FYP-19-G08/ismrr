@@ -162,7 +162,7 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
             matrix.mapPoints(currentPoint);
             canvas.drawCircle(currentPoint[0], currentPoint[1], pinSize, currentPinPaint);
 //            labelTextPaint.setTextSize(pinSize*3);
-            canvas.drawText("Label", currentPoint[0], currentPoint[1] - 20, labelTextPaint);
+            canvas.drawText("Label", currentPoint[0], currentPoint[1] - pinSize-5, labelTextPaint);
         }
 
 
