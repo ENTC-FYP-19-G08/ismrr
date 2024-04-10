@@ -4,6 +4,7 @@ from datetime import datetime
 
 import time, logging, sounddevice
 import threading, collections, queue, os, os.path
+import multiprocessing
 from faster_whisper import WhisperModel
 import numpy as np
 from halo import Halo
@@ -25,10 +26,11 @@ from location_classifier import LocationClassifier
 
 from std_msgs.msg import String
 
+
 class SMRRCoversation:
     def __init__(self, node):
         self.node = node
-        self.whisper = FasterWhisper("small.en", "cuda", "float32")
+        # self.whisper = FasterWhisper("small.en", "cuda", "float32")
         # self.llm = LLM(
         #     m="/SSD/exllamav2_old/my_model",
         #     mode="llama",
@@ -36,23 +38,65 @@ class SMRRCoversation:
         #     ncf=True,
         #     sp="You are the Smart Mobile Robot Receptionist at the Department of Electronic and Telecommunication Engineering of the University of Moratuwa. ENTC is a short form that is used to refer to the department of Electronic and Telecommunication Engineering. You have to behave like the receptionist at ENTC. Almost every question and statement is related to the department and you have to answer from the context of the department. Greet appropriately and ask how you can assist them. When ending a conversation thank the user appropriately for contacting the robot receptionist. If a user asks for directions to any location in the department, directly use the given information below related to the department. If you can not find relevant information to respond to a user question or statement, decently say you can not help and manage the situation. You have to respond to the user questions or statements delimited by triple backticks. Here is some information about the department as the receptionist you must know. The head of the department: Dr. Ranga Rodrigo. Direction to the conference room: There is the staircase. The conference room is on the first floor. Once you reach the first floor, go through the passage on your right-hand side. Then turn right, go some distance, turn left, and go toward the end of the passage. Then you can see the conference room in front of you. Direction to the staff common room: There is the staircase. The staff common room is on the first floor.  Once you reach the first floor, go through the passage on your right-hand side. Then turn right, go some distance, turn left and go toward the end of the passage, turn left and go on. Then you can see the staff common room. Direction to the seminar room: There is the staircase. The seminar room is on the third floor. Once you reach the third floor, go through the passage on your right-hand side. Then go up through the stairs ahead. Then you can see the seminar room on your lefthand side. Direction to the postgraduate room: There is the staircase. The postgraduate room is on the fourth floor. Direction to the radio room: There is the staircase. The radio room is on the rooftop of the building. Direction to the ENTC1 hall: There is the ENTC1 hall. Direction to the communication laboratory: There is the staircase. The communication laboratory is on the third floor. Once you reach the third floor, go through the passage on your right-hand side. Then turn left and go towards the end of the passage. Then you can see the communication laboratory in front of you. Direction to the computer lab: There is the staircase. The computer laboratory is on the first floor. Once you reach the first floor, you can see the computer laboratory on your left side. Direction to the head of the department's office: There is the staircase. The office of the head of the department is on the first floor. Once you reach the first floor, go through the passage on your right-hand side. Then turn right and go towards the end of the passage. Then you can see the office of the head of department on your lefthand side. Direction to the analog lab: There is the staircase. The analog electronic laboratory is on the second floor. Once you reach the second floor, go through the passage on your right-hand side. Then turn left and go towards the end of the passage. Then you can see the analog electronic laboratory on your lefthand side. Direction to the digital laboratory: There is the staircase. The digital electronic laboratory is on the second floor. Once you reach the second floor, go through the passage on your right-hand side. Then turn left and go towards the end of the passage. Then you can see the digital electronic laboratory in front of you. Direction to the department office: There is the staircase. The department office is on the first floor. Once you reach the first floor, go through the passage on your right-hand side. Then turn right and towards the end of the passage. Then you can see the department office on your lefthand side. Direction to the electronic workshop: There is the staircase. The electronic workshop is on the second floor. Once you reach the second floor, go through the passage on your right-hand side. Then turn right and go towards the end of the passage. Then you can see the electronic workshop on your lefthand side. Direction to the computer lab: There is the staircase. The soldering room is on the second floor. Once you reach the second floor, go through the passage on your right-hand side. Then turn right and go about two meters through the passage. Then you can see the soldering room on your lefthand side. ",
         # )
-        self.trig_sub = self.node.create_subscription(String,'/trigger', self.call_back,10)
+        self.trig_sub = self.node.create_subscription(
+            String, "/trigger", self.call_back, 10
+        )
         self.tts = TextToSpeech()
         self.should_stop = False
         self.text_to_speech_init()
         self.classifier = LocationClassifier()
         self.classifier.initialize_process()
-        self.trigerring_words =  ["hi","hello","hey"]
-        self.ending_words =  ["thank you","bye","thanks", "thank"]
+        self.trigerring_words = ["hi", "hello", "hey"]
+        self.ending_words = ["thank you", "bye", "thanks", "thank"]
         self.triggered = False
+        self.audio_queue = multiprocessing.Queue()
+        self.stt_queue = multiprocessing.Queue()
+        self.sleep_queue = multiprocessing.Queue()
         self.vad_audio = VADAudio(
             aggressiveness=2,
             input_rate=16000,
             # device = 33,
         )
+        self.whisper_process = multiprocessing.Process(
+            target=self.start_stt,
+            args=(
+                self.audio_queue,
+                self.stt_queue,
+            ),
+        )
 
-    def call_back(self,msg):
+        self.llm_process = multiprocessing.Process(
+            target=self.start_llm, args=(self.stt_queue,)
+        )
+        self.whisper_process.start()
+        self.llm_process.start()
+
+    def call_back(self, msg):
         self.triggered = True
+
+    def start_stt(self, input_q, output_q):
+        self.whisper = FasterWhisper("small.en", "cuda", "float32")
+        while True:
+            audio_ = input_q.get()
+            text = self.whisper.transcribe_(audio_)
+            output_q.put(text)
+
+    def start_llm(self, input_q):
+        self.llm = LLM(
+            m="/SSD/exllamav2_old/my_model",
+            mode="llama",
+            # pt=True,
+            ncf=True,
+            sp="You are the Smart Mobile Robot Receptionist at the Department of Electronic and Telecommunication Engineering of the University of Moratuwa. ENTC is a short form that is used to refer to the department of Electronic and Telecommunication Engineering. You have to behave like the receptionist at ENTC. Almost every question and statement is related to the department and you have to answer from the context of the department. Greet appropriately and ask how you can assist them. When ending a conversation thank the user appropriately for contacting the robot receptionist. If a user asks for directions to any location in the department, directly use the given information below related to the department. If you can not find relevant information to respond to a user question or statement, decently say you can not help and manage the situation. You have to respond to the user questions or statements delimited by triple backticks. Here is some information about the department as the receptionist you must know. The head of the department: Dr. Ranga Rodrigo. Direction to the conference room: There is the staircase. The conference room is on the first floor. Once you reach the first floor, go through the passage on your right-hand side. Then turn right, go some distance, turn left, and go toward the end of the passage. Then you can see the conference room in front of you. Direction to the staff common room: There is the staircase. The staff common room is on the first floor.  Once you reach the first floor, go through the passage on your right-hand side. Then turn right, go some distance, turn left and go toward the end of the passage, turn left and go on. Then you can see the staff common room. Direction to the seminar room: There is the staircase. The seminar room is on the third floor. Once you reach the third floor, go through the passage on your right-hand side. Then go up through the stairs ahead. Then you can see the seminar room on your lefthand side. Direction to the postgraduate room: There is the staircase. The postgraduate room is on the fourth floor. Direction to the radio room: There is the staircase. The radio room is on the rooftop of the building. Direction to the ENTC1 hall: There is the ENTC1 hall. Direction to the communication laboratory: There is the staircase. The communication laboratory is on the third floor. Once you reach the third floor, go through the passage on your right-hand side. Then turn left and go towards the end of the passage. Then you can see the communication laboratory in front of you. Direction to the computer lab: There is the staircase. The computer laboratory is on the first floor. Once you reach the first floor, you can see the computer laboratory on your left side. Direction to the head of the department's office: There is the staircase. The office of the head of the department is on the first floor. Once you reach the first floor, go through the passage on your right-hand side. Then turn right and go towards the end of the passage. Then you can see the office of the head of department on your lefthand side. Direction to the analog lab: There is the staircase. The analog electronic laboratory is on the second floor. Once you reach the second floor, go through the passage on your right-hand side. Then turn left and go towards the end of the passage. Then you can see the analog electronic laboratory on your lefthand side. Direction to the digital laboratory: There is the staircase. The digital electronic laboratory is on the second floor. Once you reach the second floor, go through the passage on your right-hand side. Then turn left and go towards the end of the passage. Then you can see the digital electronic laboratory in front of you. Direction to the department office: There is the staircase. The department office is on the first floor. Once you reach the first floor, go through the passage on your right-hand side. Then turn right and towards the end of the passage. Then you can see the department office on your lefthand side. Direction to the electronic workshop: There is the staircase. The electronic workshop is on the second floor. Once you reach the second floor, go through the passage on your right-hand side. Then turn right and go towards the end of the passage. Then you can see the electronic workshop on your lefthand side. Direction to the computer lab: There is the staircase. The soldering room is on the second floor. Once you reach the second floor, go through the passage on your right-hand side. Then turn right and go about two meters through the passage. Then you can see the soldering room on your lefthand side. ",
+        )
+        while True:
+            text_input = input_q.get()
+            self.llm.chat_(
+                text_input,
+                self.text_to_speech,
+                self.text_to_speech_queue_check,
+                self.sleep_queue(),
+            )
 
     def start_listening(self):
         print("Listening ... ")
@@ -74,13 +118,16 @@ class SMRRCoversation:
                     spinner.stop()
                 numpy_array = np.frombuffer(wav_data, dtype=np.int16)
                 numpy_array = numpy_array.astype(np.float32) / 32768.0
-                text = self.whisper.transcribe_(numpy_array)
+                self.audio_queue.put(numpy_array)
+                text = self.stt_queue.get()
+                # text = self.whisper.transcribe_(numpy_array)
 
                 if text is not None:
                     tic = time.time()
                     self.classifier.classify_location(text)
-                    self.language_understanding_and_generation(text)
-                    
+                    # self.language_understanding_and_generation(text)
+                    self.stt_queue.put(text)
+                    flag = self.sleep_queue.get()
                     text = text.lower()
                     for word in self.ending_words:
                         if word in text:
@@ -88,7 +135,7 @@ class SMRRCoversation:
                             self.vad_audio.clear_queue()
                             wav_data = bytearray()
                             return
-                    tic = time.time()    
+                    tic = time.time()
                 self.vad_audio.clear_queue()
                 wav_data = bytearray()
 
@@ -139,14 +186,19 @@ class SMRRCoversation:
     def kill_classification(self):
         self.classifier.kill_processes()
 
+    def kill_whisper(self):
+        if self.whisper_process.is_alive():
+            self.whisper_process.kill()
+
+    def kill_llm(self):
+        if self.llm_process.is_alive():
+            self.llm_process.kill()
+
     def language_understanding_and_generation(self, text):
-        self.llm.chat_(text, self.text_to_speech,self.text_to_speech_queue_check)
-        pass
+        self.llm.chat_(text, self.text_to_speech, self.text_to_speech_queue_check)
 
     def text_to_speech(self, text):
         self.tts.convert_text_to_speech(text)
 
     def text_to_speech_queue_check(self):
         self.tts.check_output_queue()
-
-

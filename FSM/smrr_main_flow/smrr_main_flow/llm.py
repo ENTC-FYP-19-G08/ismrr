@@ -6,8 +6,8 @@ import subprocess
 # from google.cloud import texttospeech
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-sys.path.append('/SSD/exllamav2_old/examples')
-sys.path.append('/SSD/exllamav2_old')
+sys.path.append("/SSD/exllamav2_old/examples")
+sys.path.append("/SSD/exllamav2_old")
 
 from exllamav2 import (
     ExLlamaV2,
@@ -303,7 +303,7 @@ class LLM:
             self.user_prompts = self.user_prompts[1:]
             self.responses_ids = self.responses_ids[1:]
 
-    def make_sentence(self, chunk_, flag, funct, funct2):
+    def make_sentence(self, chunk_, flag, funct, funct2, qu):
         if flag:
             # return self.model_responses
             self.model_responses.append(self.model_response)
@@ -316,6 +316,7 @@ class LLM:
             while True:
                 if funct2:
                     break
+            qu.put(True)
             return
         elif chunk_ in [".", ",", "?", "!"]:
             self.model_response += chunk_
@@ -410,7 +411,7 @@ class LLM:
             # self.can_play=True
             return
 
-    def chat_(self, user_p, tts_func, q_check_func):
+    def chat_(self, user_p, tts_func, q_check_func, slp_q):
         # while True:
         # self.engine = pyttsx3.init()
         # pygame.init()
@@ -493,7 +494,7 @@ class LLM:
 
                 # Print formatted
                 print(chunk, end="")
-                self.make_sentence(chunk, eos, tts_func, q_check_func)
+                self.make_sentence(chunk, eos, tts_func, q_check_func, slp_q)
                 # temp.append(chunk)
                 # pass
 
