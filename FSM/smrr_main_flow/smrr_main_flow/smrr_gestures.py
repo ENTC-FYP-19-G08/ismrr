@@ -20,7 +20,7 @@ class SMRRGestures():
     }
 
     def __init__(self):
-        self.ser = serial.Serial('/dev/ttyACM1', 9600)
+        self.ser = serial.Serial('/dev/ttyACM0', 9600)
 
     def do_gesture(self, gesture_type):
         self.ser.write(b'\xa7')

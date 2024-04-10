@@ -41,6 +41,7 @@ class SMRRCoversation:
         self.trig_sub = self.node.create_subscription(
             String, "/trigger", self.call_back, 10
         )
+        # multiprocessing.set_start_method('spawn')
         self.tts = TextToSpeech()
         self.should_stop = False
         self.text_to_speech_init()
@@ -66,7 +67,13 @@ class SMRRCoversation:
         )
 
         self.llm_process = multiprocessing.Process(
-            target=self.start_llm, args=(self.stt_queue,)
+            target=self.start_llm,
+            args=(
+                self.stt_queue,
+                self.text_to_speech,
+                self.text_to_speech_queue_check,
+                self.sleep_queue,
+            ),
         )
         self.whisper_process.start()
         self.llm_process.start()
@@ -75,14 +82,14 @@ class SMRRCoversation:
         self.triggered = True
 
     def start_stt(self, input_q, output_q):
-        self.whisper = FasterWhisper("small.en", "cuda", "float32")
+        whisper = FasterWhisper("small.en", "cuda", "float32")
         while True:
             audio_ = input_q.get()
-            text = self.whisper.transcribe_(audio_)
+            text = whisper.transcribe_(audio_)
             output_q.put(text)
 
-    def start_llm(self, input_q):
-        self.llm = LLM(
+    def start_llm(self, input_q, tts_func, q_check_func, sleep_q):
+        llm = LLM(
             m="/SSD/exllamav2_old/my_model",
             mode="llama",
             # pt=True,
@@ -91,11 +98,11 @@ class SMRRCoversation:
         )
         while True:
             text_input = input_q.get()
-            self.llm.chat_(
+            llm.chat_(
                 text_input,
-                self.text_to_speech,
-                self.text_to_speech_queue_check,
-                self.sleep_queue(),
+                tts_func,
+                q_check_func,
+                sleep_q,
             )
 
     def start_listening(self):

@@ -13,8 +13,8 @@ from std_msgs.msg import String, Int8
 
 
 # from smrr_navigation import TaskResult
-from smrr_gestures import SMRRGestures
-from smrr_gestures import GestureType
+# from smrr_gestures import SMRRGestures
+# from smrr_gestures import GestureType
 # from smrr_face_recognition import SMRRFaceRecogition
 from load_locations import LoadLocations
 from smrr_conversation import SMRRCoversation
@@ -49,24 +49,22 @@ class LoadModules(State):
         time.sleep(1)
         return SUCCEED
        
-random.choice(welcoming_messages)
 class Idle(State):
     def __init__(self, node):
         super().__init__(["trigger","end"])
         self.node = node
         self.trig_sub = self.node.create_subscription(String,'/trigger', self.call_back,10)
         self.trigger = False
-        # self.conv_obj = SMRRCoversation(self)
-        # print("Conversation module is ready")
+        print("Conversation module is ready")
     
     def call_back(self, msg):
         self.trigger = True
 
     def execute(self, blackboard):
-        self.trigger = False
+        # self.trigger = False
         print("Executing Idle state ")
-        while not self.trigger:
-            pass
+        # while not self.trigger:
+        #     pass
         # try:
         #     print(blackboard.conv_obj)
         # except:
@@ -85,37 +83,39 @@ class Conversation(State):
         # print("Gestures module is ready")
         # face_recsog_obj = SMRRFaceRecogition(self.node)
         # print("Face recognition module is ready")
-        self.fr_cli = self.node.create_client(FaceRecogRequest, '/smrr_face_recog_srv')
+        # self.fr_cli = self.node.create_client(FaceRecogRequest, '/smrr_face_recog_srv')
         
-        self.name_pub = self.node.create_publisher(String, '/ui/username', 10)   
+        # self.name_pub = self.node.create_publisher(String, '/ui/username', 10)   
 
-        while not self.fr_cli.wait_for_service(timeout_sec=1.0):
-            self.node.get_logger().info('face recognition service not available, waiting again...')
-        self.node.get_logger().info("Face recognition service  available")
-        self.req = FaceRecogRequest.Request()
+        # while not self.fr_cli.wait_for_service(timeout_sec=1.0):
+        #     self.node.get_logger().info('face recognition service not available, waiting again...')
+        # self.node.get_logger().info("Face recognition service  available")
+        # self.req = FaceRecogRequest.Request()
 
     def call_back(self,msg):
         self.trigger = True
 
     def execute(self, blackboard):
         print("Executing Conversation state")
-        # blackboard.conv_obj.text_to_speech(random.choice(welcoming_messages))
+        blackboard.conv_obj.text_to_speech(random.choice(welcoming_messages))
 
-        SMRRGestures.do_gesture(GestureType.AYUBOWAN)
-        blackboard.conv_obj.text_to_speech("Ayubowan")
+        # SMRRGestures.do_gesture(GestureType.AYUBOWAN)
+        # blackboard.conv_obj.text_to_speech("Ayubowan")
         
-        # blackboard.conv_obj.text_to_speech(random.choice(waiting_messages))
-        name, angle = self.trigger_func()
-        print(name, angle)
-        msg = String()
-        msg.data = name
-        self.name_pub.publish(msg)
-        if name!= 'unknown':
-            blackboard.conv_obj.text_to_speech("Hi"+name + "Nice to see you again.")
-        else:
-            blackboard.conv_obj.text_to_speech("We haven't met before. Could i know your name please? If you dont mind. Or you can skip.")
+        # # blackboard.conv_obj.text_to_speech(random.choice(waiting_messages))
+        # name, angle = self.trigger_func()
+        # print(name, angle)
+        # msg = String()
+        # msg.data = name
+        # self.name_pub.publish(msg)
+        # if name!= 'unknown':
+        #     blackboard.conv_obj.text_to_speech("Hi"+name + "Nice to see you again.")
+        # else:
+        #     blackboard.conv_obj.text_to_speech("We haven't met before. Could i know your name please? If you dont mind. Or you can skip.")
+        
+        
         blackboard.conv_obj.start_listening()
-        print("Exite from conversation state")
+        # print("Exite from conversation state")
 
         return "guide"
     
@@ -132,16 +132,16 @@ class Conversation(State):
 class Navigation(State):
     def __init__(self, node):
         super().__init__([SUCCEED, ABORT, CANCEL])
-        # self.node = node
-        # self.locations = LoadLocations(self.node).locations
-        # self.goal = None
-        # self.nav_result = None
-        # self.navi_obj = RobotNavigator()
-        # self.ui_sub = self.node.create_subscription(String, '/ui/guide_navigation', self.ui_callback, 10)
-        # self.app_goal_sub = self.node.create_subscription(PoseStamped, '/app_goal', self.app_goal_callback, 10)
-        # self.nav_state_pub = self.node.create_publisher(String, '/ui/guide_navigation_result', 10)
-        # self.nav_result_outcomes ={0: "UNKNOWN", 1:"SUCCEEDED", 2:"CANCELED" ,3:"FAILED"}
-        # self.timer = None
+        self.node = node
+        self.locations = LoadLocations(self.node).locations
+        self.goal = None
+        self.nav_result = None
+        self.navi_obj = RobotNavigator()
+        self.ui_sub = self.node.create_subscription(String, '/ui/guide_navigation', self.ui_callback, 10)
+        self.app_goal_sub = self.node.create_subscription(PoseStamped, '/app_goal', self.app_goal_callback, 10)
+        self.nav_state_pub = self.node.create_publisher(String, '/ui/guide_navigation_result', 10)
+        self.nav_result_outcomes ={0: "UNKNOWN", 1:"SUCCEEDED", 2:"CANCELED" ,3:"FAILED"}
+        self.timer = None
     
     def app_goal_callback(self, msg):
         self.navi_obj.goToPose(msg)
