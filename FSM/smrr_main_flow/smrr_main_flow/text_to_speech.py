@@ -11,14 +11,14 @@ class TextToSpeech:
     def __init__(self):
         self.input_queue_1 = multiprocessing.Queue()
         self.output_queue = multiprocessing.Queue()
-        self.delete_queue = multiprocessing.Queue()
+        self.ending_queue = multiprocessing.Queue()
 
     def initialize_processes(self):
         self.process_1 = multiprocessing.Process(
-            target=self.make_wav, args=(self.input_queue_1, self.output_queue)
+            target=self.make_wav, args=(self.input_queue_1, self.output_queue,)
         )
         self.process_2 = multiprocessing.Process(
-            target=self.play_wav, args=(self.output_queue,)
+            target=self.play_wav, args=(self.output_queue,self.ending_queue,)
         )
 
         self.process_1.start()
@@ -33,16 +33,15 @@ class TextToSpeech:
         if self.process_2.is_alive():
             self.process_2.kill()
 
-    def check_output_queue(self):
-        if self.delete_queue.empty():
-            return True
-        else: return False
+    def get_ending(self):
+        i = self.ending_queue.get()
+        return i
 
     def delete_wav_file(self, file_path):
         if os.path.exists(file_path):
             if file_path.endswith(".wav"):
                 os.remove(file_path)
-                print(f"{file_path} deleted successfully.")
+                # print(f"{file_path} deleted successfully.")
             else:
                 print(f"{file_path} is not a .wav file.")
         else:
@@ -81,29 +80,32 @@ class TextToSpeech:
             if item is None:  # Signal to stop processing
                 output_queue.put(None)
                 break
-            # Perform certain process on item
-            name = datetime.now().strftime("savewav_%Y-%m-%d_%H-%M-%S_%f.wav")
-            command = f"""/SSD/build/flite/bin/flite -voice /SSD/build/flite/voices/cmu_us_lnh.flitevox -t "{item}" ./{name}"""
-            result = subprocess.run(
-                command,
-                shell=True,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-            )
-            output_queue.put(name)
-            self.delete_queue.put(name)
+            if item=="$$":
+                output_queue.put("$$")
+            else:
+                name = datetime.now().strftime("savewav_%Y-%m-%d_%H-%M-%S_%f.wav")
+                command = f"""/SSD/build/flite/bin/flite -voice /SSD/build/flite/voices/cmu_us_lnh.flitevox -t "{item}" ./{name}"""
+                result = subprocess.run(
+                    command,
+                    shell=True,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True,
+                )
+                output_queue.put(name)
 
-    def play_wav(self, input_queue):
+    def play_wav(self, input_queue,d_queue):
         while True:
             item = input_queue.get()
             if item is None:  # Signal to stop processing
                 break
             # Perform certain process on item
-            self.play_wav_file(item)
-            self.delete_wav_file(item)
-            print("not ending")
-            self.delete_queue.get()
+            if item =="$$":
+                d_queue.put("$$")
+            else:
+                self.play_wav_file(item)
+                self.delete_wav_file(item)
+                # print("not ending")
 
     def convert_text_to_speech(self, text):
         self.input_queue_1.put(text)

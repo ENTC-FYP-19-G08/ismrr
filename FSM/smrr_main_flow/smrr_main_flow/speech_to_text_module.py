@@ -172,7 +172,7 @@ class VADAudio(Audio):
 
 class FasterWhisper(Audio):
     def __init__(self, model_size, device, compute_type):
-        super().__init__()
+        # super().__init__()
         self.model = WhisperModel(model_size, device=device, compute_type=compute_type)
 
     def transcribe_(self, audio_path):
