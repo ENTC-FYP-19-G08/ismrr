@@ -37,7 +37,6 @@ MainWindow::MainWindow(QWidget *parent)
     // gotoPage(PAGE_GUIDE);
     // gotoPage(PAGE_GUIDE_OPTIONS);
 
-
     // // connect(rosNode, SIGNAL(emitTopicData(QString)), this, SLOT(updateTopicInfo(QString)));
     // // connect(ui->pushButton, &QPushButton::clicked, rosNode, &rclcomm::sendTopicData);
 
@@ -75,12 +74,12 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     switch (pageId)
     {
     case PAGE_HOME:
-    {        
+    {
         QWidget *screen = new ScreenHome(this);
         showScreen(screen);
         break;
     }
-    case PAGE_FACE: //let me remind your name
+    case PAGE_FACE: // let me remind your name
     {
         QWidget *screen = new ScreenFace(this);
         showScreen(screen, false);
@@ -95,7 +94,7 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     case PAGE_BASIC_OPTIONS:
     {
         vector<Option> options = {Option(PAGE_GUIDE, "Guide\nMe"), Option(PAGE_MEET, "Meet\nSomeone"), Option(PAGE_ABOUT_DEPARTMENT, "About\nDepartment")};
-        QWidget *screen = new ScreenOptionsTitled(this, &options,"Hi " + text + "! \n How can I assist you today?");
+        QWidget *screen = new ScreenOptionsTitled(this, &options, "Hi " + text + "! \n How can I assist you today?");
         showScreen(screen);
         break;
     }
@@ -115,7 +114,7 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     }
     case PAGE_GUIDE_HALLS:
     {
-        vector<Option> options = {Option(PAGE_GUIDE_OPTIONS, locationMap["PG_ROOM"], "PG_ROOM"), Option(PAGE_GUIDE_OPTIONS, locationMap["3.5_LECTURE_HALL"],"3.5_LECTURE_HALL" )};
+        vector<Option> options = {Option(PAGE_GUIDE_OPTIONS, locationMap["PG_ROOM"], "PG_ROOM"), Option(PAGE_GUIDE_OPTIONS, locationMap["3.5_LECTURE_HALL"], "3.5_LECTURE_HALL")};
         QWidget *screen = new ScreenOptions(this, &options);
         showScreen(screen);
         break;
@@ -150,6 +149,24 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     {
         QWidget *screen = new ScreenInfo(this, text, data);
         showScreen(screen, false);
+        break;
+    }
+    case PAGE_SETTINGS:
+    {
+        vector<Option> options = {Option(PAGE_ACTION_MINIMIZE, "Minimize"),Option(PAGE_ACTION_FULLSCREEN, "Full Screen"), Option(PAGE_ACTION_RES_640x480, "640x480"), Option(PAGE_ACTION_RES_1280x720, "1280x720")};
+        QWidget *screen = new ScreenOptions(this, &options);
+        showScreen(screen);
+        break;
+    }
+    case PAGE_ACTION_MINIMIZE:
+    {
+        this->setWindowState(Qt::WindowMinimized);
+        break;
+    }
+    case PAGE_ACTION_FULLSCREEN:
+    {
+        this->setWindowState(Qt::WindowFullScreen);
+        break;
     }
     default:
         break;
