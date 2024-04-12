@@ -32,8 +32,7 @@
     <string/>
    </property>
    <property name="icon">
-    <iconset theme="back">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="back"/>
    </property>
    <property name="autoDefault">
     <bool>false</bool>
@@ -82,8 +81,7 @@
     <string/>
    </property>
    <property name="icon">
-    <iconset theme="go-home">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="go-home"/>
    </property>
    <property name="autoDefault">
     <bool>false</bool>
@@ -98,11 +96,16 @@
   <widget class="QPushButton" name="btnSkip">
    <property name="geometry">
     <rect>
-     <x>500</x>
+     <x>480</x>
      <y>400</y>
-     <width>111</width>
-     <height>41</height>
+     <width>121</width>
+     <height>51</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Skip</string>

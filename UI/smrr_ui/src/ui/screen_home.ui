@@ -6,9 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>640</width>
     <height>480</height>
    </rect>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>20</pointsize>
+   </font>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
@@ -19,15 +24,15 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>20</y>
-     <width>731</width>
-     <height>121</height>
+     <x>10</x>
+     <y>30</y>
+     <width>621</width>
+     <height>151</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>24</pointsize>
+     <pointsize>48</pointsize>
     </font>
    </property>
    <property name="text">
@@ -41,14 +46,46 @@ I'm DEVI</string>
   <widget class="QPushButton" name="btnTalk">
    <property name="geometry">
     <rect>
-     <x>280</x>
+     <x>190</x>
      <y>270</y>
-     <width>231</width>
-     <height>101</height>
+     <width>251</width>
+     <height>111</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>24</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Let's Talk</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnSettings">
+   <property name="geometry">
+    <rect>
+     <x>590</x>
+     <y>10</y>
+     <width>41</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>24</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset theme="applications-system"/>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>24</width>
+     <height>24</height>
+    </size>
    </property>
   </widget>
  </widget>

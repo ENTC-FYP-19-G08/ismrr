@@ -94,7 +94,7 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     }
     case PAGE_BASIC_OPTIONS:
     {
-        vector<Option> options = {Option(PAGE_GUIDE, "Guide Me"), Option(PAGE_MEET, "Meet Someone"), Option(PAGE_ABOUT_DEPARTMENT, "About Department")};
+        vector<Option> options = {Option(PAGE_GUIDE, "Guide\nMe"), Option(PAGE_MEET, "Meet\nSomeone"), Option(PAGE_ABOUT_DEPARTMENT, "About\nDepartment")};
         QWidget *screen = new ScreenOptionsTitled(this, &options,"Hi " + text + "! \n How can I assist you today?");
         showScreen(screen);
         break;
@@ -129,7 +129,7 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     }
     case PAGE_GUIDE_OPTIONS:
     {
-        vector<Option> options = {Option(PAGE_NAVIGATION, "Guide Me", data, rosNode->pubGuideNavigation), Option(PAGE_MAP, "Verbal Instruction", data, rosNode->pubGuideVerbal)};
+        vector<Option> options = {Option(PAGE_NAVIGATION, "Guide\nMe", data, rosNode->pubGuideNavigation), Option(PAGE_MAP, "Verbal\nInstruction", data, rosNode->pubGuideVerbal)};
         QWidget *screen = new ScreenOptionsTitled(this, &options, "Do you want to go to " + text + "?");
         showScreen(screen);
         break;

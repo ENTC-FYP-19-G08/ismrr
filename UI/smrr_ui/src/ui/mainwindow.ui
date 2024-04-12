@@ -10,6 +10,11 @@
     <height>480</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <pointsize>24</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
@@ -47,7 +52,7 @@
      <x>0</x>
      <y>0</y>
      <width>640</width>
-     <height>22</height>
+     <height>41</height>
     </rect>
    </property>
   </widget>
