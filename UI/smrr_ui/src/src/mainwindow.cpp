@@ -21,6 +21,7 @@
 
 #include <QString>
 #include <QDebug>
+#include <cstdlib>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -153,7 +154,7 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     }
     case PAGE_SETTINGS:
     {
-        vector<Option> options = {Option(PAGE_ACTION_MINIMIZE, "Minimize"),Option(PAGE_ACTION_FULLSCREEN, "Full Screen"), Option(PAGE_ACTION_RES_640x480, "640x480"), Option(PAGE_ACTION_RES_1280x720, "1280x720")};
+        vector<Option> options = {Option(PAGE_ACTION_MINIMIZE, "Minimize"), Option(PAGE_ACTION_FULLSCREEN, "Full Screen"), Option(PAGE_ACTION_RES_640x480, "640x480"), Option(PAGE_ACTION_RES_1280x720, "1280x720")};
         QWidget *screen = new ScreenOptions(this, &options);
         showScreen(screen);
         break;
@@ -166,6 +167,18 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     case PAGE_ACTION_FULLSCREEN:
     {
         this->setWindowState(Qt::WindowFullScreen);
+        break;
+    }
+    case PAGE_ACTION_RES_640x480:
+    {
+        system("xrandr --output eDP-1 --mode 640x480");
+        system("xrandr --output HDMI-0 --mode 640x480");
+        break;
+    }
+     case PAGE_ACTION_RES_1280x720:
+    {
+        system("xrandr --output eDP-1 --mode 1920x1080");
+        system("xrandr --output HDMI-0 --mode 1280x720");
         break;
     }
     default:
