@@ -21,10 +21,10 @@ import androidx.annotation.NonNull;
 
 public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView {
 
-    private List<Pin> pins = new ArrayList<>();
+    private List<Pin> locationPins = new ArrayList<>();
     private Pin targetPin = new Pin(500, 500);
     private Pin currentPin;
-    private Paint targetPinPaint, currentPinPaint, labelPinPaint,labelTextPaint;
+    private Paint targetPinPaint, currentPinPaint, locationPinPaint, locationTextPaint;
     private OnMapTapListener onMapTapListener;
 
     private int mapImageWidth = 0;
@@ -60,19 +60,22 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
         currentPinPaint.setColor(Color.GREEN);
         currentPinPaint.setStyle(Paint.Style.FILL);
 
-        labelPinPaint = new Paint();
-        labelPinPaint.setColor(Color.BLUE);
-        labelPinPaint.setStyle(Paint.Style.FILL);
+        locationPinPaint = new Paint();
+        locationPinPaint.setColor(Color.BLUE);
+        locationPinPaint.setStyle(Paint.Style.FILL);
 
-        labelTextPaint = new Paint();
-        labelTextPaint.setColor(Color.BLACK);
-        labelTextPaint.setTextSize(24);
-        labelTextPaint.setTextAlign(Paint.Align.CENTER);
+        locationTextPaint = new Paint();
+        locationTextPaint.setColor(Color.BLACK);
+        locationTextPaint.setTextSize(24);
+        locationTextPaint.setTextAlign(Paint.Align.CENTER);
 
         matrix = getImageMatrix();
 
         scaleDetector = new ScaleGestureDetector(getContext(), new ScaleListener());
         tapDetector = new GestureDetector(getContext(), new TapListener());
+
+        locationPins.add(getPinFromLocation(new Location("loc1", 200, 200)));
+        locationPins.add(getPinFromLocation(new Location("loc2", 450, 300)));
 
     }
 
@@ -126,8 +129,8 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
             case MotionEvent.ACTION_MOVE:
                 float deltaX = event.getX() - lastTouch.x;
                 float deltaY = event.getY() - lastTouch.y;
-                double delta=Math.pow(deltaX,2)+Math.pow(deltaY,2);
-                if(delta<50000){
+                double delta = Math.pow(deltaX, 2) + Math.pow(deltaY, 2);
+                if (delta < 50000) {
                     matrix.postTranslate(deltaX, deltaY);
                     setImageMatrix(matrix);
                     lastTouch.set(event.getX(), event.getY());
@@ -148,8 +151,15 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
 
         float[] matrixValues = new float[9];
         matrix.getValues(matrixValues);
-        float pinSize = matrixValues[Matrix.MSCALE_X] * 4*pxPerDp;
+        float pinSize = matrixValues[Matrix.MSCALE_X] * 4 * pxPerDp;
 //        float pinSize =  10*pxPerDp;
+
+        for (Pin pin :locationPins) {
+            float[] pinPoint = {pin.x, pin.y};
+            matrix.mapPoints(pinPoint);
+            canvas.drawCircle(pinPoint[0], pinPoint[1], pinSize, locationPinPaint);
+            canvas.drawText(pin.label, pinPoint[0], pinPoint[1] - pinSize - 5, locationTextPaint);
+        }
 
         if (targetPin != null) {
             float[] targetPoint = {targetPin.x, targetPin.y};
@@ -160,18 +170,7 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
         if (currentPin != null) {
             float[] currentPoint = {currentPin.x, currentPin.y};
             matrix.mapPoints(currentPoint);
-            canvas.drawCircle(currentPoint[0], currentPoint[1], pinSize, currentPinPaint);
-//            labelTextPaint.setTextSize(pinSize*3);
-            canvas.drawText("Label", currentPoint[0], currentPoint[1] - pinSize-5, labelTextPaint);
-        }
-
-
-        // Draw the pins on the map
-//        if (targetPin != null)
-//            canvas.drawCircle(targetPin.x, targetPin.y, 10, targetPinPaint);
-//
-//        if (currentPin != null)
-//            canvas.drawCircle(currentPin.x, currentPin.y, 8, currentPinPaint);
+            canvas.drawCircle(currentPoint[0], currentPoint[1], pinSize, currentPinPaint); }
 
     }
 
@@ -210,8 +209,9 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
     public Pin getPinFromLocation(Location location) {
         float x = location.x * pxPerDp;
         float y = location.y * pxPerDp;
-        return new Pin(x, y);
+        return new Pin(location.label, x, y);
     }
+
 
     public float getPxFromDp(int dp) {
         return TypedValue.applyDimension(
@@ -242,10 +242,19 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
     public static class Pin {
         float x;
         float y;
+        String label;
+
 
         Pin(float x, float y) {
             this.x = x;
             this.y = y;
+            this.label = "";
+        }
+
+        Pin(String label, float x, float y) {
+            this.x = x;
+            this.y = y;
+            this.label = label;
         }
 
         public String toString() {
@@ -256,10 +265,18 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
     public static class Location {
         float x;
         float y;
+        String label;
 
         Location(float x, float y) {
             this.x = x;
             this.y = y;
+            this.label = "";
+        }
+
+        Location(String label, float x, float y) {
+            this.x = x;
+            this.y = y;
+            this.label = label;
         }
 
         Location(String xy) {
