@@ -36,13 +36,13 @@ public class ActivityMap extends AppCompatActivity {
         map.setMapImageDimensions(607, 653);
 
 
-        map.addLocation(new Location("Vision Lab", 437, 276));
-        map.addLocation(new Location("Lift", 408, 115));
-        map.addLocation(new Location("PG Seminar Room", 417, 107));
-        map.addLocation(new Location("Telecom Lab", 167, 413));
-        map.addLocation(new Location("PG Lab", 194, 407));
-        map.addLocation(new Location("3.5 Lecture Hall", 307, 178));
-        map.addLocation(new Location("Washrooms", 411, 109));
+        map.addLocation(new Location("Vision Lab", 423,302));
+        map.addLocation(new Location("Lift", 436,124));
+        map.addLocation(new Location("PG Seminar Room", 449,62));
+        map.addLocation(new Location("Telecom Lab", 168,446));
+        map.addLocation(new Location("PG Lab", 212,399));
+        map.addLocation(new Location("3.5 Lecture Hall", 307,110));
+        map.addLocation(new Location("Washrooms", 453,99));
         map.addLocation(new Location("Home", 451, 275));
 
         map.setOnMapTapListener(new CustomMapView.OnMapTapListener() {

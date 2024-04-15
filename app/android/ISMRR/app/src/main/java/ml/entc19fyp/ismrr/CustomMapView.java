@@ -62,11 +62,11 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
         currentPinPaint.setStyle(Paint.Style.FILL);
 
         locationPinPaint = new Paint();
-        locationPinPaint.setColor(Color.BLUE);
+        locationPinPaint.setColor(Color.rgb(9, 46, 115));
         locationPinPaint.setStyle(Paint.Style.FILL);
 
         locationTextPaint = new Paint();
-        locationTextPaint.setColor(Color.BLACK);
+        locationTextPaint.setColor(Color.rgb(0, 89, 255));
         locationTextPaint.setTextSize(24);
         locationTextPaint.setTextAlign(Paint.Align.CENTER);
 
@@ -151,13 +151,15 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
         float[] matrixValues = new float[9];
         matrix.getValues(matrixValues);
         float pinSize = matrixValues[Matrix.MSCALE_X] * 4 * pxPerDp;
+        float labelSize=(matrixValues[Matrix.MSCALE_X] * 3 +14)* pxPerDp;
 //        float pinSize =  10*pxPerDp;
 
         for (Pin pin : mapPins) {
             float[] pinPoint = {pin.x, pin.y};
             matrix.mapPoints(pinPoint);
             canvas.drawCircle(pinPoint[0], pinPoint[1], pinSize, locationPinPaint);
-            canvas.drawText(pin.label, pinPoint[0], pinPoint[1] - pinSize - 5, locationTextPaint);
+            locationTextPaint.setTextSize(labelSize);
+            canvas.drawText(pin.label, pinPoint[0], pinPoint[1] - labelSize, locationTextPaint);
         }
 
         if (targetPin != null) {
