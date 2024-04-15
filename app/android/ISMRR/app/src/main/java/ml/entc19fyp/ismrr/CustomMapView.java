@@ -21,7 +21,8 @@ import androidx.annotation.NonNull;
 
 public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView {
 
-    private List<Pin> locationPins = new ArrayList<>();
+    private List<Pin> mapPins = new ArrayList<>();
+    private List<Location> mapLocations = new ArrayList<>();
     private Pin targetPin = new Pin(500, 500);
     private Pin currentPin;
     private Paint targetPinPaint, currentPinPaint, locationPinPaint, locationTextPaint;
@@ -74,8 +75,6 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
         scaleDetector = new ScaleGestureDetector(getContext(), new ScaleListener());
         tapDetector = new GestureDetector(getContext(), new TapListener());
 
-        locationPins.add(getPinFromLocation(new Location("loc1", 200, 200)));
-        locationPins.add(getPinFromLocation(new Location("loc2", 450, 300)));
 
     }
 
@@ -154,7 +153,7 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
         float pinSize = matrixValues[Matrix.MSCALE_X] * 4 * pxPerDp;
 //        float pinSize =  10*pxPerDp;
 
-        for (Pin pin :locationPins) {
+        for (Pin pin : mapPins) {
             float[] pinPoint = {pin.x, pin.y};
             matrix.mapPoints(pinPoint);
             canvas.drawCircle(pinPoint[0], pinPoint[1], pinSize, locationPinPaint);
@@ -170,7 +169,8 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
         if (currentPin != null) {
             float[] currentPoint = {currentPin.x, currentPin.y};
             matrix.mapPoints(currentPoint);
-            canvas.drawCircle(currentPoint[0], currentPoint[1], pinSize, currentPinPaint); }
+            canvas.drawCircle(currentPoint[0], currentPoint[1], pinSize, currentPinPaint);
+        }
 
     }
 
@@ -184,6 +184,15 @@ public class CustomMapView extends androidx.appcompat.widget.AppCompatImageView 
         Log.d("qwer", "scale:" + scale);
         matrix.setScale(scale, scale);
         setImageMatrix(matrix);
+
+        mapPins.clear();
+        for (Location location : mapLocations) {
+            mapPins.add(getPinFromLocation(location));
+        }
+    }
+
+    public void addLocation(Location location) {
+        mapLocations.add(location);
     }
 
     public void setMapImageDimensions(int width, int height) {

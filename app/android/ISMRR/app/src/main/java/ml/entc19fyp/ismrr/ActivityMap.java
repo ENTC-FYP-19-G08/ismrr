@@ -14,11 +14,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import ml.entc19fyp.ismrr.CustomMapView.Location;
+
 public class ActivityMap extends AppCompatActivity {
 
-    Button btnGo,btnStop, btnTest;
+    Button btnGo, btnStop, btnTest;
     DatabaseReference dbRefMain, dbRefTargetLocation, dbRefCurrentLocation;
     CustomMapView map;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,12 +28,22 @@ public class ActivityMap extends AppCompatActivity {
 
         map = findViewById(R.id.mapView);
         btnGo = findViewById(R.id.btnGo);
-        btnStop=findViewById(R.id.btnStop);
+        btnStop = findViewById(R.id.btnStop);
         btnTest = findViewById(R.id.btnTest);
         dbRefMain = FirebaseDatabase.getInstance().getReference("/ISMRR");
         dbRefTargetLocation = dbRefMain.child("/robot/reach");
         dbRefCurrentLocation = dbRefMain.child("/app/pos");
-        map.setMapImageDimensions(607,653);
+        map.setMapImageDimensions(607, 653);
+
+
+        map.addLocation(new Location("Vision Lab", 437, 276));
+        map.addLocation(new Location("Lift", 408, 115));
+        map.addLocation(new Location("PG Seminar Room", 417, 107));
+        map.addLocation(new Location("Telecom Lab", 167, 413));
+        map.addLocation(new Location("PG Lab", 194, 407));
+        map.addLocation(new Location("3.5 Lecture Hall", 307, 178));
+        map.addLocation(new Location("Washrooms", 411, 109));
+        map.addLocation(new Location("Home", 451, 275));
 
         map.setOnMapTapListener(new CustomMapView.OnMapTapListener() {
             @Override
@@ -42,7 +54,6 @@ public class ActivityMap extends AppCompatActivity {
                 // The coordinates (x, y) represent pixel coordinates on the map.
             }
         });
-
 
 
         btnTest.setOnClickListener(new View.OnClickListener() {
@@ -57,13 +68,12 @@ public class ActivityMap extends AppCompatActivity {
             public void onClick(View v) {
                 CustomMapView.Location targetLocation = map.getTargetLocation();
                 if (targetLocation != null) {
-                    long timeStamp=System.currentTimeMillis();
+                    long timeStamp = System.currentTimeMillis();
                     btnTest.setText(targetLocation.toString());
-                    dbRefTargetLocation.setValue(targetLocation.toString()+","+timeStamp);
+                    dbRefTargetLocation.setValue(targetLocation.toString() + "," + timeStamp);
                 }
             }
         });
-
 
 
         dbRefCurrentLocation.addValueEventListener(new ValueEventListener() {
@@ -71,7 +81,7 @@ public class ActivityMap extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String value = dataSnapshot.getValue(String.class);
                 if (value != null) {
-                    Log.d("QWER", "pos rec:"+value);
+                    Log.d("QWER", "pos rec:" + value);
                     map.setCurrentLocation(new Location(value));
 
                 }
