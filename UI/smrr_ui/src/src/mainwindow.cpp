@@ -108,21 +108,21 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     }
     case PAGE_GUIDE_LABS:
     {
-        vector<Option> options = {Option(PAGE_GUIDE_OPTIONS, locationMap["VISION_LAB"], "VISION_LAB"), Option(PAGE_GUIDE_OPTIONS, locationMap["TELECOM_LAB"], "TELECOM_LAB")};
+        vector<Option> options = {Option(PAGE_GUIDE_OPTIONS, locationMap["LAB_VISION"], "LAB_VISION"), Option(PAGE_GUIDE_OPTIONS, locationMap["LAB_TELECOM"], "LAB_TELECOM")};
         QWidget *screen = new ScreenOptions(this, &options);
         showScreen(screen);
         break;
     }
     case PAGE_GUIDE_HALLS:
     {
-        vector<Option> options = {Option(PAGE_GUIDE_OPTIONS, locationMap["PG_ROOM"], "PG_ROOM"), Option(PAGE_GUIDE_OPTIONS, locationMap["3.5_LECTURE_HALL"], "3.5_LECTURE_HALL")};
+        vector<Option> options = {Option(PAGE_GUIDE_OPTIONS, locationMap["HALL_PG"], "HALL_PG"), Option(PAGE_GUIDE_OPTIONS, locationMap["HALL_3.5"], "HALL_3.5")};
         QWidget *screen = new ScreenOptions(this, &options);
         showScreen(screen);
         break;
     }
     case PAGE_GUIDE_OTHER:
     {
-        vector<Option> options = {Option(PAGE_GUIDE_OPTIONS, locationMap["WASHROOM"], "WASHROOM"), Option(PAGE_GUIDE_OPTIONS, locationMap["LIFT"], "LIFT")};
+        vector<Option> options = {Option(PAGE_GUIDE_OPTIONS, locationMap["WASHROOMS_COMMON"], "WASHROOMS_COMMON"), Option(PAGE_GUIDE_OPTIONS, locationMap["LIFT"], "LIFT")};
         QWidget *screen = new ScreenOptions(this, &options);
         showScreen(screen);
         break;
@@ -142,7 +142,8 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     }
     case PAGE_MAP:
     {
-        QWidget *screen = new ScreenMap(this, "Let' go to " + locationMap[data] + ". Map will be displayed here", data);
+        // QWidget *screen = new ScreenMap(this, "Let' go to " + locationMap[data] + ". Map will be displayed here", data);
+        QWidget *screen = new ScreenMap(this, locationMap[data] , data);        
         showScreen(screen);
         break;
     }
@@ -175,7 +176,7 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
         system("xrandr --output HDMI-0 --mode 640x480");
         break;
     }
-     case PAGE_ACTION_RES_1280x720:
+    case PAGE_ACTION_RES_1280x720:
     {
         system("xrandr --output eDP-1 --mode 1920x1080");
         system("xrandr --output HDMI-0 --mode 1280x720");
@@ -241,15 +242,39 @@ QWidget *MainWindow::createScreen(Page *page)
     return nullptr;
 }
 
+
+
+
+
 void MainWindow::generateLocationMap()
 {
-    locationMap["VISION_LAB"] = "Vision Lab";
+    locationMap["HALL_ENTC1"] = "";
+    locationMap["COMMON_LOWER"] = "";
+    locationMap["LAB_BM"] = "";
+    locationMap["LAB_UAV"] = "";
     locationMap["LIFT"] = "Lift";
-    locationMap["PG_ROOM"] = "PG Seminar Room";
-    locationMap["TELECOM_LAB"] = "Telecom Lab";
-    locationMap["PG_LAB"] = "PG Lab";
-    locationMap["3.5_LECTURE_HALL"] = "3.5 Lecture Hall";
-    locationMap["WASHROOM"] = "Washrooms";
+    locationMap["WASHROOMS_COMMON"] = "Washrooms";
+    locationMap["WASHROOMS_STAFF"] = "";
+    locationMap["LAB_COMPUTER"] = "";
+    locationMap["ROOM_LECTURERS"] = "";
+    locationMap["OFFICE"] = "";
+    locationMap["ROOM_CONFERENCE"] = "";
+    locationMap["ROOM_HOD"] = "";
+    locationMap["LAB_ANALOG"] = "";
+    locationMap["COMMON_UPPER"] = "";
+    locationMap["WORKSHOP"] = "";
+    locationMap["ROOM_SOLDER"] = "";
+    locationMap["LAB_DIGITAL"] = "";
+    locationMap["HALL_PG"] = "PG Seminar Room";
+    locationMap["LAB_DIALOG"] = "";
+    locationMap["LAB_TELECOM"] = "Telecom Lab";
+    locationMap["LAB_VISION"] = "Vision Lab";
+    locationMap["LAB_PG"] = "PG Lab";
+    locationMap["HALL_3.5"] = "3.5 Hall";
+    locationMap["ROOM_PESHALA"] = "";
+    locationMap["ROOM_ROHAN"] = "";
+    locationMap["ROOM_DILEEKA"] = "";
+    locationMap["ROOM_JAYASINGHE"] = "";
 }
 
 // void MainWindow::publishStr(PubStr pubStr, QString qdata)
