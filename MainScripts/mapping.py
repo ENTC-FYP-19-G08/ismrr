@@ -13,7 +13,7 @@ def kill_ros_processes():
                 # Terminate the process
                 print(f"Terminating process: {process.info['name']} (PID: {process.pid})")
                 process.terminate()
-        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+        except:
             pass
 
 # Example: List files in the current directory
@@ -30,9 +30,9 @@ processes = []
 try:
     rviz = subprocess.Popen(rviz_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     processes.append(rviz)
-    navigation = subprocess.Popen(navigation_cmd)
-    processes.append(navigation)
-    time.sleep(2)
+    # navigation = subprocess.Popen(navigation_cmd)
+    # processes.append(navigation)
+    # time.sleep(2)
     bringup = subprocess.Popen(bringup_cmd)
     processes.append(bringup)
     time.sleep(15)
@@ -60,7 +60,7 @@ try:
 
 
 
-except KeyboardInterrupt:
+except:
     print("Ctrl+C detected, terminating subprocesses...")
     kill_ros_processes()
     print("All subprocesses terminated.", flush = True)

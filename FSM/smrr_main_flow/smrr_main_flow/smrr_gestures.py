@@ -20,15 +20,18 @@ class SMRRGestures():
     }
 
     def __init__(self):
-        self.ser = serial.Serial('/dev/ttyACM0', 9600)
+        self.ser = serial.Serial('/dev/ttyUSB1', 9600)
 
     def do_gesture(self, gesture_type):
         self.ser.write(b'\xa7')
         self.ser.write(self.guesture_map[gesture_type])
 
+
 if __name__ == '__main__':
     obj = SMRRGestures()
     time.sleep(1)
-    obj.do_gesture(GestureType.SHOW_LEFT)
+    obj.do_gesture(GestureType.AYUBOWAN)
     print('done')
-    time.sleep(1000)
+    time.sleep(5)
+    print('done')
+    obj.ser.close()

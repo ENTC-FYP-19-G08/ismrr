@@ -1,5 +1,5 @@
 import multiprocessing
-
+from std_msgs.msg import String
 
 class LocationClassifier:
 
@@ -27,9 +27,11 @@ class LocationClassifier:
           ['radio room'],
           ['vision lab', 'vision laboratory']]
     
-    def __init__(self):
+    def __init__(self, node):
         self.input_queue = multiprocessing.Queue()
         self.output_queue = multiprocessing.Queue()
+        self.node = node
+        self.name_pub = self.node.create_publisher(String, '/ui/guide_options', 10)
 
     def initialize_process(self):
         self.process_ = multiprocessing.Process(
@@ -51,6 +53,9 @@ class LocationClassifier:
                 for place_ in place:
                     if place_ in text_lower:
                         output_q.put(ind)
+                        msg = String()
+                        msg.data = ind
+                        self.name_pub.publish(msg.data) 
 
     def classify_location(self, text):
         self.input_queue.put(text)
