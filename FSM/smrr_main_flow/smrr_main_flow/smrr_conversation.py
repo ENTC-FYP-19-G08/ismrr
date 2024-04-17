@@ -9,7 +9,7 @@ from faster_whisper import WhisperModel
 import numpy as np
 from halo import Halo
 from scipy import signal
-
+import random
 # from .speech_to_text_module import VADAudio
 # from .speech_to_text_module import FasterWhisper
 
@@ -17,7 +17,7 @@ from scipy import signal
 # from .text_to_speech import TextToSpeech
 # from .location_classifier import LocationClassifier
 from location_guide import play_audio_clip
-
+from messages import thanking_messages
 from speech_to_text_module import VADAudio
 from speech_to_text_module import FasterWhisper
 
@@ -44,13 +44,16 @@ class SMRRCoversation:
         )
         self.ui_sub = self.node.create_subscription(String, '/ui/guide_navigation', self.guide_navigation_callback, 10)
         self.ui_sub = self.node.create_subscription(String, '/ui/guide_verbal', self.guide_verbal_callback, 10)
+        self.location_name_pub = self.node.create_publisher(String, '/ui/guide_options', 10)
+        self.detected_location = None
         self.verbal_guidance = None
         self.navigation_guidance = False
+        self.direction_request = False
         
         self.tts = TextToSpeech()
         self.should_stop = False
         self.text_to_speech_init()
-        self.classifier = LocationClassifier(node)
+        self.classifier = LocationClassifier()
         self.classifier.initialize_process()
         self.trigerring_words = ["hi", "hello", "hey"]
         self.ending_words = ["thank you", "bye", "thanks", "thank"]
@@ -141,26 +144,35 @@ class SMRRCoversation:
                 text = self.stt_queue.get()
                 # text = self.whisper.transcribe_(numpy_array)
                 if self.verbal_guidance is not None:
-                        play_audio_clip(self.verbal_guidance)
-                        self.vad_audio.clear_queue()
+                    play_audio_clip(self.verbal_guidance)
+                    self.vad_audio.clear_queue()
+                    self.verbal_guidance = None
                 elif self.navigation_guidance:
                     return
                 elif text is not None:
                     tic = time.time()
-                    self.classifier.classify_location(text)
-
-                    if self.verbal_guidance is not None:
-                        play_audio_clip(self.verbal_guidance)
-                    self.language_understanding_and_generation(text)
-                    # self.stt_queue.put(text)
-                    # flag = self.sleep_queue.get()
-                    text = text.lower()
+                    text_ = text.lower()
                     for word in self.ending_words:
-                        if word in text:
+                        if word in text_:
                             self.triggered = True
+                            self.text_to_speech(random.choice(thanking_messages))
                             self.vad_audio.clear_queue()
                             wav_data = bytearray()
                             return
+                    self.detected_location, self.direction_request = self.classifier.classify_location(text)
+                    if self.detected_location is not None:
+                        msg = String()
+                        msg.data = self.detected_location
+                        self.location_name_pub.publish(msg)
+                        self.detected_location = None
+                    if self.verbal_guidance is not None:
+                        play_audio_clip(self.verbal_guidance)
+                    if not self.direction_request:
+                        self.language_understanding_and_generation(text)
+                    else:
+                        self.text_to_speech("Let me help you with it. Please select an option from the screen.")
+                    # self.stt_queue.put(text)
+                    # flag = self.sleep_queue.get()
                     tic = time.time()
                 self.vad_audio.clear_queue()
                 wav_data = bytearray()

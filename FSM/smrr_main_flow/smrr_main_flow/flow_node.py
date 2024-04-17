@@ -94,7 +94,7 @@ class Conversation(State):
         #     self.node.get_logger().info('face recognition service not available, waiting again...')
         # self.node.get_logger().info("Face recognition service  available")
         # self.req = FaceRecogRequest.Request()
-    def stop_listening_callback(self):
+    def stop_listening_callback(self,msg):
         self.need_navigate = True
 
     def call_back(self,msg):
