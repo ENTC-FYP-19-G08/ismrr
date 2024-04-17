@@ -245,7 +245,7 @@ void MainWindow::generateLocationMap()
 {
     locationMap["VISION_LAB"] = "Vision Lab";
     locationMap["LIFT"] = "Lift";
-    locationMap["PG_ROOM"] = "PG Semminar Room";
+    locationMap["PG_ROOM"] = "PG Seminar Room";
     locationMap["TELECOM_LAB"] = "Telecom Lab";
     locationMap["PG_LAB"] = "PG Lab";
     locationMap["3.5_LECTURE_HALL"] = "3.5 Lecture Hall";
