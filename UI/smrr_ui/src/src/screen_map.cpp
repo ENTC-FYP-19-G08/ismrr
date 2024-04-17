@@ -28,7 +28,7 @@ ScreenMap::ScreenMap(QWidget *parent, QString text, string data)
         ui->labelImg->setPixmap(scaledPixmap);
     }
 
-    ui->label->setText(text);
+    ui->label->setText(text+":"+QString::fromStdString(data));
 
     std_msgs::msg::String rosString;
     rosString.data = data;
