@@ -6,7 +6,7 @@ from rclpy.node import Node
 
 from nav2_simple_commander.robot_navigator import BasicNavigator
 from geometry_msgs.msg import Twist
-from std_msgs.msg import String
+from std_msgs.msg import String, Empty
 from geometry_msgs.msg import PoseStamped
 from nav_msgs.msg import Odometry
 
@@ -26,7 +26,7 @@ class TeleOp(Node):
         self.publisher =  self.create_publisher(Twist, '/cmd_vel_raw', 1)
         self.goal_pub =  self.create_publisher(PoseStamped, '/app_goal', 4)
         self.pose_plisher = self.create_publisher(String,'/sender_test_topic', 10)
-        
+        self.nav_result_pub = self.create_publisher(Empty, '/emergency_stop', 10)
         self.subscription = self.create_subscription(String,'/tele_op_cmd',  self.tele_op_callback,10  )
         # self.subscription = self.create_subscription(Odometry,'/odometry/filtered',  self.odom_callback,10  )
 
@@ -86,6 +86,12 @@ class TeleOp(Node):
                 r_speed = 0.0  
                 print("Invalid")
                 return
+            
+            if act_dir["S"]:
+                l_speed = 0.0
+                r_speed = 0.0  
+                msg = Empty()
+                self.nav_result_pub.publish(msg)
 
             if act_dir["F"]:
                 l_speed = 0.3
