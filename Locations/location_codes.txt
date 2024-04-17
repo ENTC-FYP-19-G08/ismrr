@@ -1,30 +1,31 @@
 places = {
-        0:["ENTC1 hall", "entc1", "entc 1", "entc one"],
-        1:["0.5 students' common area", "0.5","point five","point-five", "point five common area"],
-        2:["bio-medical laboratory", "bio medical lab", "bio medical laboratory", "bio-medical lab", "biomedical lab", "biomedical laboratory"],
-        3:["UAV laboratory", "uav lab"],
-        4:["lift", "elavator"],
-        5:["common washrooms", "washroom", "toilet"],
-        6:["staff washroom"],
-        7:["computer lab", "computer laboratory"],
-	8:["lecturer rooms", "lecturer's rooms", "lecturers' rooms", "lecturers rooms", "lecturers room"]
-        9:["staff room", "staff's room", "staff-room"],
-        10:["department office", "entc office", "main office"],
-        11:["conference room"],
-        12:["head of the department office", "HOD office"],
-        13:["analog electronic laboratory", "analog lab", "analog electronic lab"],
-        14:["2nd-floor student common area","2.5 common area"]
-        15:["electronic workshop","workshop"],
-        16:["soldering room", "solder room"],
-        17:["digital electronic lab", "digital lab", "digital laboratory"],
-        18:["post-grad seminar room","pg room", "pg seminar room", "pg hall", "p.g room", "p.g seminar room", "p.g hall","p.g. room", "p.g. seminar room", "p.g. hall", "p.g.room", "p.g.seminar room", "p.g.hall"],
-        19:["dialog research lab", "dialog lab","dialog research laboratory", "dialog laboratory"],
-        20:["telecommunication lab", "telecom lab", "telecommunication laboratory", "telecom laboratory"],
-        21:["Huawei lab","mobitel lab","Huawei laboratory","mobitel laboratory"]
-        22:["radio room"],
-        23:["vision lab","vision laboratory"],
-        24:["pg lab"],
-        25:["3.5 hall", "3.5 lecture hall"]
+        "HALL_ENTC1":["ENTC1 hall", "entc1", "entc 1", "entc one"],
+        "COMMON_LOWER":["0.5 students' common area", "0.5","point five","point-five", "point five common area", "lower common", "lower-common"],
+        "LAB_BM":["bio-medical laboratory", "bio medical lab", "bio medical laboratory", "bio-medical lab", "biomedical lab", "biomedical laboratory"],
+        "LAB_UAV":["UAV laboratory", "uav lab"],
+        "LIFT":["lift", "elavator"],
+        "WASHROOMS_COMMON":["common washrooms", "washroom", "toilet"],
+        "WASHROOMS_STAFF":["staff washroom"],
+        "LAB_COMPUTER":["computer lab", "computer laboratory"],
+	    "ROOM_LECTURERS":["lecturer rooms", "lecturer's rooms", "lecturers' rooms", "lecturers rooms", "lecturers room"],
+        # 9:["staff room", "staff's room", "staff-room"],
+        "OFFICE":["department office", "entc office", "main office", 'office'],
+        "ROOM_CONFERENCE":["conference room"],
+        "ROOM_HOD":["head of the department office", "HOD office"],
+        "LAB_ANALOG":["analog electronic laboratory", "analog lab", "analog electronic lab"],
+        "COMMON_UPPER":["2nd-floor student common area","2.5 common area", 'upper common', "upper-common"],
+        "WORKSHOP":["electronic workshop","workshop"],
+        "ROOM_SOLDER":["soldering room", "solder room"],
+        "LAB_DIGITAL":["digital electronic lab", "digital lab", "digital laboratory"],
+        "HALL_PG":["post-grad seminar room","pg room", "pg seminar room", "pg hall", "p.g room", "p.g seminar room", "p.g hall","p.g. room", "p.g. seminar room", "p.g. hall", "p.g.room", "p.g.seminar room", "p.g.hall", "post grad room", "post graduate room"],
+        "LAB_DIALOG":["dialog research lab", "dialog lab","dialog research laboratory", "dialog laboratory"],
+        "LAB_TELECOM":["telecommunication lab", "telecom lab", "telecommunication laboratory", "telecom laboratory"],
+        # 21:["Huawei lab","mobitel lab","Huawei laboratory","mobitel laboratory"],
+        # 22:["radio room"],
+        "LAB_VISION":["vision lab","vision laboratory"],
+        "LAB_PG":["pg lab", "post graduate lab", "post grad lab"],
+        "HALL_3.5":["3.5 hall", "3.5 lecture hall", "three point five lecture hall"],
+        "ROOM_PESHALA":["doctor peshala", "dr peshala", "dr pesala", "doctor pesala"]
 }
 
 
@@ -38,7 +39,7 @@ places = {
 "WASHROOMS_STAFF"
 "LAB_COMPUTER"
 "ROOM_LECTURERS"
-"ROOM_STAFF"
+# "ROOM_STAFF"
 "OFFICE"
 "ROOM_CONFERENCE"
 "ROOM_HOD"
@@ -50,8 +51,38 @@ places = {
 "HALL_PG"
 "LAB_DIALOG"
 "LAB_TELECOM"
-"LAB_HUAWEI"
-"ROOM_RADIO"
+# "LAB_HUAWEI"
+# "ROOM_RADIO"
 "LAB_VISION"
 "LAB_PG"
 "HALL_3.5"
+"ROOM_PESHALA"
+
+
+locations = {
+    "HALL_ENTC1": "The ENTC1 hall is on the ground floor. To go to the ENTC1 hall, take the lift from the 3rd floor, go to the ground floor, and head toward the left side once you exit the lift.",
+    "COMMON_LOWER": "The lower common area is on the ground floor. To go to the lower common area, take the lift from the 3rd floor, go to the ground floor, and head toward the left side once you exit the lift.",
+    "LAB_BM": "The bio-medical laboratory is on the ground floor. To go to the bio-medical laboratory, take the lift from the 3rd floor, go to the ground floor, and head toward the left side once you exit the lift.",
+    "LAB_UAV": "The UAV laboratory is on the ground floor. To go to the UAV laboratory, take the lift from the 3rd floor, go to the ground floor, and head toward the right side once you exit the lift.",
+    "WASHROOMS_STAFF": "The staff washroom is on the first floor. To go to the staff washroom, take the lift from the 3rd floor, go to the first floor, and the right block of the lift is the staff washroom.",
+    "LAB_COMPUTER": "The computer laboratory is on the first floor. To go to the computer lab, take the lift from the 3rd floor, go to the first floor, and head toward the left side once you exit the lift.",
+    "ROOM_LECTURERS": "The lecturers' rooms are on both the first floor and second floor. To go to the relevant lecturer's room, take the lift from the 3rd floor, go to the first floor or second floor, and head toward the left side once you exit the lift.",
+    "OFFICE": "The department office is on the first floor. To go to the department office, take the lift from the 3rd floor, go to the first floor, and head toward the right side once you exit the lift.",
+    "ROOM_CONFERENCE": "The conference room is on the first floor. To go to the conference room, take the lift from the 3rd floor, go to the first floor, and head toward the right side once you exit the lift.",
+    "ROOM_HOD": "The head of the department's office is on the first floor. To go to the head of the department's office, take the lift from the 3rd floor, go to the first floor, and head toward the right side once you exit the lift.",
+    "LAB_ANALOG": "The analog electronic laboratory is on the second floor. To go to the analog electronic laboratory, take the lift from the 3rd floor, go to the second floor, and head toward the left side once you exit the lift.",
+    "COMMON_UPPER": "The upper common area is on the second floor. To go to the upper common area, take the lift from the 3rd floor, go to the second floor, and head toward the left side once you exit the lift.",
+    "WORKSHOP": "The electronic workshop is on the second floor. To go to the electronic workshop, take the lift from the 3rd floor, go to the second floor, and go to the right side once you exit the lift.",
+    "ROOM_SOLDER": "The soldering room is on the second floor. To go to the soldering room, take the lift from the 3rd floor, go to the second floor. As soon as the doors open, you'll find the soldering room right in front of you.",
+    "LAB_DIGITAL": "The digital electronic laboratory is on the second floor. To go to the digital electronic laboratory, take the lift from the 3rd floor, go to the second floor, and head toward the left side once you exit the lift.",
+    # "radio_room": "The radio room is on the fourth floor. To go to the radio room, go to the staircase which is at the coand go to the fourth floor.",
+    "LAB_VISION": "This is the vision lab.",
+    "LIFT": "There is the lift.",
+    "HALL_PG": "Go to your left-hand side through that passage. You will see the PG room in front of you at the end of the passage.",
+    "LAB_TELECOM": "Go to the right-hand side through that passage. You will see the telecom lab in front of you at the end of the passage.",
+    "LAB_PG": "Go to the right-hand side through that passage. You will see the PG laboratory on your left-hand side at the end of the passage.",
+    "HALL_3.5": "That is the 3.5 lecture room.",
+    "WASHROOMS_COMMON": "Go to your left-hand side through that passage. You will see the washroom on your right-hand side at the end of the passage.",
+    "LAB_DIALOG" : " There  is the dialog lab",
+    "ROOM_PESHALA": "Dr. Peshala's room is on the first floor. To go to his room, take the lift from the 3rd floor, go to the first floor, and go towards the left side once you exit the lift. Then you can see lecturers' rooms on your right hand side. you can find his office there."
+}

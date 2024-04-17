@@ -3,29 +3,35 @@ from std_msgs.msg import String
 
 class LocationClassifier:
 
-    places = [['entc hall', 'entc1', 'entc 1', 'entc one'],
-          ["0.5 students' common area", '0.5', 'point five', 'point-five', 'point five common area'],
-          ['bio-medical laboratory', 'bio medical lab', 'bio medical laboratory', 'bio-medical lab', 'biomedical lab', 'biomedical laboratory'],
-          ['uav laboratory', 'uav lab'],
-          ['lift', 'elavator'],
-          ['common washrooms', 'washroom', 'toilet'],
-          ['staff washroom'],
-          ['computer lab', 'computer laboratory'],
-          ['staff room', "staff's room", 'staff-room'],
-          ['department office', 'entc office', 'main office'],
-          ['conference room'],
-          ['head of the department office', 'hod office', 'head of the departments office', "head of the department's office"],
-          ['analog electronic laboratory', 'analog lab', 'analog electronic lab'],
-          ['2nd-floor student common area', '2.5 common area'],
-          ['electronic workshop', 'workshop'],
-          ['soldering room', 'solder room'],
-          ['digital electronic lab', 'digital lab', 'digital laboratory'],
-          ['post-grad seminar room', 'pg room', 'pg seminar room', 'pg hall', 'p.g room', 'p.g seminar room', 'p.g hall', 'p.g. room', 'p.g. seminar room', 'p.g. hall', 'p.g.room', 'p.g.seminar room', 'p.g.hall'],
-          ['dialog research lab', 'dialog lab', 'dialog research laboratory', 'dialog laboratory'],
-          ['telecommunication lab', 'telecom lab', 'telecommunication laboratory', 'telecom laboratory'],
-          ['huawei lab', 'mobitel lab', 'huawei laboratory', 'mobitel laboratory'],
-          ['radio room'],
-          ['vision lab', 'vision laboratory']]
+    places = {
+        "HALL_ENTC1":["ENTC1 hall", "entc1", "entc 1", "entc one"],
+        "COMMON_LOWER":["0.5 students' common area", "0.5","point five","point-five", "point five common area", "lower common", "lower-common"],
+        "LAB_BM":["bio-medical laboratory", "bio medical lab", "bio medical laboratory", "bio-medical lab", "biomedical lab", "biomedical laboratory"],
+        "LAB_UAV":["UAV laboratory", "uav lab"],
+        "LIFT":["lift", "elavator"],
+        "WASHROOMS_COMMON":["common washrooms", "washroom", "toilet"],
+        "WASHROOMS_STAFF":["staff washroom"],
+        "LAB_COMPUTER":["computer lab", "computer laboratory"],
+	    "ROOM_LECTURERS":["lecturer rooms", "lecturer's rooms", "lecturers' rooms", "lecturers rooms", "lecturers room"],
+        # 9:["staff room", "staff's room", "staff-room"],
+        "OFFICE":["department office", "entc office", "main office", 'office'],
+        "ROOM_CONFERENCE":["conference room"],
+        "ROOM_HOD":["head of the department office", "HOD office"],
+        "LAB_ANALOG":["analog electronic laboratory", "analog lab", "analog electronic lab"],
+        "COMMON_UPPER":["2nd-floor student common area","2.5 common area", 'upper common', "upper-common"],
+        "WORKSHOP":["electronic workshop","workshop"],
+        "ROOM_SOLDER":["soldering room", "solder room"],
+        "LAB_DIGITAL":["digital electronic lab", "digital lab", "digital laboratory"],
+        "HALL_PG":["post-grad seminar room","pg room", "pg seminar room", "pg hall", "p.g room", "p.g seminar room", "p.g hall","p.g. room", "p.g. seminar room", "p.g. hall", "p.g.room", "p.g.seminar room", "p.g.hall", "post grad room", "post graduate room"],
+        "LAB_DIALOG":["dialog research lab", "dialog lab","dialog research laboratory", "dialog laboratory"],
+        "LAB_TELECOM":["telecommunication lab", "telecom lab", "telecommunication laboratory", "telecom laboratory"],
+        # 21:["Huawei lab","mobitel lab","Huawei laboratory","mobitel laboratory"],
+        # 22:["radio room"],
+        "LAB_VISION":["vision lab","vision laboratory"],
+        "LAB_PG":["pg lab", "post graduate lab", "post grad lab"],
+        "HALL_3.5":["3.5 hall", "3.5 lecture hall", "three point five lecture hall"],
+        "ROOM_PESHALA":["doctor peshala", "dr peshala", "dr pesala", "doctor pesala"]
+}
     
     def __init__(self, node):
         self.input_queue = multiprocessing.Queue()
@@ -49,12 +55,12 @@ class LocationClassifier:
             text = input_q.get()
             text_lower = text.lower()
 
-            for ind, place in enumerate(LocationClassifier.places):
-                for place_ in place:
+            for place in LocationClassifier.places.keys:
+                for place_ in LocationClassifier.places[place]:
                     if place_ in text_lower:
-                        output_q.put(ind)
+                        output_q.put(place)
                         msg = String()
-                        msg.data = ind
+                        msg.data = place
                         self.name_pub.publish(msg.data) 
 
     def classify_location(self, text):
