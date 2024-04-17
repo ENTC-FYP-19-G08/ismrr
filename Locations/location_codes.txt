@@ -27,9 +27,6 @@ places = {
         "HALL_3.5":["3.5 hall", "3.5 lecture hall", "three point five lecture hall"],
         "ROOM_PESHALA":["doctor peshala", "dr peshala", "dr pesala", "doctor pesala"]
 }
-
-
-
 "HALL_ENTC1"
 "COMMON_LOWER"
 "LAB_BM"
@@ -39,7 +36,6 @@ places = {
 "WASHROOMS_STAFF"
 "LAB_COMPUTER"
 "ROOM_LECTURERS"
-# "ROOM_STAFF"
 "OFFICE"
 "ROOM_CONFERENCE"
 "ROOM_HOD"
@@ -51,12 +47,13 @@ places = {
 "HALL_PG"
 "LAB_DIALOG"
 "LAB_TELECOM"
-# "LAB_HUAWEI"
-# "ROOM_RADIO"
 "LAB_VISION"
 "LAB_PG"
 "HALL_3.5"
 "ROOM_PESHALA"
+"ROOM_ROHAN"
+"ROOM_DILEEKA"
+"ROOM_JAYASINGHE"
 
 
 locations = {
