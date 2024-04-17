@@ -23,7 +23,8 @@ places = {
         21:["Huawei lab","mobitel lab","Huawei laboratory","mobitel laboratory"]
         22:["radio room"],
         23:["vision lab","vision laboratory"],
-        24:["pg lab"]
+        24:["pg lab"],
+        25:["3.5 hall", "3.5 lecture hall"]
 }
 
 
@@ -53,3 +54,4 @@ places = {
 "ROOM_RADIO"
 "LAB_VISION"
 "LAB_PG"
+"HALL_3.5"
