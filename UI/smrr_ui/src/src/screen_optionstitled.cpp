@@ -25,6 +25,8 @@ ScreenOptionsTitled::ScreenOptionsTitled(QWidget *parent, vector<Option> *option
         // btnOption->setMinimumHeight(100);
         // btnOption->setMaximumHeight(110);
         btnOption->setFixedHeight(150);
+        btnOption->setMinimumWidth(150);
+        btnOption->setMaximumWidth(200);
 
         connect(btnOption, &QPushButton::clicked, [mainWindow, option]()
                 { mainWindow->gotoPage(option.pageId, option.text, option.data, option.pubStr); });

@@ -32,8 +32,7 @@
     <string/>
    </property>
    <property name="icon">
-    <iconset theme="back">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="back"/>
    </property>
    <property name="autoDefault">
     <bool>false</bool>
@@ -48,15 +47,15 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>160</y>
-     <width>611</width>
+     <x>20</x>
+     <y>150</y>
+     <width>731</width>
      <height>201</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>24</pointsize>
+     <pointsize>30</pointsize>
     </font>
    </property>
    <property name="text">
@@ -82,8 +81,7 @@
     <string/>
    </property>
    <property name="icon">
-    <iconset theme="go-home">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset theme="go-home"/>
    </property>
    <property name="autoDefault">
     <bool>false</bool>

@@ -1,0 +1,8 @@
+VISION_LAB,0.56,-1.24,Vision Lab
+LIFT,-0.86,6.8,Lift
+PG_ROOM,-0.43,7.24,PG Seminar Room
+TELECOM_LAB,-12.94,-8.07,Telecom Lab
+PG_LAB,-11.59,-7.76,PG Lab
+3.5_LECTURE_HALL,-5.92,3.7,3.5 Lecture Hall
+WASHROOM,-0.74,7.12,Washrooms
+HOME,1.28,-1.16,Home
