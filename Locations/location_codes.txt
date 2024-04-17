@@ -1,0 +1,55 @@
+places = {
+        0:["ENTC1 hall", "entc1", "entc 1", "entc one"],
+        1:["0.5 students' common area", "0.5","point five","point-five", "point five common area"],
+        2:["bio-medical laboratory", "bio medical lab", "bio medical laboratory", "bio-medical lab", "biomedical lab", "biomedical laboratory"],
+        3:["UAV laboratory", "uav lab"],
+        4:["lift", "elavator"],
+        5:["common washrooms", "washroom", "toilet"],
+        6:["staff washroom"],
+        7:["computer lab", "computer laboratory"],
+	8:["lecturer rooms", "lecturer's rooms", "lecturers' rooms", "lecturers rooms", "lecturers room"]
+        9:["staff room", "staff's room", "staff-room"],
+        10:["department office", "entc office", "main office"],
+        11:["conference room"],
+        12:["head of the department office", "HOD office"],
+        13:["analog electronic laboratory", "analog lab", "analog electronic lab"],
+        14:["2nd-floor student common area","2.5 common area"]
+        15:["electronic workshop","workshop"],
+        16:["soldering room", "solder room"],
+        17:["digital electronic lab", "digital lab", "digital laboratory"],
+        18:["post-grad seminar room","pg room", "pg seminar room", "pg hall", "p.g room", "p.g seminar room", "p.g hall","p.g. room", "p.g. seminar room", "p.g. hall", "p.g.room", "p.g.seminar room", "p.g.hall"],
+        19:["dialog research lab", "dialog lab","dialog research laboratory", "dialog laboratory"],
+        20:["telecommunication lab", "telecom lab", "telecommunication laboratory", "telecom laboratory"],
+        21:["Huawei lab","mobitel lab","Huawei laboratory","mobitel laboratory"]
+        22:["radio room"],
+        23:["vision lab","vision laboratory"],
+        24:["pg lab"]
+}
+
+
+
+"HALL_ENTC1"
+"COMMON_LOWER"
+"LAB_BM"
+"LAB_UAV"
+"LIFT"
+"WASHROOMS_COMMON"
+"WASHROOMS_STAFF"
+"LAB_COMPUTER"
+"ROOM_LECTURERS"
+"ROOM_STAFF"
+"OFFICE"
+"ROOM_CONFERENCE"
+"ROOM_HOD"
+"LAB_ANALOG"
+"COMMON_UPPER"
+"WORKSHOP"
+"ROOM_SOLDER"
+"LAB_DIGITAL"
+"HALL_PG"
+"LAB_DIALOG"
+"LAB_TELECOM"
+"LAB_HUAWEI"
+"ROOM_RADIO"
+"LAB_VISION"
+"LAB_PG"
