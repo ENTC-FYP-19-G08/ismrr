@@ -34,12 +34,13 @@ class LoadModules(State):
     def __init__(self, node):
         super().__init__([SUCCEED, ABORT])
         self.node = node
+        
 
     def execute(self, blackboard):
 
         # print("Executing state Load Modules")
         blackboard.conv_obj = SMRRCoversation(self.node)
-        print("Loading conversation module successful")
+        # print("Loading conversation module successful")
         # blackboard.face_recog_obj = SMRRFaceRecogition(self.node)
         # print("Loading face recognition module successful")
         # blackboard.nav_obj = SMRRNavigation(self)
@@ -79,6 +80,8 @@ class Conversation(State):
     def __init__(self, node):
         super().__init__(["guide","end"])
         self.node = node
+        self.stop_listening_sub = self.node.create_subscription(String, '/ui/guide_navigation', self.stop_listening_callback, 10)
+        self.need_navigate = False
         # gesture_obj = SMRRGestures(self.node)
         # print("Gestures module is ready")
         # face_recsog_obj = SMRRFaceRecogition(self.node)
@@ -91,12 +94,16 @@ class Conversation(State):
         #     self.node.get_logger().info('face recognition service not available, waiting again...')
         # self.node.get_logger().info("Face recognition service  available")
         # self.req = FaceRecogRequest.Request()
+    def stop_listening_callback(self):
+        self.need_navigate = True
 
     def call_back(self,msg):
         self.trigger = True
 
     def execute(self, blackboard):
         print("Executing Conversation state")
+        self.stop_listening = False
+        
         # blackboard.conv_obj.text_to_speech(random.choice(welcoming_messages))
 
         # SMRRGestures.do_gesture(GestureType.AYUBOWAN)
@@ -113,12 +120,14 @@ class Conversation(State):
         # else:
         #     blackboard.conv_obj.text_to_speech("We haven't met before. Could i know your name please? If you dont mind. Or you can skip.")
         
-        
         blackboard.conv_obj.start_listening()
-        print("Exite from conversation state")
 
-        return "guide"
-    
+        print("Exite from conversation state")
+        if self.need_navigate:
+            return "guide"
+        else:
+            return "end"
+        
     def trigger_func(self):
         self.req.name_request = True
         self.req.angle_request = True
@@ -137,12 +146,13 @@ class Navigation(State):
         self.locations = LoadLocations(self.node).locations
         self.goal = None
         self.nav_result = None
+
         self.ui_sub = self.node.create_subscription(String, '/ui/guide_navigation', self.ui_callback, 10)
         self.app_goal_sub = self.node.create_subscription(PoseStamped, '/app_goal', self.app_goal_callback, 10)
         self.nav_result_sub = self.node.create_subscription(Int8, '/nav_result', self.nav_result_callback, 10)
 
         self.nav_state_pub = self.node.create_publisher(String, '/ui/guide_navigation_result', 10)
-        self.nav_goal_pub = self.node.create_publisher(String, 'nav_goal', 10)
+        self.nav_goal_pub = self.node.create_publisher(String, '/nav_goal', 10)
         self.nav_result_outcomes ={0: "UNKNOWN", 1:"SUCCEEDED", 2:"CANCELED" ,3:"FAILED"}
         self.timer = None
 
@@ -154,7 +164,7 @@ class Navigation(State):
         if self.goal:
             print("Navigator is busy. Try again later")
             return
-        self.goal = self.locations[msg.data]
+        self.goal = [ msg.pose.position.x, msg.pose.position.y ]  
 
     def ui_callback(self, msg):
         print("Detination from UI Recieved")        
@@ -187,13 +197,13 @@ class Navigation(State):
             msg.data = self.nav_result_outcomes[self.nav_result]
             self.nav_state_pub.publish(msg)
             self.nav_result = None
-            
-            if self.goal != self.locations["HOME"]:
-                self.go_back_home()
-            else:
-                self.goal = None
-                print("EXIT SUCCESSFUL FROM NAVIGATION")
-                return SUCCEED
+            self.goal = None
+            # if self.goal != self.locations["HOME"]:
+            #     self.go_back_home()
+            # else:
+            #     self.goal = None
+            #     print("EXIT SUCCESSFUL FROM NAVIGATION")
+            #     return SUCCEED
             
 
     

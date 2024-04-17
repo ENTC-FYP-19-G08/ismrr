@@ -52,7 +52,7 @@ class RobotNavigator(Node):
         self.result = Int8()
 
         self.client = self.create_subscription(Empty, '/emergency_stop', self.emergency_callback, 10)
-        self.goal_client = self.create_subscription(String, 'nav_goal', self.reach_destination, 10)
+        self.goal_client = self.create_subscription(String, '/nav_goal', self.reach_destination, 10)
 
         self.goal_timer = self.create_timer(2,self.execute_goal)
         self.tf_timer = self.create_timer(1,self.tf_listen)

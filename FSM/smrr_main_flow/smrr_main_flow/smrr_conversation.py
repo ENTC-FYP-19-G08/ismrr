@@ -16,6 +16,7 @@ from scipy import signal
 # from .llm import LLM
 # from .text_to_speech import TextToSpeech
 # from .location_classifier import LocationClassifier
+from location_guide import play_audio_clip
 
 from speech_to_text_module import VADAudio
 from speech_to_text_module import FasterWhisper
@@ -41,10 +42,15 @@ class SMRRCoversation:
         self.trig_sub = self.node.create_subscription(
             String, "/trigger", self.call_back, 10
         )
+        self.ui_sub = self.node.create_subscription(String, '/ui/guide_navigation', self.guide_navigation_callback, 10)
+        self.ui_sub = self.node.create_subscription(String, '/ui/guide_verbal', self.guide_verbal_callback, 10)
+        self.verbal_guidance = None
+        self.navigation_guidance = False
+        
         self.tts = TextToSpeech()
         self.should_stop = False
         self.text_to_speech_init()
-        self.classifier = LocationClassifier()
+        self.classifier = LocationClassifier(node)
         self.classifier.initialize_process()
         self.trigerring_words = ["hi", "hello", "hey"]
         self.ending_words = ["thank you", "bye", "thanks", "thank"]
@@ -76,6 +82,11 @@ class SMRRCoversation:
         # )
         self.whisper_process.start()
         # self.llm_process.start()
+    def guide_navigation_callback(self, msg):
+        self.navigation_guidance = True
+
+    def guide_verbal_callback(self, msg):
+        self.verbal_guidance = msg.data
 
     def call_back(self, msg):
         self.triggered = True
@@ -129,10 +140,17 @@ class SMRRCoversation:
                 self.audio_queue.put(numpy_array)
                 text = self.stt_queue.get()
                 # text = self.whisper.transcribe_(numpy_array)
-
-                if text is not None:
+                if self.verbal_guidance is not None:
+                        play_audio_clip(self.verbal_guidance)
+                        self.vad_audio.clear_queue()
+                elif self.navigation_guidance:
+                    return
+                elif text is not None:
                     tic = time.time()
                     self.classifier.classify_location(text)
+
+                    if self.verbal_guidance is not None:
+                        play_audio_clip(self.verbal_guidance)
                     self.language_understanding_and_generation(text)
                     # self.stt_queue.put(text)
                     # flag = self.sleep_queue.get()

@@ -62,5 +62,5 @@ try:
 
 except:
     print("Ctrl+C detected, terminating subprocesses...")
-    kill_ros_processes()
+    #kill_ros_processes()
     print("All subprocesses terminated.", flush = True)

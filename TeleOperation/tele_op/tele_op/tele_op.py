@@ -47,7 +47,7 @@ class TeleOp(Node):
 
 
         self.timer = self.create_timer(0.01, self.timer_callback)
-        # self.timer2 = self.create_timer(0.5, self.tf_callback)
+        self.timer2 = self.create_timer(0.5, self.tf_callback)
 
     def timer_callback(self):
         global l_speed,r_speed, state
