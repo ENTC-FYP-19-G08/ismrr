@@ -13,8 +13,8 @@ from std_msgs.msg import String, Int8
 
 
 # from smrr_navigation import TaskResult
-# from smrr_gestures import SMRRGestures
-# from smrr_gestures import GestureType
+
+from smrr_gestures import SMRRGestures,GestureType
 # from smrr_face_recognition import SMRRFaceRecogition
 from load_locations import LoadLocations
 from smrr_conversation import SMRRCoversation
@@ -45,8 +45,8 @@ class LoadModules(State):
         # print("Loading face recognition module successful")
         # blackboard.nav_obj = SMRRNavigation(self)
         # print("Loading navigation module successful")
-        # blackboard.gestures_obj = SMRRGestures(self)
-        # print("Loading gestures module successful")
+        blackboard.gestures_obj = SMRRGestures()
+        print("Loading gestures module successful")
         time.sleep(1)
         return SUCCEED
        
@@ -102,12 +102,15 @@ class Conversation(State):
 
     def execute(self, blackboard):
         print("Executing Conversation state")
-        self.stop_listening = False
-        
+        blackboard.gestures_obj.do_gesture(GestureType.AYUBOWAN)
+        time.sleep(3)
+        blackboard.conv_obj.text_to_speech("Aayuboawan.....Suba Alluth Awurudhthak Weywa")
+        time.sleep(4)
+   
         # blackboard.conv_obj.text_to_speech(random.choice(welcoming_messages))
 
         # SMRRGestures.do_gesture(GestureType.AYUBOWAN)
-        # blackboard.conv_obj.text_to_speech("Ayubowan")
+
         
         # # blackboard.conv_obj.text_to_speech(random.choice(waiting_messages))
         # name, angle = self.trigger_func()
