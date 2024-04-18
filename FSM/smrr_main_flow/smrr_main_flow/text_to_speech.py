@@ -84,7 +84,8 @@ class TextToSpeech:
                 output_queue.put("$$")
             else:
                 name = datetime.now().strftime("savewav_%Y-%m-%d_%H-%M-%S_%f.wav")
-                command = f"""/SSD/build/flite/bin/flite -voice /SSD/build/flite/voices/cmu_us_lnh.flitevox -t "{item}" ./{name}"""
+                command = f"""echo "{item}" |  piper --model /SSD/PIPER_Voices/en_US-hfc_female-medium.onnx --output_file ./{name}"""
+                # command = f"""/SSD/build/flite/bin/flite -voice /SSD/build/flite/voices/cmu_us_lnh.flitevox -t "{item}" ./{name}"""
                 result = subprocess.run(
                     command,
                     shell=True,
