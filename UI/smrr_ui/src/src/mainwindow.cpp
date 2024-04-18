@@ -165,6 +165,7 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     case PAGE_ABOUT:
     {
         gotoPage(PAGE_VERBAL,"About Developers","ABOUT");
+        break;
     }
     case PAGE_INFO:
     {
@@ -299,6 +300,9 @@ void MainWindow::generateLocationData()
 
     locationMap["PERSON_RANGA"] = "Dr. Ranga Rodrigo";
     locationMap["PERSON_PESHALA"] = "Dr. Peshala Jayasekara";
+
+
+    locationMap["ABOUT"] = "About Developers";   
 
     /**/
 
