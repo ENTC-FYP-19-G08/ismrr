@@ -14,21 +14,22 @@ ScreenMap::ScreenMap(QWidget *parent, QString text, string data)
 
     qDebug() << "Map window loaded";
 
-    QPixmap pixmap("imgs/img1.jpg");
+    QString imgsPath = "imgs/";
+
+    QPixmap pixmap(imgsPath + QString::fromStdString(data) + ".jpg");
     if (pixmap.isNull())
     {
         // Handle error if image loading fails (e.g., display a message)
         qDebug() << "Error loading image";
+        ui->labelImg->setText("Image is not added yet . . .");
     }
     else
     {
         QPixmap scaledPixmap = pixmap.scaled(ui->labelImg->size(), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
-        // QPixmap scaledPixmap = pixmap.scaled(ui->labelImg->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-
         ui->labelImg->setPixmap(scaledPixmap);
     }
 
-    ui->label->setText(text+":"+QString::fromStdString(data));
+    ui->label->setText(text + ":" + QString::fromStdString(data));
 
     std_msgs::msg::String rosString;
     rosString.data = data;

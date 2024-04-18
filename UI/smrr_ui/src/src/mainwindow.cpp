@@ -143,7 +143,7 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     case PAGE_MAP:
     {
         // QWidget *screen = new ScreenMap(this, "Let' go to " + locationMap[data] + ". Map will be displayed here", data);
-        QWidget *screen = new ScreenMap(this, locationMap[data] , data);        
+        QWidget *screen = new ScreenMap(this, locationMap[data], data);
         showScreen(screen);
         break;
     }
@@ -242,39 +242,45 @@ QWidget *MainWindow::createScreen(Page *page)
     return nullptr;
 }
 
-
-
-
-
 void MainWindow::generateLocationMap()
 {
-    locationMap["HALL_ENTC1"] = "";
-    locationMap["COMMON_LOWER"] = "";
-    locationMap["LAB_BM"] = "";
-    locationMap["LAB_UAV"] = "";
+    locationMap["HALL_ENTC1"] = "ENTC1";
+    locationMap["COMMON_LOWER"] = "Lower Common";
+    locationMap["LAB_BM"] = "BM Lab";
+    locationMap["LAB_UAV"] = "UAV LAB";
     locationMap["LIFT"] = "Lift";
     locationMap["WASHROOMS_COMMON"] = "Washrooms";
-    locationMap["WASHROOMS_STAFF"] = "";
-    locationMap["LAB_COMPUTER"] = "";
-    locationMap["ROOM_LECTURERS"] = "";
-    locationMap["OFFICE"] = "";
-    locationMap["ROOM_CONFERENCE"] = "";
-    locationMap["ROOM_HOD"] = "";
-    locationMap["LAB_ANALOG"] = "";
-    locationMap["COMMON_UPPER"] = "";
-    locationMap["WORKSHOP"] = "";
-    locationMap["ROOM_SOLDER"] = "";
-    locationMap["LAB_DIGITAL"] = "";
+    locationMap["WASHROOMS_STAFF"] = "Staff Washrooms";
+    locationMap["LAB_COMPUTER"] = "Computer Lab";
+    locationMap["ROOM_LECTURERS"] = "Lecturer Rooms";
+    locationMap["ROOM_STAFF"] = "Staff Room";
+    locationMap["OFFICE"] = "Department Office";
+    locationMap["ROOM_CONFERENCE"] = "Conference Room";
+    locationMap["ROOM_HOD"] = "HOD office";
+    locationMap["LAB_ANALOG"] = "Analog Lab";
+    locationMap["COMMON_UPPER"] = "Upper Common";
+    locationMap["WORKSHOP"] = "Workshop";
+    locationMap["ROOM_SOLDER"] = "Soldering Room";
+    locationMap["LAB_DIGITAL"] = "Digital Lab";
     locationMap["HALL_PG"] = "PG Seminar Room";
-    locationMap["LAB_DIALOG"] = "";
+    locationMap["LAB_DIALOG"] = "Dialog Research Lab";
     locationMap["LAB_TELECOM"] = "Telecom Lab";
     locationMap["LAB_VISION"] = "Vision Lab";
     locationMap["LAB_PG"] = "PG Lab";
     locationMap["HALL_3.5"] = "3.5 Hall";
-    locationMap["ROOM_PESHALA"] = "";
-    locationMap["ROOM_ROHAN"] = "";
-    locationMap["ROOM_DILEEKA"] = "";
-    locationMap["ROOM_JAYASINGHE"] = "";
+    locationMap["ROOM_INSTRUCTORS"] = "Instructors Room";
+
+    // locationMap["PERSON_PESHALA"] = "Dr. Peshala Jayasekara";
+    // locationMap["PERSON_ROHAN"] = "Prof. Rohan Munasinghe";
+    // locationMap["PERSON_DILEEKA"] = "Prof. Dileeka Dias";
+    // locationMap["PERSON_JAYASINGHE"] = "Prof. J.A.K.S. Jayasinghe";
+    // locationMap["PERSON_RANGA"] = "Dr. Ranga Rodrigo";
+    // locationMap["PERSON_KITHSIRI"] = "Eng. A.T.L.K. Samarasinghe";
+    // locationMap["PERSON_AJITH"] = "Dr. Ajith Pasqual";
+
+    locationMap["PERSON_RANGA"] = "Dr. Ranga Rodrigo";
+    locationMap["PERSON_PESHALA"] = "Dr. Peshala Jayasekara";
+
 }
 
 // void MainWindow::publishStr(PubStr pubStr, QString qdata)
