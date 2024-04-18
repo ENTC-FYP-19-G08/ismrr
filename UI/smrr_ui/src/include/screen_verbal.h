@@ -23,7 +23,7 @@ class ScreenVerbal : public QDialog
     Q_OBJECT
 
 public:
-    explicit ScreenVerbal(QWidget *parent = nullptr /*TODO: , vector<Option> *options=nullptr, QString text="", PubStr *pubStr = nullptr*, string data="" */);
+    explicit ScreenVerbal(QWidget *parent = nullptr ,QString text="", string data="");
     ~ScreenVerbal();
 
 private:

@@ -3,33 +3,38 @@
 #include "./ui_screen_verbal.h"
 
 #include <QDebug>
+#include <QPixmap>
+#include <QLabel>
 
-ScreenVerbal::ScreenVerbal(QWidget *parent /*TODO: , vector<Option> *options, QString text, PubStr *pubStr, string data */)
+ScreenVerbal::ScreenVerbal(QWidget *parent, QString text, string data)
     : QDialog(parent), ui(new Ui::ScreenVerbal)
 {
-    ui->setupUi(this);
+     ui->setupUi(this);
 
     MainWindow *mainWindow = static_cast<MainWindow *>(parent);
 
-    qDebug() << "Verbal window loaded";
+    qDebug() << "Map window loaded";
 
-    // ui->label->setText();
+    QString imgsPath = "imgs/";
 
-    for (uint i = 0; i < options->size(); i++)
+    QPixmap pixmap(imgsPath + QString::fromStdString(data) + ".jpg");
+    if (pixmap.isNull())
     {
-        qDebug() << "screen_options:i" << i;
-
-        Option option = options->at(i);
-        QPushButton *btnOption = new QPushButton(option.text, this);
-        
-        btnOption->setMinimumHeight(100);
-        btnOption->setMaximumHeight(110);
-        
-        connect(btnOption, &QPushButton::clicked, [mainWindow, option]()
-                { mainWindow->gotoPage(option.pageId, option.text, option.data); });
-        ui->scrollLayout->addWidget(btnOption);
-       
+        // Handle error if image loading fails (e.g., display a message)
+        qDebug() << "Error loading image";
+        ui->labelImg->setText("Image is not added yet . . .");
     }
+    else
+    {
+        QPixmap scaledPixmap = pixmap.scaled(ui->labelImg->size(), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+        ui->labelImg->setPixmap(scaledPixmap);
+    }
+
+    ui->label->setText(text + ":" + QString::fromStdString(data));
+
+    std_msgs::msg::String rosString;
+    rosString.data = data;
+    mainWindow->rosNode->pubGuideVerbal->publish(rosString);
 
     connect(ui->btnBack, &QPushButton::clicked, mainWindow, &MainWindow::btnBack_clicked);
     connect(ui->btnHome, &QPushButton::clicked, mainWindow, &MainWindow::btnHome_clicked);

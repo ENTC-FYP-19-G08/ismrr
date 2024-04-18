@@ -12,7 +12,7 @@
 #include "screen_options.h"
 #include "screen_optionstitled.h"
 #include "screen_navigation.h"
-#include "screen_map.h"
+#include "screen_verbal.h"
 #include "screen_info.h"
 #include "screen_face.h"
 #include "screen_home.h"
@@ -129,7 +129,7 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     }
     case PAGE_GUIDE_OPTIONS:
     {
-        vector<Option> options = {Option(PAGE_MAP, "Verbal\nInstruction", data, rosNode->pubGuideVerbal)};
+        vector<Option> options = {Option(PAGE_VERBAL, "Verbal\nInstruction", data, rosNode->pubGuideVerbal)};
         if (reachableLocations.find(data) != reachableLocations.end())
             options.push_back(Option(PAGE_NAVIGATION, "Guide\nMe", data, rosNode->pubGuideNavigation));
 
@@ -148,10 +148,10 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
         showScreen(screen, false);
         break;
     }
-    case PAGE_MAP:
+    case PAGE_VERBAL:
     {
         // QWidget *screen = new ScreenMap(this, "Let' go to " + locationMap[data] + ". Map will be displayed here", data);
-        QWidget *screen = new ScreenMap(this, locationMap[data], data);
+        QWidget *screen = new ScreenVerbal(this, locationMap[data], data);
         showScreen(screen);
         break;
     }
@@ -164,7 +164,7 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     }
     case PAGE_ABOUT:
     {
-        // gotoPage(PAGE_MAP,)
+        // gotoPage(PAGE_VERBAL,)
     }
     case PAGE_INFO:
     {
