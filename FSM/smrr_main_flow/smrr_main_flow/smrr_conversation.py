@@ -125,17 +125,19 @@ class SMRRCoversation:
         spinner = Halo(spinner="line")
         wav_data = bytearray()
         tic = time.time()
+        tic2 = time.time()
         self.vad_audio.clear_queue()
         for frame in frames:
             if time.time() - tic > 120:
                 return
             if self.should_stop:
                 break
-            if frame is not None:
+            if frame is not None and ((time.time()-tic2)<10):
                 if spinner:
                     spinner.start()
                 wav_data.extend(frame)
             else:
+                tic2 = time.time()
                 if spinner:
                     spinner.stop()
                 numpy_array = np.frombuffer(wav_data, dtype=np.int16)
