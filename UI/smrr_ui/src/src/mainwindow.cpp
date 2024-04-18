@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     rosNode = new rclcomm();
 
-    generateLocationMap();
+    generateLocationData();
 
     gotoPage(PAGE_HOME);
     // gotoPage(PAGE_GUIDE);
@@ -94,7 +94,7 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     }
     case PAGE_BASIC_OPTIONS:
     {
-        vector<Option> options = {Option(PAGE_GUIDE, "Guide\nMe"), Option(PAGE_MEET, "Meet\nSomeone"), Option(PAGE_ABOUT_DEPARTMENT, "About\nDepartment")};
+        vector<Option> options = {Option(PAGE_GUIDE, "Guide\nMe"), Option(PAGE_MEET, "Meet\nSomeone"), Option(PAGE_ABOUT, "About")};
         QWidget *screen = new ScreenOptionsTitled(this, &options, "Hi " + text + "! \n How can I assist you today?");
         showScreen(screen);
         break;
@@ -108,7 +108,7 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     }
     case PAGE_GUIDE_LABS:
     {
-        vector<Option> options = {Option(PAGE_GUIDE_OPTIONS, locationMap["LAB_VISION"], "LAB_VISION"), Option(PAGE_GUIDE_OPTIONS, locationMap["LAB_TELECOM"], "LAB_TELECOM")};
+        vector<Option> options = {Option(PAGE_GUIDE_OPTIONS, locationMap["LAB_VISION"], "LAB_VISION"), Option(PAGE_GUIDE_OPTIONS, locationMap["LAB_TELECOM"], "LAB_TELECOM"), Option(PAGE_GUIDE_OPTIONS, locationMap["LAB_ANALOG"], "LAB_ANALOG")};
         QWidget *screen = new ScreenOptions(this, &options);
         showScreen(screen);
         break;
@@ -129,7 +129,15 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     }
     case PAGE_GUIDE_OPTIONS:
     {
-        vector<Option> options = {Option(PAGE_NAVIGATION, "Guide\nMe", data, rosNode->pubGuideNavigation), Option(PAGE_MAP, "Verbal\nInstruction", data, rosNode->pubGuideVerbal)};
+        vector<Option> options = {Option(PAGE_MAP, "Verbal\nInstruction", data, rosNode->pubGuideVerbal)};
+        if (reachableLocations.find(data) != reachableLocations.end())
+            options.push_back(Option(PAGE_NAVIGATION, "Guide\nMe", data, rosNode->pubGuideNavigation));
+
+        if (data.find("PERSON_") == 0)
+            text = "Do you want to meet " + text + "?";
+        else
+            "Do you want to go to " + text + "?";
+
         QWidget *screen = new ScreenOptionsTitled(this, &options, "Do you want to go to " + text + "?");
         showScreen(screen);
         break;
@@ -146,6 +154,17 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
         QWidget *screen = new ScreenMap(this, locationMap[data], data);
         showScreen(screen);
         break;
+    }
+    case PAGE_MEET:
+    {
+        vector<Option> options = {Option(PAGE_GUIDE_OPTIONS, locationMap["PERSON_RANGA"], "PERSON_RANGA"), Option(PAGE_GUIDE_OPTIONS, locationMap["PERSON_PESHALA"], "PERSON_PESHALA")};
+        QWidget *screen = new ScreenOptions(this, &options);
+        showScreen(screen);
+        break;
+    }
+    case PAGE_ABOUT:
+    {
+        // gotoPage(PAGE_MAP,)
     }
     case PAGE_INFO:
     {
@@ -242,7 +261,7 @@ QWidget *MainWindow::createScreen(Page *page)
     return nullptr;
 }
 
-void MainWindow::generateLocationMap()
+void MainWindow::generateLocationData()
 {
     locationMap["HALL_ENTC1"] = "ENTC1";
     locationMap["COMMON_LOWER"] = "Lower Common";
@@ -281,6 +300,17 @@ void MainWindow::generateLocationMap()
     locationMap["PERSON_RANGA"] = "Dr. Ranga Rodrigo";
     locationMap["PERSON_PESHALA"] = "Dr. Peshala Jayasekara";
 
+    /**/
+
+    reachableLocations = {
+        "HALL_PG",
+        "LAB_DIALOG",
+        "LAB_TELECOM",
+        "LAB_VISION",
+        "LAB_PG",
+        "HALL_3.5",
+        "LIFT",
+        "WASHROOMS_COMMON"};
 }
 
 // void MainWindow::publishStr(PubStr pubStr, QString qdata)
