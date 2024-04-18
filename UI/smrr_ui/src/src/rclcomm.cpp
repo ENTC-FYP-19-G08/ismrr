@@ -32,6 +32,7 @@ rclcomm::rclcomm()
     subGuideOptions = node->create_subscription<std_msgs::msg::String>("/ui/guide_options", 10, std::bind(&rclcomm::onGuideOptions_callback, this, std::placeholders::_1));
     subUsername = node->create_subscription<std_msgs::msg::String>("/ui/username", 10, std::bind(&rclcomm::onUsername_callback, this, std::placeholders::_1));
     subTrigger = node->create_subscription<std_msgs::msg::String>("/trigger", 10, std::bind(&rclcomm::onTrigger_callback, this, std::placeholders::_1));
+    subChangeState = node->create_subscription<std_msgs::msg::String>("/ui/change_state", 10, std::bind(&rclcomm::onChangeState_callback, this, std::placeholders::_1));
 
     this->start();
 }
@@ -67,6 +68,11 @@ void rclcomm::onUsername_callback(const std_msgs::msg::String::SharedPtr msg)
 void rclcomm::onTrigger_callback(const std_msgs::msg::String::SharedPtr msg)
 {
     onTrigger(QString::fromStdString(msg->data));
+}
+
+void rclcomm::onChangeState_callback(const std_msgs::msg::String::SharedPtr msg)
+{
+    onChangeState(QString::fromStdString(msg->data));
 }
 
 void rclcomm::sendTopicData()

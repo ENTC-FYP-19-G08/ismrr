@@ -15,6 +15,7 @@
 
 #include <string>
 #include <map>
+#include <unordered_set>
 
 #include "rclcomm.h"
 #include "page.h"
@@ -38,6 +39,7 @@ public:
     bool currentScreenHist = true;
 
     map<string, QString> locationMap;
+    unordered_set<string> reachableLocations;
     rclcomm *rosNode;
 
     MainWindow(QWidget *parent = nullptr);
@@ -45,9 +47,10 @@ public:
 
     QWidget *createScreen(Page *page);
     void showScreen(QWidget *screen, bool screenHist = true);
-    void generateLocationMap();
+    void generateLocationData();
     // void publishStr(PubStr pubStr,QString data);
     void publishStr(PubStr pubStr,string data);
+    void loadOptionsFromPrefix(vector<Option> *options,string prefix);
     
 
 private:
@@ -60,5 +63,6 @@ public slots:
     void btnHome_clicked();
     void onGuideNavigationResult(QString);
     void onGuideOptions(QString);
+    void onChangeState(QString);
 };
 #endif // MAINWINDOW_H

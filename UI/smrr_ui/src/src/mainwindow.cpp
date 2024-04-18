@@ -12,7 +12,7 @@
 #include "screen_options.h"
 #include "screen_optionstitled.h"
 #include "screen_navigation.h"
-#include "screen_map.h"
+#include "screen_verbal.h"
 #include "screen_info.h"
 #include "screen_face.h"
 #include "screen_home.h"
@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     rosNode = new rclcomm();
 
-    generateLocationMap();
+    generateLocationData();
 
     gotoPage(PAGE_HOME);
     // gotoPage(PAGE_GUIDE);
@@ -42,6 +42,8 @@ MainWindow::MainWindow(QWidget *parent)
     // // connect(ui->pushButton, &QPushButton::clicked, rosNode, &rclcomm::sendTopicData);
 
     connect(rosNode, &rclcomm::onGuideOptions, this, &MainWindow::onGuideOptions);
+    connect(rosNode, &rclcomm::onChangeState, this, &MainWindow::onChangeState);
+
 }
 
 MainWindow::~MainWindow()
@@ -69,6 +71,12 @@ void MainWindow::onGuideOptions(QString qdata)
     qDebug() << qdata << "onguideoptions main";
 }
 
+void MainWindow::onChangeState(QString qdata)
+{
+    string data = qdata.toStdString();
+    if(data=="IDLE") btnHome_clicked();
+}
+
 void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubStr)
 {
 
@@ -94,7 +102,7 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     }
     case PAGE_BASIC_OPTIONS:
     {
-        vector<Option> options = {Option(PAGE_GUIDE, "Guide\nMe"), Option(PAGE_MEET, "Meet\nSomeone"), Option(PAGE_ABOUT_DEPARTMENT, "About\nDepartment")};
+        vector<Option> options = {Option(PAGE_GUIDE, "Guide\nMe"), Option(PAGE_MEET, "Meet\nSomeone"), Option(PAGE_ABOUT, "About")};
         QWidget *screen = new ScreenOptionsTitled(this, &options, "Hi " + text + "! \n How can I assist you today?");
         showScreen(screen);
         break;
@@ -108,15 +116,16 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     }
     case PAGE_GUIDE_LABS:
     {
-        vector<Option> options = {Option(PAGE_GUIDE_OPTIONS, locationMap["LAB_VISION"], "LAB_VISION"), Option(PAGE_GUIDE_OPTIONS, locationMap["LAB_TELECOM"], "LAB_TELECOM")};
+        vector<Option> options;
+        loadOptionsFromPrefix(&options,"LAB_");
         QWidget *screen = new ScreenOptions(this, &options);
         showScreen(screen);
         break;
     }
     case PAGE_GUIDE_HALLS:
     {
-        vector<Option> options = {Option(PAGE_GUIDE_OPTIONS, locationMap["HALL_PG"], "HALL_PG"), Option(PAGE_GUIDE_OPTIONS, locationMap["HALL_3.5"], "HALL_3.5")};
-        QWidget *screen = new ScreenOptions(this, &options);
+        vector<Option> options;
+        loadOptionsFromPrefix(&options,"HALL_");QWidget *screen = new ScreenOptions(this, &options);
         showScreen(screen);
         break;
     }
@@ -129,7 +138,15 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     }
     case PAGE_GUIDE_OPTIONS:
     {
-        vector<Option> options = {Option(PAGE_NAVIGATION, "Guide\nMe", data, rosNode->pubGuideNavigation), Option(PAGE_MAP, "Verbal\nInstruction", data, rosNode->pubGuideVerbal)};
+        vector<Option> options = {Option(PAGE_VERBAL, "Verbal\nInstruction", data, rosNode->pubGuideVerbal)};
+        if (reachableLocations.find(data) != reachableLocations.end())
+            options.push_back(Option(PAGE_NAVIGATION, "Guide\nMe", data, rosNode->pubGuideNavigation));
+
+        if (data.find("PERSON_") == 0)
+            text = "Do you want to meet " + text + "?";
+        else
+            "Do you want to go to " + text + "?";
+
         QWidget *screen = new ScreenOptionsTitled(this, &options, "Do you want to go to " + text + "?");
         showScreen(screen);
         break;
@@ -140,11 +157,23 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
         showScreen(screen, false);
         break;
     }
-    case PAGE_MAP:
+    case PAGE_VERBAL:
     {
         // QWidget *screen = new ScreenMap(this, "Let' go to " + locationMap[data] + ". Map will be displayed here", data);
-        QWidget *screen = new ScreenMap(this, locationMap[data] , data);        
+        QWidget *screen = new ScreenVerbal(this, locationMap[data], data);
         showScreen(screen);
+        break;
+    }
+    case PAGE_MEET:
+    {
+        vector<Option> options = {Option(PAGE_GUIDE_OPTIONS, locationMap["PERSON_RANGA"], "PERSON_RANGA"), Option(PAGE_GUIDE_OPTIONS, locationMap["PERSON_PESHALA"], "PERSON_PESHALA")};
+        QWidget *screen = new ScreenOptions(this, &options);
+        showScreen(screen);
+        break;
+    }
+    case PAGE_ABOUT:
+    {
+        gotoPage(PAGE_VERBAL,"About Developers","ABOUT");
         break;
     }
     case PAGE_INFO:
@@ -242,39 +271,59 @@ QWidget *MainWindow::createScreen(Page *page)
     return nullptr;
 }
 
-
-
-
-
-void MainWindow::generateLocationMap()
+void MainWindow::generateLocationData()
 {
-    locationMap["HALL_ENTC1"] = "";
-    locationMap["COMMON_LOWER"] = "";
-    locationMap["LAB_BM"] = "";
-    locationMap["LAB_UAV"] = "";
+    locationMap["HALL_ENTC1"] = "ENTC1";
+    locationMap["COMMON_LOWER"] = "Lower Common";
+    locationMap["LAB_BM"] = "BM Lab";
+    locationMap["LAB_UAV"] = "UAV LAB";
     locationMap["LIFT"] = "Lift";
     locationMap["WASHROOMS_COMMON"] = "Washrooms";
-    locationMap["WASHROOMS_STAFF"] = "";
-    locationMap["LAB_COMPUTER"] = "";
-    locationMap["ROOM_LECTURERS"] = "";
-    locationMap["OFFICE"] = "";
-    locationMap["ROOM_CONFERENCE"] = "";
-    locationMap["ROOM_HOD"] = "";
-    locationMap["LAB_ANALOG"] = "";
-    locationMap["COMMON_UPPER"] = "";
-    locationMap["WORKSHOP"] = "";
-    locationMap["ROOM_SOLDER"] = "";
-    locationMap["LAB_DIGITAL"] = "";
+    locationMap["WASHROOMS_STAFF"] = "Staff Washrooms";
+    locationMap["LAB_COMPUTER"] = "Computer Lab";
+    locationMap["ROOM_LECTURERS"] = "Lecturer Rooms";
+    locationMap["ROOM_STAFF"] = "Staff Room";
+    locationMap["OFFICE"] = "Department Office";
+    locationMap["ROOM_CONFERENCE"] = "Conference Room";
+    locationMap["ROOM_HOD"] = "HOD office";
+    locationMap["LAB_ANALOG"] = "Analog Lab";
+    locationMap["COMMON_UPPER"] = "Upper Common";
+    locationMap["WORKSHOP"] = "Workshop";
+    locationMap["ROOM_SOLDER"] = "Soldering Room";
+    locationMap["LAB_DIGITAL"] = "Digital Lab";
     locationMap["HALL_PG"] = "PG Seminar Room";
-    locationMap["LAB_DIALOG"] = "";
+    locationMap["LAB_DIALOG"] = "Dialog Research Lab";
     locationMap["LAB_TELECOM"] = "Telecom Lab";
     locationMap["LAB_VISION"] = "Vision Lab";
     locationMap["LAB_PG"] = "PG Lab";
     locationMap["HALL_3.5"] = "3.5 Hall";
-    locationMap["ROOM_PESHALA"] = "";
-    locationMap["ROOM_ROHAN"] = "";
-    locationMap["ROOM_DILEEKA"] = "";
-    locationMap["ROOM_JAYASINGHE"] = "";
+    locationMap["ROOM_INSTRUCTORS"] = "Instructors Room";
+
+    // locationMap["PERSON_PESHALA"] = "Dr. Peshala Jayasekara";
+    // locationMap["PERSON_ROHAN"] = "Prof. Rohan Munasinghe";
+    // locationMap["PERSON_DILEEKA"] = "Prof. Dileeka Dias";
+    // locationMap["PERSON_JAYASINGHE"] = "Prof. J.A.K.S. Jayasinghe";
+    // locationMap["PERSON_RANGA"] = "Dr. Ranga Rodrigo";
+    // locationMap["PERSON_KITHSIRI"] = "Eng. A.T.L.K. Samarasinghe";
+    // locationMap["PERSON_AJITH"] = "Dr. Ajith Pasqual";
+
+    locationMap["PERSON_RANGA"] = "Dr. Ranga Rodrigo";
+    locationMap["PERSON_PESHALA"] = "Dr. Peshala Jayasekara";
+
+
+    locationMap["ABOUT"] = "About Developers";   
+
+    /**/
+
+    reachableLocations = {
+        "HALL_PG",
+        "LAB_DIALOG",
+        "LAB_TELECOM",
+        "LAB_VISION",
+        "LAB_PG",
+        "HALL_3.5",
+        "LIFT",
+        "WASHROOMS_COMMON"};
 }
 
 // void MainWindow::publishStr(PubStr pubStr, QString qdata)
@@ -288,4 +337,11 @@ void MainWindow::publishStr(PubStr pubStr, string data)
     std_msgs::msg::String rosString;
     rosString.data = data;
     pubStr->publish(rosString);
+}
+
+void MainWindow::loadOptionsFromPrefix(vector<Option> *options,string prefix){
+    for (const auto& pair : locationMap) {
+        if (pair.first.find(prefix) == 0)
+        options->push_back(Option(PAGE_GUIDE_OPTIONS, pair.second, pair.first));
+    }
 }

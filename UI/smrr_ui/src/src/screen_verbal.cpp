@@ -1,14 +1,15 @@
 
-#include "screen_map.h"
-#include "./ui_screen_map.h"
+#include "screen_verbal.h"
+#include "./ui_screen_verbal.h"
 
 #include <QDebug>
 #include <QPixmap>
 #include <QLabel>
-ScreenMap::ScreenMap(QWidget *parent, QString text, string data)
-    : QDialog(parent), ui(new Ui::ScreenMap)
+
+ScreenVerbal::ScreenVerbal(QWidget *parent, QString text, string data)
+    : QDialog(parent), ui(new Ui::ScreenVerbal)
 {
-    ui->setupUi(this);
+     ui->setupUi(this);
 
     MainWindow *mainWindow = static_cast<MainWindow *>(parent);
 
@@ -37,9 +38,10 @@ ScreenMap::ScreenMap(QWidget *parent, QString text, string data)
 
     connect(ui->btnBack, &QPushButton::clicked, mainWindow, &MainWindow::btnBack_clicked);
     connect(ui->btnHome, &QPushButton::clicked, mainWindow, &MainWindow::btnHome_clicked);
+
 }
 
-ScreenMap::~ScreenMap()
+ScreenVerbal::~ScreenVerbal()
 {
     delete ui;
 }
