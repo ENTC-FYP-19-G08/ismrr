@@ -116,15 +116,16 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     }
     case PAGE_GUIDE_LABS:
     {
-        vector<Option> options = {Option(PAGE_GUIDE_OPTIONS, locationMap["LAB_VISION"], "LAB_VISION"), Option(PAGE_GUIDE_OPTIONS, locationMap["LAB_TELECOM"], "LAB_TELECOM"), Option(PAGE_GUIDE_OPTIONS, locationMap["LAB_ANALOG"], "LAB_ANALOG")};
+        vector<Option> options;
+        loadOptionsFromPrefix(&options,"LAB_");
         QWidget *screen = new ScreenOptions(this, &options);
         showScreen(screen);
         break;
     }
     case PAGE_GUIDE_HALLS:
     {
-        vector<Option> options = {Option(PAGE_GUIDE_OPTIONS, locationMap["HALL_PG"], "HALL_PG"), Option(PAGE_GUIDE_OPTIONS, locationMap["HALL_3.5"], "HALL_3.5")};
-        QWidget *screen = new ScreenOptions(this, &options);
+        vector<Option> options;
+        loadOptionsFromPrefix(&options,"HALL_");QWidget *screen = new ScreenOptions(this, &options);
         showScreen(screen);
         break;
     }
@@ -336,4 +337,11 @@ void MainWindow::publishStr(PubStr pubStr, string data)
     std_msgs::msg::String rosString;
     rosString.data = data;
     pubStr->publish(rosString);
+}
+
+void MainWindow::loadOptionsFromPrefix(vector<Option> *options,string prefix){
+    for (const auto& pair : locationMap) {
+        if (pair.first.find(prefix) == 0)
+        options->push_back(Option(PAGE_GUIDE_OPTIONS, pair.second, pair.first));
+    }
 }

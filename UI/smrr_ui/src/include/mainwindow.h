@@ -50,6 +50,7 @@ public:
     void generateLocationData();
     // void publishStr(PubStr pubStr,QString data);
     void publishStr(PubStr pubStr,string data);
+    void loadOptionsFromPrefix(vector<Option> *options,string prefix);
     
 
 private:
