@@ -1,5 +1,7 @@
 import multiprocessing
 from std_msgs.msg import String
+import rclpy
+from rclpy.node import Node
 
 class LocationClassifier:
 
@@ -32,12 +34,11 @@ class LocationClassifier:
         "HALL_3.5":["3.5 hall", "3.5 lecture hall", "three point five lecture hall"],
         "ROOM_PESHALA":["doctor peshala", "dr peshala", "dr pesala", "doctor pesala"]
 }
+    direction_request = ["where", "take me", "direction", "way", "go", "find"]
     
-    def __init__(self, node):
+    def __init__(self):
         self.input_queue = multiprocessing.Queue()
         self.output_queue = multiprocessing.Queue()
-        self.node = node
-        self.name_pub = self.node.create_publisher(String, '/ui/guide_options', 10)
 
     def initialize_process(self):
         self.process_ = multiprocessing.Process(
@@ -51,17 +52,35 @@ class LocationClassifier:
             self.process_.kill()
 
     def find_location(self, input_q, output_q):
-        while True:
-            text = input_q.get()
-            text_lower = text.lower()
+        # while True:
+        text = input_q.get()
+        text_lower = text.lower()
 
-            for place in LocationClassifier.places.keys:
-                for place_ in LocationClassifier.places[place]:
-                    if place_ in text_lower:
-                        output_q.put(place)
-                        msg = String()
-                        msg.data = place
-                        self.name_pub.publish(msg.data) 
+        for place in LocationClassifier.places:
+            for place_ in LocationClassifier.places[place]:
+                if place_ in text_lower:
+                    output_q.put(place)
+                    msg = String()
+                    msg.data = place
+                    self.name_pub.publish(msg)
+                    print("Location Found: " + place)
+                    return place
+        return None
+            
 
     def classify_location(self, text):
-        self.input_queue.put(text)
+        # self.input_queue.put(text)
+        text = text
+        text_lower = text.lower()
+
+        for place in LocationClassifier.places:
+            for place_ in LocationClassifier.places[place]:
+                if place_ in text_lower:
+                    print("Location Found: " + place)
+                    for word in LocationClassifier.direction_request:
+                        if word in text_lower:
+                            print("Direction Request")
+                            return place,True
+                    print("Not a Direction Request")
+                    return place,False
+        return None,False
