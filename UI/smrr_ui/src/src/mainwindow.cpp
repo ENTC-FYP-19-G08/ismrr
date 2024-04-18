@@ -164,7 +164,7 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     }
     case PAGE_ABOUT:
     {
-        // gotoPage(PAGE_VERBAL,)
+        gotoPage(PAGE_VERBAL,"About Developers","ABOUT");
     }
     case PAGE_INFO:
     {
