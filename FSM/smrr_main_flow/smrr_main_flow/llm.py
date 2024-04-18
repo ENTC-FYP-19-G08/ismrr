@@ -411,7 +411,7 @@ class LLM:
             # self.can_play=True
             return
 
-    def chat_(self, user_p, tts_func, end_func):
+    def chat_(self, user_p, tts_func, end_func, warmup_flag=False):
         # while True:
         # self.engine = pyttsx3.init()
         # pygame.init()
@@ -493,10 +493,11 @@ class LLM:
             else:
 
                 # Print formatted
-                print(chunk, end="")
-                self.make_sentence(chunk, eos, tts_func, end_func)
-                # temp.append(chunk)
-                # pass
+                if not warmup_flag:
+                    print(chunk, end="")
+                    self.make_sentence(chunk, eos, tts_func, end_func)
+                    # temp.append(chunk)
+                    # pass
 
             # Exit code block
 
