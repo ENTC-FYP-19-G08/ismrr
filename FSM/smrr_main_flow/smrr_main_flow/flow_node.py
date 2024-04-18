@@ -34,12 +34,13 @@ class LoadModules(State):
     def __init__(self, node):
         super().__init__([SUCCEED, ABORT])
         self.node = node
-        
+  
 
     def execute(self, blackboard):
 
         # print("Executing state Load Modules")
         blackboard.conv_obj = SMRRCoversation(self.node)
+        blackboard.state_publisher = self.node.create_publisher(String, 'ui/change_state', 10)
         # print("Loading conversation module successful")
         # blackboard.face_recog_obj = SMRRFaceRecogition(self.node)
         # print("Loading face recognition module successful")
@@ -54,15 +55,18 @@ class Idle(State):
     def __init__(self, node):
         super().__init__(["trigger","end"])
         self.node = node
-        # self.trig_sub = self.node.create_subscription(String,'/trigger', self.call_back,10)
-        # self.trigger = False
+        self.trig_sub = self.node.create_subscription(String,'/trigger', self.call_back,10)
+        self.trigger = False
         # print("Conversation module is ready")
     
     def call_back(self, msg):
         self.trigger = True
 
     def execute(self, blackboard):
-        # self.trigger = False
+        msg = String()
+        msg.data = "IDLE"
+        blackboard.state_publisher.publish(msg)
+        self.trigger = False
         print("Executing Idle state ")
         # while not self.trigger:
         #     pass
@@ -102,10 +106,10 @@ class Conversation(State):
 
     def execute(self, blackboard):
         print("Executing Conversation state")
-        blackboard.gestures_obj.do_gesture(GestureType.AYUBOWAN)
-        time.sleep(3)
-        blackboard.conv_obj.text_to_speech("Aayuboawan.....Suba Alluth Awurudhthak Weywa")
-        time.sleep(4)
+        # blackboard.gestures_obj.do_gesture(GestureType.AYUBOWAN)
+        # time.sleep(3)
+        # blackboard.conv_obj.text_to_speech("Aayuboawan.....Suba Alluth Awurudhthak Weywa")
+        # time.sleep(4)
    
         # blackboard.conv_obj.text_to_speech(random.choice(welcoming_messages))
 
@@ -201,43 +205,22 @@ class Navigation(State):
             self.nav_state_pub.publish(msg)
             self.nav_result = None
             self.goal = None
-            # if self.goal != self.locations["HOME"]:
-            #     self.go_back_home()
-            # else:
-            #     self.goal = None
-            #     print("EXIT SUCCESSFUL FROM NAVIGATION")
-            #     return SUCCEED
             
-
-    
-class Guide(State):
-    def __init__(self):
-        super().__init__(["navigate","gestures"])
-
-    def execute(self, blackboard):
-        print("Executing state Guide")      
-        time.sleep(1)
-        return "navigate"
-
-# define state BackHome
-class BackHome(State):
-    def __init__(self):
-        super().__init__([SUCCEED])
-      
-    def execute(self, blackboard):
-        print("Executing state BackHome")
-        time.sleep(1)
-
-        return SUCCEED
-
+            if self.goal != self.locations["HOME"]:
+                self.go_back_home()
+            else:
+                self.goal = None
+                print("EXIT SUCCESSFUL FROM NAVIGATION")
+                return SUCCEED
+            
 # define state SwitchingPowerMode
 class SwitchingPowerMode(State):
     def __init__(self):
         super().__init__(['navigate', 'idle'])
+
     def execute(self, blackboard):
         print("Executing state SwitchingPowerMode")
         time.sleep(1)
-
         return 'navigate'
 
      
@@ -259,13 +242,10 @@ class MainFlow(Node):
                      transitions={"trigger": "COVERSATION",
                                   "end":"END"})
 
-        sm.add_state("GUIDE", Guide(),
-                     transitions={"navigate": "SWITCHINGPOWERMODE",
-                                  "gestures":"IDLE"})
         
         sm.add_state("COVERSATION", Conversation(self),
                      transitions={"end": "IDLE",
-                                  "guide": "GUIDE"}
+                                  "guide": "SWITCHINGPOWERMODE"}
                                   )
         
         sm.add_state("SWITCHINGPOWERMODE", SwitchingPowerMode(),
@@ -275,14 +255,10 @@ class MainFlow(Node):
                     )
 
         sm.add_state("NAVIGATION", Navigation(self),
-                     transitions={SUCCEED: "BACKHOME",
-                                  ABORT:"NAVIGATION",
-                                  CANCEL:"BACKHOME"})    
-
-        sm.add_state("BACKHOME", BackHome(),
                      transitions={SUCCEED: "SWITCHINGPOWERMODE",
-                                  ABORT:"BACKHOME",
-                                  CANCEL:"END"})   
+                                  ABORT:"NAVIGATION",
+                                  CANCEL:"SWITCHINGPOWERMODE"})    
+
         
         YasminViewerPub(self, "SMRR_FSM", sm)
     
