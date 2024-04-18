@@ -62,5 +62,6 @@ public slots:
     void btnHome_clicked();
     void onGuideNavigationResult(QString);
     void onGuideOptions(QString);
+    void onChangeState(QString);
 };
 #endif // MAINWINDOW_H

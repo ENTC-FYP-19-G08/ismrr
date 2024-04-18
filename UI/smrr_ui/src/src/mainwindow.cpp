@@ -42,6 +42,8 @@ MainWindow::MainWindow(QWidget *parent)
     // // connect(ui->pushButton, &QPushButton::clicked, rosNode, &rclcomm::sendTopicData);
 
     connect(rosNode, &rclcomm::onGuideOptions, this, &MainWindow::onGuideOptions);
+    connect(rosNode, &rclcomm::onChangeState, this, &MainWindow::onChangeState);
+
 }
 
 MainWindow::~MainWindow()
@@ -67,6 +69,12 @@ void MainWindow::onGuideOptions(QString qdata)
     string data = qdata.toStdString();
     gotoPage(PAGE_GUIDE_OPTIONS, locationMap[data], data);
     qDebug() << qdata << "onguideoptions main";
+}
+
+void MainWindow::onChangeState(QString qdata)
+{
+    string data = qdata.toStdString();
+    if(data=="IDLE") btnHome_clicked();
 }
 
 void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubStr)

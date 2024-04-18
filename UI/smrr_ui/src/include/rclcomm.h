@@ -34,7 +34,7 @@ public:
     void onGuideOptions_callback(const std_msgs::msg::String::SharedPtr msg);
     void onUsername_callback(const std_msgs::msg::String::SharedPtr msg);
     void onTrigger_callback(const std_msgs::msg::String::SharedPtr msg);
-
+    void onChangeState_callback(const std_msgs::msg::String::SharedPtr msg);
 
 
     PubStr pubGuideNavigation;
@@ -46,6 +46,7 @@ public:
     SubStr subGuideOptions;
     SubStr subUsername;
     SubStr subTrigger;
+    SubStr subChangeState;
 
 protected:
     void run();
@@ -62,6 +63,7 @@ signals:
     void onGuideOptions(QString);
     void onUsername(QString);
     void onTrigger(QString);
+    void onChangeState(QString);
     
 public slots:
     void sendTopicData();
