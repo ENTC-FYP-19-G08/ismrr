@@ -155,7 +155,7 @@ class SMRRCoversation:
                     for word in self.ending_words:
                         if word in text_:
                             self.triggered = True
-                            self.text_to_speech(random.choice(thanking_messages))
+                            self.blocking_tts(random.choice(thanking_messages))
                             self.vad_audio.clear_queue()
                             wav_data = bytearray()
                             return
@@ -170,7 +170,7 @@ class SMRRCoversation:
                     if not self.direction_request:
                         self.language_understanding_and_generation(text)
                     else:
-                        self.text_to_speech("Let me help you with it. Please select an option from the screen.")
+                        self.blocking_tts("Let me help you with it. Please select an option from the screen.")
                     # self.stt_queue.put(text)
                     # flag = self.sleep_queue.get()
                     tic = time.time()
@@ -243,3 +243,9 @@ class SMRRCoversation:
 
     def tts_end(self):
         self.tts.get_ending()
+
+    def blocking_tts(self, text):
+        self.text_to_speech(text)
+        self.text_to_speech("$$")
+        i = self.tts_end()
+        return
