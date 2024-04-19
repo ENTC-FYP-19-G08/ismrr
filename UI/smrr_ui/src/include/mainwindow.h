@@ -40,9 +40,7 @@ class MainWindow : public QMainWindow
 public:
     QWidget *currentScreen = nullptr;
     WidgetBorder *border=nullptr;
-    WidgetBlinker *blinker=nullptr;
-    QPushButton *btn=nullptr;
-    
+    WidgetBlinker *borderBlinker=nullptr;
 
     bool currentScreenHist = true;
 

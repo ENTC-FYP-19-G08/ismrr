@@ -27,10 +27,9 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     border = new WidgetBorder(this);
-    ui->setupUi(this);
+    borderBlinker=new WidgetBlinker(this,border);
 
-    blinker=new WidgetBlinker(this,border);
-    blinker->blink(5);
+    ui->setupUi(this); 
 
     qDebug() << "ui run";
 
