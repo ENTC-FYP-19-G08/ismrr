@@ -13,17 +13,20 @@ void WidgetBlinker::startBlinking(int delay)
 {
     toggleCount = 0;
     currentToggleCount = 0;
+    timer_callback();  
     timer->start(delay);
 }
 
 void WidgetBlinker::stopBlinking()
 {
     timer->stop();
+    targetWidget->setVisible(false);
 }
 void WidgetBlinker::blink(int blinks, int delay)
 {
     toggleCount = blinks * 2;
     currentToggleCount = 0;
+    timer_callback();
     timer->start(delay);
 }
 
@@ -36,6 +39,6 @@ void WidgetBlinker::timer_callback()
     }
     else
     {
-        timer->stop();
+        stopBlinking();
     }
 }
