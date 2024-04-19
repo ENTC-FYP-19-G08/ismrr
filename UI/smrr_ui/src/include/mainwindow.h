@@ -1,22 +1,18 @@
-/*
- * @Author: chengyangkj
- * @Date: 2021-10-30 02:09:08
- * @LastEditTime: 2021-12-01 06:01:17
- * @LastEditors: chengyangkj
- * @Description:
- * @FilePath: /ros2_qt_demo/include/ros2_qt_demo/mainwindow.h
- * https://github.com/chengyangkj
- */
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
 #include <QMessageBox>
 #include <QPushButton>
+#include <QString>
 
 #include <string>
 #include <map>
 #include <unordered_set>
+
+// ////////////////////////////  change to images abs path
+#define RES_PATH "imgs/"
 
 #include "rclcomm.h"
 #include "page.h"
@@ -39,9 +35,9 @@ class MainWindow : public QMainWindow
 
 public:
     QWidget *currentScreen = nullptr;
-    
-    WidgetBlinker *border=nullptr;
-    WidgetBlinker *listenIndicator=nullptr;
+
+    WidgetBlinker *border = nullptr;
+    WidgetBlinker *listenIndicator = nullptr;
 
     bool currentScreenHist = true;
 
@@ -56,9 +52,8 @@ public:
     void showScreen(QWidget *screen, bool screenHist = true);
     void generateLocationData();
     // void publishStr(PubStr pubStr,QString data);
-    void publishStr(PubStr pubStr,string data);
-    void loadOptionsFromPrefix(vector<Option> *options,string prefix);
-    
+    void publishStr(PubStr pubStr, string data);
+    void loadOptionsFromPrefix(vector<Option> *options, string prefix);
 
 private:
     Ui::MainWindow *ui;

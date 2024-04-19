@@ -1,12 +1,4 @@
-/*
- * @Author: chengyangkj
- * @Date: 2021-10-30 03:11:50
- * @LastEditTime: 2021-12-01 06:19:25
- * @LastEditors: chengyangkj
- * @Description: 程序的主入口类
- * @FilePath: /ros2_qt_demo/src/mainwindow.cpp
- * https://github.com/chengyangkj
- */
+
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include "screen_options.h"
