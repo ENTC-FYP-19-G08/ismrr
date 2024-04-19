@@ -26,10 +26,11 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
-    widgetBorder = new WidgetBorder(this);
+    border = new WidgetBorder(this);
     ui->setupUi(this);
 
-    // btn=new QPushButton(this);
+    blinker=new WidgetBlinker(this,border);
+    blinker->blink(5);
 
     qDebug() << "ui run";
 

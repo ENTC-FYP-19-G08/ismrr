@@ -22,6 +22,7 @@
 #include "page.h"
 #include "option.h"
 #include "widget_border.h"
+#include "widget_blinker.h"
 
 using namespace std;
 
@@ -38,8 +39,10 @@ class MainWindow : public QMainWindow
 
 public:
     QWidget *currentScreen = nullptr;
-    WidgetBorder *widgetBorder=nullptr;
+    WidgetBorder *border=nullptr;
+    WidgetBlinker *blinker=nullptr;
     QPushButton *btn=nullptr;
+    
 
     bool currentScreenHist = true;
 
