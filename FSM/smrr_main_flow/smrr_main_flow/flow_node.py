@@ -106,17 +106,17 @@ class Conversation(State):
 
     def execute(self, blackboard):
         print("Executing Conversation state")
-        # blackboard.gestures_obj.do_gesture(GestureType.AYUBOWAN)
-        # time.sleep(3)
-        # blackboard.conv_obj.text_to_speech("Aayuboawan.....Suba Alluth Awurudhthak Weywa")
-        # time.sleep(4)
+        blackboard.gestures_obj.do_gesture(GestureType.AYUBOWAN)
+        time.sleep(2)
+        blackboard.conv_obj.text_to_speech("Aayuboawan.....Suba Alluth Awurudhthak Weywa")
+        time.sleep(4)
    
         # blackboard.conv_obj.text_to_speech(random.choice(welcoming_messages))
 
         # SMRRGestures.do_gesture(GestureType.AYUBOWAN)
 
         
-        # # blackboard.conv_obj.text_to_speech(random.choice(waiting_messages))
+        # blackboard.conv_obj.text_to_speech(random.choice(waiting_messages))
         # name, angle = self.trigger_func()
         # print(name, angle)
         # msg = String()
@@ -134,7 +134,7 @@ class Conversation(State):
             return "guide"
         else:
             return "end"
-        
+        # return "guide"
     def trigger_func(self):
         self.req.name_request = True
         self.req.angle_request = True
@@ -189,7 +189,7 @@ class Navigation(State):
         self.nav_goal_pub.publish(msg)
 
     def execute(self, blackboard):
-        print("Executing state Navigation")\
+        print("Executing state Navigation")
         
         while True:
             while self.goal == None:
@@ -206,12 +206,12 @@ class Navigation(State):
             self.nav_result = None
             self.goal = None
             
-            if self.goal != self.locations["HOME"]:
-                self.go_back_home()
-            else:
-                self.goal = None
-                print("EXIT SUCCESSFUL FROM NAVIGATION")
-                return SUCCEED
+            # if self.goal != self.locations["HOME"]:
+            #     self.go_back_home()
+            # else:
+            #     self.goal = None
+            #     print("EXIT SUCCESSFUL FROM NAVIGATION")
+            # return SUCCEED
             
 # define state SwitchingPowerMode
 class SwitchingPowerMode(State):

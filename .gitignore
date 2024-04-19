@@ -2,4 +2,5 @@
 ZED/face_recognition/weightsarcface_weights.h5
 app
 FSM/smrr_main_flow/smrr_main_flow/key
+FSM/smrr_main_flow/smrr_main_flow/speech_to_text_module.py
 # FSM/smrr_main_flow/smrr_main_flow/key/key.json
