@@ -197,7 +197,6 @@ class FasterWhisper(Audio):
             return self.text
         else:return None
 
-
 # def main(model):
 #     # Start audio with VAD
 #     vad_audio = VADAudio(

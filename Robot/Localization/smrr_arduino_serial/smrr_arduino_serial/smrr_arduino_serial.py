@@ -52,7 +52,7 @@ class ArduinoSerial(Node):
 
     def timer_callback(self):
         global l_speed,r_speed, state
-        angle = 0
+        angle = 90
         serial_str  = f'{l_speed},{r_speed},{angle},0' 
         serial_str += "/n"
         

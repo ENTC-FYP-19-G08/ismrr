@@ -24,6 +24,7 @@ class SMRRGestures():
 
     def do_gesture(self, gesture_type):
         ser = serial.Serial('/dev/pololu_serial', 9600)
+        time.sleep(1)
         ser.write(b'\xa7')
         ser.write(self.guesture_map[gesture_type])
         time.sleep(2)
@@ -32,7 +33,7 @@ class SMRRGestures():
 if __name__ == '__main__':
     obj = SMRRGestures()
     time.sleep(1)
-    obj.do_gesture(GestureType.AYUBOWAN)
+    obj.do_gesture(GestureType.HANDSHAKE)
     print('done')
     time.sleep(2)
     print('done')
