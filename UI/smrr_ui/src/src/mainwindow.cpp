@@ -26,10 +26,12 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
-    border = new WidgetBorder(this);
-    borderBlinker=new WidgetBlinker(this,border);
 
-    ui->setupUi(this); 
+    border = new WidgetBlinker(this, new WidgetBorder(this));
+
+    ui->setupUi(this);
+
+    listenIndicator = new WidgetBlinker(this, ui->btnListen);
 
     qDebug() << "ui run";
 
@@ -70,14 +72,20 @@ void MainWindow::onGuideOptions(QString qdata)
 {
     string data = qdata.toStdString();
     gotoPage(PAGE_GUIDE_OPTIONS, locationMap[data], data);
+    border->blink(5,300);
     qDebug() << qdata << "onguideoptions main";
 }
 
 void MainWindow::onChangeState(QString qdata)
 {
     string data = qdata.toStdString();
+
     if (data == "IDLE")
         btnHome_clicked();
+    else if (data == "LISTEN_START")
+        listenIndicator->startBlinking();
+    else if (data == "LISTEN_STOP")
+        listenIndicator->stopBlinking();
 }
 
 void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubStr)

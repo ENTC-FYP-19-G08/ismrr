@@ -39,8 +39,9 @@ class MainWindow : public QMainWindow
 
 public:
     QWidget *currentScreen = nullptr;
-    WidgetBorder *border=nullptr;
-    WidgetBlinker *borderBlinker=nullptr;
+    
+    WidgetBlinker *border=nullptr;
+    WidgetBlinker *listenIndicator=nullptr;
 
     bool currentScreenHist = true;
 

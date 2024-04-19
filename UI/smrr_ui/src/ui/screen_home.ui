@@ -64,7 +64,7 @@ I'm SANSAR</string>
   <widget class="QPushButton" name="btnSettings">
    <property name="geometry">
     <rect>
-     <x>590</x>
+     <x>10</x>
      <y>10</y>
      <width>41</width>
      <height>41</height>
