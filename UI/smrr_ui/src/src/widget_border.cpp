@@ -8,20 +8,11 @@ WidgetBorder::WidgetBorder(QWidget *parent) : QWidget(parent), m_visible(true)
 
 WidgetBorder::~WidgetBorder() {}
 
-void WidgetBorder::setVisible(bool visible)
-{
-    m_visible = visible;
-    QWidget::setVisible(visible);
-}
-
 void WidgetBorder::paintEvent(QPaintEvent *event)
 {
-    if (m_visible) {
-        QPainter painter(this);
-        QPen pen(Qt::red); // Set border color
-        pen.setWidth(50); // Set border width
-        painter.setPen(pen);
-        painter.drawRect(rect());
-    }
+    QPainter painter(this);
+    QPen pen(Qt::green); 
+    pen.setWidth(50);
+    painter.setPen(pen);
+    painter.drawRect(rect());
 }
-

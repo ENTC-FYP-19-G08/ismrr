@@ -10,8 +10,6 @@ public:
     explicit WidgetBorder(QWidget *parent = nullptr);
     ~WidgetBorder();
 
-    void setVisible(bool visible) override;
-
 protected:
     void paintEvent(QPaintEvent *event) override;
 
