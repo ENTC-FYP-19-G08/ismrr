@@ -26,7 +26,10 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
+    widgetBorder = new WidgetBorder(this);
     ui->setupUi(this);
+
+    // btn=new QPushButton(this);
 
     qDebug() << "ui run";
 
@@ -43,7 +46,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(rosNode, &rclcomm::onGuideOptions, this, &MainWindow::onGuideOptions);
     connect(rosNode, &rclcomm::onChangeState, this, &MainWindow::onChangeState);
-
 }
 
 MainWindow::~MainWindow()
@@ -74,7 +76,8 @@ void MainWindow::onGuideOptions(QString qdata)
 void MainWindow::onChangeState(QString qdata)
 {
     string data = qdata.toStdString();
-    if(data=="IDLE") btnHome_clicked();
+    if (data == "IDLE")
+        btnHome_clicked();
 }
 
 void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubStr)
@@ -117,7 +120,7 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     case PAGE_GUIDE_LABS:
     {
         vector<Option> options;
-        loadOptionsFromPrefix(&options,"LAB_");
+        loadOptionsFromPrefix(&options, "LAB_");
         QWidget *screen = new ScreenOptions(this, &options);
         showScreen(screen);
         break;
@@ -125,7 +128,8 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     case PAGE_GUIDE_HALLS:
     {
         vector<Option> options;
-        loadOptionsFromPrefix(&options,"HALL_");QWidget *screen = new ScreenOptions(this, &options);
+        loadOptionsFromPrefix(&options, "HALL_");
+        QWidget *screen = new ScreenOptions(this, &options);
         showScreen(screen);
         break;
     }
@@ -173,7 +177,7 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     }
     case PAGE_ABOUT:
     {
-        gotoPage(PAGE_VERBAL,"About Developers","ABOUT");
+        gotoPage(PAGE_VERBAL, "About Developers", "ABOUT");
         break;
     }
     case PAGE_INFO:
@@ -310,8 +314,7 @@ void MainWindow::generateLocationData()
     locationMap["PERSON_RANGA"] = "Dr. Ranga Rodrigo";
     locationMap["PERSON_PESHALA"] = "Dr. Peshala Jayasekara";
 
-
-    locationMap["ABOUT"] = "About Developers";   
+    locationMap["ABOUT"] = "About Developers";
 
     /**/
 
@@ -339,9 +342,11 @@ void MainWindow::publishStr(PubStr pubStr, string data)
     pubStr->publish(rosString);
 }
 
-void MainWindow::loadOptionsFromPrefix(vector<Option> *options,string prefix){
-    for (const auto& pair : locationMap) {
+void MainWindow::loadOptionsFromPrefix(vector<Option> *options, string prefix)
+{
+    for (const auto &pair : locationMap)
+    {
         if (pair.first.find(prefix) == 0)
-        options->push_back(Option(PAGE_GUIDE_OPTIONS, pair.second, pair.first));
+            options->push_back(Option(PAGE_GUIDE_OPTIONS, pair.second, pair.first));
     }
 }

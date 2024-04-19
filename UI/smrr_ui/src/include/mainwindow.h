@@ -12,6 +12,7 @@
 
 #include <QMainWindow>
 #include <QMessageBox>
+#include <QPushButton>
 
 #include <string>
 #include <map>
@@ -20,6 +21,7 @@
 #include "rclcomm.h"
 #include "page.h"
 #include "option.h"
+#include "widget_border.h"
 
 using namespace std;
 
@@ -36,6 +38,9 @@ class MainWindow : public QMainWindow
 
 public:
     QWidget *currentScreen = nullptr;
+    WidgetBorder *widgetBorder=nullptr;
+    QPushButton *btn=nullptr;
+
     bool currentScreenHist = true;
 
     map<string, QString> locationMap;
