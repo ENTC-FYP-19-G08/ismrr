@@ -105,7 +105,7 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     }
     case PAGE_BASIC_OPTIONS:
     {
-        vector<Option> options = {Option(PAGE_GUIDE, "Guide\nMe"), Option(PAGE_MEET, "Meet\nSomeone"), Option(PAGE_ABOUT, "About")};
+        vector<Option> options = {Option(PAGE_GUIDE, "Guide\nMe"), Option(PAGE_MEET, "Meet\nSomeone"), Option(PAGE_ABOUT, "About\nDevelopers")};
         QWidget *screen = new ScreenOptionsTitled(this, &options, "Hi " + text + "! \n How can I assist you today?");
         showScreen(screen);
         break;
