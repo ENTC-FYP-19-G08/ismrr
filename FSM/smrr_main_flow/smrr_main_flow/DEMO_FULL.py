@@ -40,12 +40,11 @@ class LoadModules(State):
 
         # print("Executing state Load Modules")
         blackboard.conv_obj = SMRRCoversation(self.node)
-        blackboard.state_publisher = self.node.create_publisher(String, 'ui/change_state', 10)
+        blackboard.state_publisher = self.node.create_publisher(String, '/ui/change_state', 10)
         print("Loading conversation module successful")
         # blackboard.nav_obj = SMRRNavigation(self)
         # print("Loading navigation module successful")
-        # blackboard.gestures_obj = SMRRGestures()
-        # print("Loading gestures module successful")
+
         time.sleep(1)
         return SUCCEED
        
@@ -79,8 +78,7 @@ class Conversation(State):
         self.node = node
         self.stop_listening_sub = self.node.create_subscription(String, '/ui/guide_navigation', self.stop_listening_callback, 10)
         self.unknown_sub = self.node.create_subscription(String, '/ui/unknown_username', self.get_unknown_name_callback, 10)
-        self.need_navigate = False  
- 
+        self.need_navigate = False     
         self.name_pub = self.node.create_publisher(String, '/ui/username', 10)   
         self.face_recog_trig = self.node.create_publisher(String, '/face_recog_request', 10) 
         self.face_recog_sub= self.node.create_subscription(String, '/face_recog_result', self.get_name_callback, 10)
@@ -90,9 +88,9 @@ class Conversation(State):
 
     def get_name_callback(self,msg):
         self.name,self.angle = msg.data.split(',')
-        self.unknown_name = msg.data
 
-    def get_unknow_name_callback(self,msg):
+
+    def get_unknown_name_callback(self,msg):
         print("RECIEVE NAME")
         self.unknown_name = msg.data
 
@@ -104,13 +102,13 @@ class Conversation(State):
 
     def execute(self, blackboard):
         print("Executing Conversation state")
+        msg = String()
+        msg.data = "LISTEN_START"
+        blackboard.state_publisher.publish(msg)
         # blackboard.gestures_obj.do_gesture(GestureType.AYUBOWAN)
         # time.sleep(1.5)
-        blackboard.conv_obj.text_to_speech("Aayuboawan")
-        blackboard.conv_obj.text_to_speech("Wish you a happy new year")
-        time.sleep(4)
-        
-        blackboard.conv_obj.text_to_speech(random.choice(waiting_messages))
+        blackboard.conv_obj.blocking_tts("Aayuboawan. Wish you a happy new year")    
+        blackboard.conv_obj.blocking_tts(random.choice(waiting_messages))
         self.face_recog_trig.publish(String())
         while self.name == None:
             pass
@@ -120,11 +118,11 @@ class Conversation(State):
         self.name_pub.publish(msg)
         name ='unknown'
         if self.name!= 'unknown':
-            blackboard.conv_obj.text_to_speech("Hi"+self.name + "Nice to see you again.")
+            blackboard.conv_obj.blocking_tts("Hi"+self.name + "Nice to see you again.")
             self.name = None
             self.angle = None
         else:
-            blackboard.conv_obj.text_to_speech("We haven't met before. Could i know your name please? If you dont mind. Or you can skip.")
+            blackboard.conv_obj.blocking_tts("We haven't met before. Could i know your name please? If you dont mind. Or you can skip.")
             
             while self.unknown_name == None:
                 print("while")
@@ -132,26 +130,19 @@ class Conversation(State):
             print("Came out")
             if self.unknown_name!='<SKIP>':
                 print("Not skip")
-                blackboard.conv_obj.text_to_speech("Hi"+self.unknown_name+ ". Welcome to the Department of Electronic and Telecommuication Engineering.")
+                blackboard.conv_obj.blocking_tts("Hi"+self.unknown_name+ ". Welcome to the Department of Electronic and Telecommuication Engineering.")
                 self.unknown_name = None
 
         blackboard.conv_obj.start_listening()
 
         print("Exite from conversation state")
+        msg = String()
+        msg.data = "LISTEN_STOP"
+        blackboard.state_publisher.publish(msg)
         if self.need_navigate:
             return "guide"
         else:
             return "end"
-        # return "guide"
-    def trigger_func(self):
-        self.req.name_request = True
-        self.req.angle_request = True
-        self.future = self.fr_cli.call_async(self.req)
-        print("sent")
-        rclpy.spin_until_future_complete(self.node, self.future)
-        print("recieved")
-        response = self.future.result()
-        return [response.name,response.angle]
     
 # define state Navigate
 class Navigation(State):

@@ -169,8 +169,8 @@ class face_recog(Node):
         
         # return response
         response = String()
-        msg = self.max_count_name + str(self.x_coord_to_angle(self.face_x_coord[self.max_count_name]))
-        self.result_publisher.publish()
+        response.data = self.max_count_name +"," +str(self.x_coord_to_angle(self.face_x_coord[self.max_count_name]))
+        self.result_publisher.publish(response)
 
         
 
