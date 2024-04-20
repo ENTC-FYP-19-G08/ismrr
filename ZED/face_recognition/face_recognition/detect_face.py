@@ -13,7 +13,7 @@ from std_msgs.msg import String
 from std_msgs.msg import Bool
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
-from face_recog_interfaces.srv import FaceRecogRequest
+# from face_recog_interfaces.srv import FaceRecogRequest
 
 # face_cascade = cv.CascadeClassifier(cv.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
@@ -35,7 +35,10 @@ class face_recog(Node):
         self.vid_frame = [None]
         self.name_subscriber = self.create_subscription(String, '/ui/unknown_username',self.setUnknownName,2)
 
-        self.recognition_service = self.create_service(FaceRecogRequest, '/smrr_face_recog_srv', self.checkFrame)
+        # self.recognition_service = self.create_service(FaceRecogRequest, '/smrr_face_recog_srv', self.checkFrame)
+        self.trigger_subscriber = self.create_subscription(String, '/face_recog_request',self.checkFrame,2)
+        self.result_publisher = self.create_publisher(String, '/face_recog_result', 2)
+        
 
         self.known_count = 0
         self.unknown_count = 0    
@@ -91,10 +94,11 @@ class face_recog(Node):
                 shutil.rmtree(self.unkown_path)
                 print(" >> cached images deleted because name is not given.")
     
-    def checkFrame(self,request,response):
+    # def checkFrame(self,request,response):
+    def checkFrame(self,msg):
         print(" >> request received")
-        need_name = request.name_request
-        need_angle = request.angle_request
+        # need_name = request.name_request
+        # need_angle = request.angle_request
 
         # reset stats
         self.current_frame = (len(self.vid_frame) - self.frame_count)
@@ -160,10 +164,13 @@ class face_recog(Node):
 
             
             # print(self.face_x_coord[max_count_name])
-        response.name = self.max_count_name
-        response.angle = self.x_coord_to_angle(self.face_x_coord[self.max_count_name])
+        # response.name = self.max_count_name
+        # response.angle = self.x_coord_to_angle(self.face_x_coord[self.max_count_name])
         
-        return response
+        # return response
+        response = String()
+        msg = self.max_count_name + str(self.x_coord_to_angle(self.face_x_coord[self.max_count_name]))
+        self.result_publisher.publish()
 
         
 
