@@ -13,7 +13,7 @@ from std_msgs.msg import String
 from std_msgs.msg import Bool
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
-from face_recog_interfaces.srv import FaceRecogRequest
+# from face_recog_interfaces.srv import FaceRecogRequest
 
 # face_cascade = cv.CascadeClassifier(cv.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
@@ -35,7 +35,10 @@ class face_recog(Node):
         self.vid_frame = [None]
         self.name_subscriber = self.create_subscription(String, '/ui/unknown_username',self.setUnknownName,2)
 
-        self.recognition_service = self.create_service(FaceRecogRequest, '/smrr_face_recog_srv', self.checkFrame)
+        # self.recognition_service = self.create_service(FaceRecogRequest, '/smrr_face_recog_srv', self.checkFrame)
+        self.trigger_subscriber = self.create_subscription(String, '/face_recog_request',self.checkFrame,2)
+        self.result_publisher = self.create_publisher(String, '/face_recog_result', 2)
+        
 
         self.known_count = 0
         self.unknown_count = 0    
@@ -65,7 +68,7 @@ class face_recog(Node):
             self.vid_frame = self.vid_frame[1:]
 
     def setUnknownName(self,msg):
-        print(">> recieved name: ",msg.data)
+        print(" >> recieved name: ",msg.data)
         self.received_name.append(msg.data)
         if len(self.received_name)==10:
             self.received_name = self.received_name[9:]
@@ -78,26 +81,31 @@ class face_recog(Node):
             #     pass
 
         unknown_name = self.received_name[-1]
-        print("Setting unknown name")
+        print(" >> Setting unknown name")
 
         if (unknown_name != "<SKIP>"):
             if osp.exists(self.unkown_path):
                 # rename and moves the files to new location
                 os.rename(self.unkown_path,osp.join(self.image_path,'people',unknown_name))
-                print("New person registered."+unknown_name)
+                print(" >> New person registered."+unknown_name)
 
         else:
             if osp.exists(self.unkown_path):
                 shutil.rmtree(self.unkown_path)
-                print("cached images deleted because name is not given.")
+                print(" >> cached images deleted because name is not given.")
     
-    def checkFrame(self,request,response):
-        print("request received")
-        need_name = request.name_request
-        need_angle = request.angle_request
+    # def checkFrame(self,request,response):
+    def checkFrame(self,msg):
+        print(" >> request received")
+        # need_name = request.name_request
+        # need_angle = request.angle_request
 
         # reset stats
-        self.current_frame = (len(self.vid_frame) - self.frame_count)//2
+        self.current_frame = (len(self.vid_frame) - self.frame_count)
+        
+        if self.current_frame<0:
+            self.current_frame = 0
+            
         self.known_count=0
         self.unknown_count=0
         self.known_stats = {'unknown':0}
@@ -106,7 +114,12 @@ class face_recog(Node):
 
         while i<self.frame_count:
 
-            video_frame = self.br.imgmsg_to_cv2(self.vid_frame[self.current_frame])
+            if 0 < self.current_frame < len(self.vid_frame):
+                video_frame = self.br.imgmsg_to_cv2(self.vid_frame[self.current_frame])
+            else:
+                print(" >> Reached maximum number of images in buffer. length = ",len(self.vid_frame))
+                break
+            
             if self.frame_h==0 and self.frame_w==0:
                 # print(video_frame.shape)
                 self.frame_h = video_frame.shape[0]
@@ -145,16 +158,19 @@ class face_recog(Node):
         if self.max_count_name != 'unknown':
             if osp.exists(self.unkown_path):
                 shutil.rmtree(self.unkown_path)
-                print("cached images deleted because person is identified.")
+                print(" >> cached images deleted because person is identified.")
                 
             
 
             
             # print(self.face_x_coord[max_count_name])
-        response.name = self.max_count_name
-        response.angle = self.x_coord_to_angle(self.face_x_coord[self.max_count_name])
+        # response.name = self.max_count_name
+        # response.angle = self.x_coord_to_angle(self.face_x_coord[self.max_count_name])
         
-        return response
+        # return response
+        response = String()
+        response.data = self.max_count_name +"," +str(self.x_coord_to_angle(self.face_x_coord[self.max_count_name]))
+        self.result_publisher.publish(response)
 
         
 
@@ -209,14 +225,14 @@ class face_recog(Node):
         else: 
             self.unknown_count+=1
             self.known_stats["unknown"] = self.unknown_count
-            print("unknown person",self.unknown_count)
+            print(" >> unknown person",self.unknown_count)
 
             if not(osp.exists(self.unkown_path)):
-                print("created unknown folder")
+                print(" >> created unknown folder")
                 os.mkdir(self.unkown_path)
                 cv.imwrite(osp.join(self.unkown_path,str(self.unknown_count)+'.jpg'),original_frame)
             else:
-                print("image saved",self.unknown_count)
+                print(" >> image saved",self.unknown_count)
                 cv.imwrite(osp.join(self.unkown_path,str(self.unknown_count)+'.jpg'),original_frame)
 
 

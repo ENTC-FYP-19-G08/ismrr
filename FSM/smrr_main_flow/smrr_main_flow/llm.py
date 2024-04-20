@@ -1,6 +1,6 @@
 from pickle import STRING
 import sys, os, time, math
-import pygame
+# import pygame
 import subprocess
 
 # from google.cloud import texttospeech
@@ -315,7 +315,7 @@ class LLM:
             self.model_response = ""
             funct("$$")
             end_= funct2()
-            print(end_)
+            # print(end_)
             time.sleep(0.5)
             return
         elif chunk_ in [".", ",", "?", "!"]:
@@ -385,31 +385,31 @@ class LLM:
         if result.stderr:
             print("Error:", result.stderr)
 
-    def play_wav(self, file_path):
+    # def play_wav(self, file_path):
 
-        # while True:
-        #     if self.can_play:
-        #         self.can_play=False
-        pygame.init()
-        pygame.mixer.init()
+    #     # while True:
+    #     #     if self.can_play:
+    #     #         self.can_play=False
+    #     pygame.init()
+    #     pygame.mixer.init()
 
-        try:
-            # Load the WAV file
-            sound = pygame.mixer.Sound(file_path)
+    #     try:
+    #         # Load the WAV file
+    #         sound = pygame.mixer.Sound(file_path)
 
-            # Play the sound
-            sound.play()
+    #         # Play the sound
+    #         sound.play()
 
-            # Wait for the sound to finish playing
-            # tic=time.time()
-            pygame.time.wait(int(sound.get_length() * 1000))
-            # print("time", time.time()-tic)
-        except pygame.error as e:
-            print(f"Error playing audio: {e}")
-        finally:
-            pygame.quit()
-            # self.can_play=True
-            return
+    #         # Wait for the sound to finish playing
+    #         # tic=time.time()
+    #         pygame.time.wait(int(sound.get_length() * 1000))
+    #         # print("time", time.time()-tic)
+    #     except pygame.error as e:
+    #         print(f"Error playing audio: {e}")
+    #     finally:
+    #         pygame.quit()
+    #         # self.can_play=True
+    #         return
 
     def chat_(self, user_p, tts_func, end_func, warmup_flag=False):
         # while True:

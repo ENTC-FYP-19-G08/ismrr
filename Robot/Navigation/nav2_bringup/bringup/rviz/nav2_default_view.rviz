@@ -5,9 +5,11 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
+        - /TF1
         - /TF1/Frames1
         - /TF1/Tree1
         - /LaserScan1
+        - /Controller1
         - /Realsense1/RealsenseDepthImage1
         - /MarkerArray2/Topic1
       Splitter Ratio: 0.5833333134651184
@@ -86,29 +88,29 @@ Visualization Manager:
         map:
           Value: true
         odom:
-          Value: true
+          Value: false
         zed_baro_link:
-          Value: true
+          Value: false
         zed_camera_center:
-          Value: true
+          Value: false
         zed_camera_link:
           Value: false
         zed_imu_link:
-          Value: true
+          Value: false
         zed_left_camera_frame:
-          Value: true
+          Value: false
         zed_left_camera_optical_frame:
-          Value: true
+          Value: false
         zed_mag_link:
-          Value: true
+          Value: false
         zed_right_camera_frame:
-          Value: true
+          Value: false
         zed_right_camera_optical_frame:
-          Value: true
+          Value: false
         zed_temp_left_link:
-          Value: true
+          Value: false
         zed_temp_right_link:
-          Value: true
+          Value: false
       Marker Scale: 2
       Name: TF
       Show Arrows: true
@@ -370,7 +372,7 @@ Visualization Manager:
           Class: rviz_default_plugins/Map
           Color Scheme: costmap
           Draw Behind: false
-          Enabled: true
+          Enabled: false
           Name: Local Costmap
           Topic:
             Depth: 1
@@ -385,12 +387,12 @@ Visualization Manager:
             Reliability Policy: Reliable
             Value: /local_costmap/costmap_updates
           Use Timestamp: false
-          Value: true
+          Value: false
         - Alpha: 1
           Buffer Length: 1
           Class: rviz_default_plugins/Path
           Color: 0; 12; 255
-          Enabled: true
+          Enabled: false
           Head Diameter: 0.30000001192092896
           Head Length: 0.20000000298023224
           Length: 0.30000001192092896
@@ -412,7 +414,7 @@ Visualization Manager:
             History Policy: Keep Last
             Reliability Policy: Reliable
             Value: /local_plan
-          Value: true
+          Value: false
         - Class: rviz_default_plugins/MarkerArray
           Enabled: false
           Name: Trajectories
@@ -470,7 +472,7 @@ Visualization Manager:
           Use Fixed Frame: true
           Use rainbow: true
           Value: true
-      Enabled: false
+      Enabled: true
       Name: Controller
     - Class: rviz_common/Group
       Displays:
@@ -591,11 +593,11 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 36.79903030395508
+      Scale: 81.3509292602539
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz_default_plugins)
-      X: -3.2919700145721436
-      Y: 4.3311991691589355
+      X: 1.7392942905426025
+      Y: -0.2621569037437439
     Saved: ~
 Window Geometry:
   Displays:

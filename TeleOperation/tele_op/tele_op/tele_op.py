@@ -94,7 +94,7 @@ class TeleOp(Node):
                 self.nav_result_pub.publish(msg)
 
             if act_dir["F"]:
-                l_speed = 0.3
+                l_speed = 0.3 
                 r_speed = 0.3
                 if act_dir["L"]:
                     l_speed = 0.1
