@@ -10,7 +10,6 @@
 #include "screen_home.h"
 #include "screen_name.h"
 
-
 #include <QString>
 #include <QDebug>
 #include <cstdlib>
@@ -23,11 +22,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->setupUi(this);
 
-    listenIndicator = new WidgetBlinker(this,new QPushButton(this));
-    listenToggler= new WidgetToggler(this,ui->btnListen,RES_PATH "listen.png",RES_PATH "not_listen.png");
-
-
-
+    listenToggler = new WidgetToggler(this, ui->btnListen, RES_PATH "listen.png", RES_PATH "not_listen.png");
+    listenToggler->setChecked(true);
+    
     qDebug() << "ui run";
 
     rosNode = new rclcomm();
@@ -38,12 +35,10 @@ MainWindow::MainWindow(QWidget *parent)
     // gotoPage(PAGE_GUIDE);
     // gotoPage(PAGE_GUIDE_OPTIONS);
 
-    
     connect(rosNode, &rclcomm::onGuideOptions, this, &MainWindow::onGuideOptions);
     connect(rosNode, &rclcomm::onChangeState, this, &MainWindow::onChangeState);
 
-    connect(listenToggler,&WidgetToggler::toggled,this,&MainWindow::listenToggler_toggled);
-    
+    connect(listenToggler, &WidgetToggler::toggled, this, &MainWindow::listenToggler_toggled);
 }
 
 MainWindow::~MainWindow()
@@ -68,7 +63,7 @@ void MainWindow::onGuideOptions(QString qdata)
 {
     string data = qdata.toStdString();
     gotoPage(PAGE_GUIDE_OPTIONS, locationMap[data], data);
-    border->blink(5,300);
+    border->blink(5, 300);
     qDebug() << qdata << "onguideoptions main";
 }
 
@@ -81,7 +76,7 @@ void MainWindow::onChangeState(QString qdata)
     else if (data == "LISTEN_START")
         listenToggler->setChecked(true);
     else if (data == "LISTEN_STOP")
-        listenToggler->setChecked(false);       
+        listenToggler->setChecked(false);
 }
 
 void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubStr)
@@ -273,10 +268,13 @@ void MainWindow::btnHome_clicked()
     }
 }
 
-void MainWindow::listenToggler_toggled(bool checked){    
-    if (checked) publishStr(rosNode->pubListenState,"START");
-    else publishStr(rosNode->pubListenState,"STOP");
-    qDebug()<<"Listen toggler"<<checked;
+void MainWindow::listenToggler_toggled(bool checked)
+{
+    if (checked)
+        publishStr(rosNode->pubListenState, "START");
+    else
+        publishStr(rosNode->pubListenState, "STOP");
+    qDebug() << "Listen toggler" << checked;
 }
 
 QWidget *MainWindow::createScreen(Page *page)

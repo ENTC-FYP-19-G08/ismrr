@@ -5,15 +5,16 @@
 #include <QAbstractButton>
 #include <QIcon>
 #include <QString>
+#include "widget_blinker.h"
 
 class WidgetToggler : public QWidget
 {
     Q_OBJECT
 
 public:
+    WidgetBlinker *blinker;
     explicit WidgetToggler(QWidget *parent, QAbstractButton *targetButton, QString iconPathChecked, QString iconPathUnchecked);
     void setChecked(bool checked);
-
 
 signals:
     void toggled(bool);

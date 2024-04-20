@@ -38,7 +38,6 @@ public:
     QWidget *currentScreen = nullptr;
 
     WidgetBlinker *border = nullptr;
-    WidgetBlinker *listenIndicator = nullptr;
     WidgetToggler *listenToggler = nullptr;
 
     bool currentScreenHist = true;

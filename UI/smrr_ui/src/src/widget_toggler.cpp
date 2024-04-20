@@ -9,18 +9,29 @@ WidgetToggler::WidgetToggler(QWidget *parent, QAbstractButton *targetButton, QSt
 {
     targetButton->setIcon(iconUnchecked);
     connect(targetButton, &QAbstractButton::clicked, this, &WidgetToggler::on_clicked);
+    blinker = new WidgetBlinker(parent, targetButton);
 }
 
 void WidgetToggler::on_clicked()
-{    
+{
     setChecked(!checked);
     emit toggled(checked);
 }
 
-void WidgetToggler::setChecked(bool checked){
-    this->checked=checked;
+void WidgetToggler::setChecked(bool checked)
+{
+    this->checked = checked;
     if (checked)
+    {
         targetButton->setIcon(iconChecked);
+        blinker->startBlinking();
+        // targetButton->setVisible(true);
+    }
     else
+    {
         targetButton->setIcon(iconUnchecked);
+        blinker->stopBlinking();
+        // targetButton->setVisible(true);
+    }
+    targetButton->setVisible(true);
 }
