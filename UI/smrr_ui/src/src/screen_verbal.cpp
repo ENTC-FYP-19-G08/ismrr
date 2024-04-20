@@ -24,7 +24,7 @@ ScreenVerbal::ScreenVerbal(QWidget *parent, QString text, string data)
     }
     else
     {
-        QPixmap scaledPixmap = pixmap.scaled(ui->labelImg->size(), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+        QPixmap scaledPixmap = pixmap.scaled(ui->labelImg->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
         ui->labelImg->setPixmap(scaledPixmap);
     }
 

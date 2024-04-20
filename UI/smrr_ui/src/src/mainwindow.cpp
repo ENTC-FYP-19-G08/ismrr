@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     listenToggler = new WidgetToggler(this, ui->btnListen, RES_PATH "listen.png", RES_PATH "not_listen.png");
     listenToggler->setChecked(false);
-    
+
     qDebug() << "ui run";
 
     rosNode = new rclcomm();
@@ -169,9 +169,11 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     }
     case PAGE_MEET:
     {
-        vector<Option> options = {Option(PAGE_GUIDE_OPTIONS,"HOD", "PERSON_HOD")};
-        // vector<Option> options = {Option(PAGE_GUIDE_OPTIONS, locationMap["PERSON_RANGA"], "PERSON_RANGA"), Option(PAGE_GUIDE_OPTIONS, locationMap["PERSON_PESHALA"], "PERSON_PESHALA")};
-        
+        // vector<Option> options = {Option(PAGE_GUIDE_OPTIONS,"HOD", "PERSON_HOD")};
+
+        vector<Option> options;
+        loadOptionsFromPrefix(&options, "PERSON_");
+
         QWidget *screen = new ScreenOptions(this, &options);
         showScreen(screen);
         break;
@@ -313,15 +315,15 @@ void MainWindow::generateLocationData()
     locationMap["HALL_3.5"] = "3.5 Hall";
     locationMap["ROOM_INSTRUCTORS"] = "Instructors Room";
 
-    locationMap["PERSON_PESHALA"] = "Dr. Peshala Jayasekara";
-    locationMap["PERSON_ROHAN"] = "Prof. Rohan Munasinghe";
-    locationMap["PERSON_DILEEKA"] = "Prof. Dileeka Dias";
-    locationMap["PERSON_JAYASINGHE"] = "Prof. J.A.K.S. Jayasinghe";
-    locationMap["PERSON_RANGA"] = "Dr. Ranga Rodrigo";
-    locationMap["PERSON_KITHSIRI"] = "Eng. A.T.L.K. Samarasinghe";
-    locationMap["PERSON_AJITH"] = "Dr. Ajith Pasqual";
+    locationMap["PERSON_6_PESHALA"] = "Dr. Peshala Jayasekara";
+    locationMap["PERSON_3_ROHAN"] = "Prof. Rohan Munasinghe";
+    locationMap["PERSON_2_DILEEKA"] = "Prof. Dileeka Dias";
+    locationMap["PERSON_1_JAYASINGHE"] = "Prof. J.A.K.S. Jayasinghe";
+    locationMap["PERSON_5_RANGA"] = "Dr. Ranga Rodrigo";
+    locationMap["PERSON_4_KITHSIRI"] = "Eng. A.T.L.K. Samarasinghe";
+    locationMap["PERSON_7_AJITH"] = "Dr. Ajith Pasqual";
 
-    locationMap["PERSON_HOD"] = "Dr. Thayaparan Subramaniam";   
+    // locationMap["PERSON_HOD"] = "Dr. Thayaparan Subramaniam";
 
     locationMap["ABOUT"] = "About Developers";
 
