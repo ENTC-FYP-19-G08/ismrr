@@ -3,6 +3,8 @@
 
 #include <QDialog>
 #include <QString>
+#include <QMovie>
+#include <QLabel>
 
 // #include <string>
 // #include <vector>
@@ -14,8 +16,9 @@
 
 using namespace std;
 
-namespace Ui {
-class ScreenSplash;
+namespace Ui
+{
+    class ScreenSplash;
 }
 
 class ScreenSplash : public QDialog
@@ -23,6 +26,7 @@ class ScreenSplash : public QDialog
     Q_OBJECT
 
 public:
+    QMovie *movie;
     explicit ScreenSplash(QWidget *parent = nullptr /*TODO: , vector<Option> *options=nullptr, QString text="", PubStr *pubStr = nullptr*, string data="" */);
     ~ScreenSplash();
 

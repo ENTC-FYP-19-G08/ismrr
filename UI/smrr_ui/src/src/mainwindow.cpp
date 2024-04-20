@@ -9,6 +9,7 @@
 #include "screen_face.h"
 #include "screen_home.h"
 #include "screen_name.h"
+#include "screen_splash.h"
 
 #include <QString>
 #include <QDebug>
@@ -23,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     listenToggler = new WidgetToggler(this, ui->btnListen, RES_PATH "listen.png", RES_PATH "not_listen.png");
-    listenToggler->setChecked(false);
+    // listenToggler->setChecked(false);
 
     qDebug() << "ui run";
 
@@ -34,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     gotoPage(PAGE_HOME);
     // gotoPage(PAGE_GUIDE);
     // gotoPage(PAGE_GUIDE_OPTIONS);
+    gotoPage(PAGE_SPLASH);
 
     connect(rosNode, &rclcomm::onGuideOptions, this, &MainWindow::onGuideOptions);
     connect(rosNode, &rclcomm::onChangeState, this, &MainWindow::onChangeState);
@@ -195,6 +197,11 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
         QWidget *screen = new ScreenOptions(this, &options);
         showScreen(screen);
         break;
+    }
+    case PAGE_SPLASH:
+    {
+        QWidget *screen = new ScreenSplash(this);
+        showScreen(screen, false);
     }
     case PAGE_ACTION_MINIMIZE:
     {
