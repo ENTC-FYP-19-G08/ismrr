@@ -12,8 +12,8 @@
 #include <unordered_set>
 
 // ////////////////////////////  change to images abs path
-#define RES_PATH "imgs/"
-
+// #define RES_PATH "imgs/"
+#define RES_PATH "/SSD/ros2_ws/src/UI/smrr_ui/imgs/" 
 #include "rclcomm.h"
 #include "page.h"
 #include "option.h"

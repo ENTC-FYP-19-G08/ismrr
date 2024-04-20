@@ -108,15 +108,18 @@ class Conversation(State):
         time.sleep(4)
         
         blackboard.conv_obj.text_to_speech(random.choice(waiting_messages))
-        name, angle = self.trigger_func()
-        msg = String()
-        msg.data = name
-        self.name_pub.publish(msg)
+        # name, angle = self.trigger_func()
+        # msg = String()
+        # msg.data = name
+        # self.name_pub.publish(msg)
+        name ='unknown'
         if name!= 'unknown':
             blackboard.conv_obj.text_to_speech("Hi"+name + "Nice to see you again.")
         else:
             blackboard.conv_obj.text_to_speech("We haven't met before. Could i know your name please? If you dont mind. Or you can skip.")
+            
             while self.unknown_name == None:
+                print("while")
                 pass
             print("Came out")
             if self.unknown_name!='<SKIP>':
