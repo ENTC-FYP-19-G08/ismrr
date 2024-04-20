@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     listenToggler = new WidgetToggler(this, ui->btnListen, RES_PATH "listen.png", RES_PATH "not_listen.png");
-    listenToggler->setChecked(true);
+    listenToggler->setChecked(false);
     
     qDebug() << "ui run";
 
