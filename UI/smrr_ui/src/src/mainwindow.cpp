@@ -1,12 +1,4 @@
-/*
- * @Author: chengyangkj
- * @Date: 2021-10-30 03:11:50
- * @LastEditTime: 2021-12-01 06:19:25
- * @LastEditors: chengyangkj
- * @Description: 程序的主入口类
- * @FilePath: /ros2_qt_demo/src/mainwindow.cpp
- * https://github.com/chengyangkj
- */
+
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include "screen_options.h"
@@ -17,7 +9,6 @@
 #include "screen_face.h"
 #include "screen_home.h"
 #include "screen_name.h"
-// #include "screen_action.h"
 
 #include <QString>
 #include <QDebug>
@@ -26,8 +17,14 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
+
+    border = new WidgetBlinker(this, new WidgetBorder(this));
+
     ui->setupUi(this);
 
+    listenToggler = new WidgetToggler(this, ui->btnListen, RES_PATH "listen.png", RES_PATH "not_listen.png");
+    listenToggler->setChecked(true);
+    
     qDebug() << "ui run";
 
     rosNode = new rclcomm();
@@ -38,12 +35,10 @@ MainWindow::MainWindow(QWidget *parent)
     // gotoPage(PAGE_GUIDE);
     // gotoPage(PAGE_GUIDE_OPTIONS);
 
-    // // connect(rosNode, SIGNAL(emitTopicData(QString)), this, SLOT(updateTopicInfo(QString)));
-    // // connect(ui->pushButton, &QPushButton::clicked, rosNode, &rclcomm::sendTopicData);
-
     connect(rosNode, &rclcomm::onGuideOptions, this, &MainWindow::onGuideOptions);
     connect(rosNode, &rclcomm::onChangeState, this, &MainWindow::onChangeState);
 
+    connect(listenToggler, &WidgetToggler::toggled, this, &MainWindow::listenToggler_toggled);
 }
 
 MainWindow::~MainWindow()
@@ -68,13 +63,20 @@ void MainWindow::onGuideOptions(QString qdata)
 {
     string data = qdata.toStdString();
     gotoPage(PAGE_GUIDE_OPTIONS, locationMap[data], data);
+    border->blink(5, 300);
     qDebug() << qdata << "onguideoptions main";
 }
 
 void MainWindow::onChangeState(QString qdata)
 {
     string data = qdata.toStdString();
-    if(data=="IDLE") btnHome_clicked();
+
+    if (data == "IDLE")
+        btnHome_clicked();
+    else if (data == "LISTEN_START")
+        listenToggler->setChecked(true);
+    else if (data == "LISTEN_STOP")
+        listenToggler->setChecked(false);
 }
 
 void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubStr)
@@ -102,7 +104,7 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     }
     case PAGE_BASIC_OPTIONS:
     {
-        vector<Option> options = {Option(PAGE_GUIDE, "Guide\nMe"), Option(PAGE_MEET, "Meet\nSomeone"), Option(PAGE_ABOUT, "About")};
+        vector<Option> options = {Option(PAGE_GUIDE, "Guide\nMe"), Option(PAGE_MEET, "Meet\nSomeone"), Option(PAGE_ABOUT, "About\nDevelopers")};
         QWidget *screen = new ScreenOptionsTitled(this, &options, "Hi " + text + "! \n How can I assist you today?");
         showScreen(screen);
         break;
@@ -117,7 +119,7 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     case PAGE_GUIDE_LABS:
     {
         vector<Option> options;
-        loadOptionsFromPrefix(&options,"LAB_");
+        loadOptionsFromPrefix(&options, "LAB_");
         QWidget *screen = new ScreenOptions(this, &options);
         showScreen(screen);
         break;
@@ -125,7 +127,8 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     case PAGE_GUIDE_HALLS:
     {
         vector<Option> options;
-        loadOptionsFromPrefix(&options,"HALL_");QWidget *screen = new ScreenOptions(this, &options);
+        loadOptionsFromPrefix(&options, "HALL_");
+        QWidget *screen = new ScreenOptions(this, &options);
         showScreen(screen);
         break;
     }
@@ -173,7 +176,7 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     }
     case PAGE_ABOUT:
     {
-        gotoPage(PAGE_VERBAL,"About Developers","ABOUT");
+        gotoPage(PAGE_VERBAL, "About Developers", "ABOUT");
         break;
     }
     case PAGE_INFO:
@@ -265,6 +268,15 @@ void MainWindow::btnHome_clicked()
     }
 }
 
+void MainWindow::listenToggler_toggled(bool checked)
+{
+    if (checked)
+        publishStr(rosNode->pubListenState, "START");
+    else
+        publishStr(rosNode->pubListenState, "STOP");
+    qDebug() << "Listen toggler" << checked;
+}
+
 QWidget *MainWindow::createScreen(Page *page)
 {
 
@@ -310,8 +322,7 @@ void MainWindow::generateLocationData()
     locationMap["PERSON_RANGA"] = "Dr. Ranga Rodrigo";
     locationMap["PERSON_PESHALA"] = "Dr. Peshala Jayasekara";
 
-
-    locationMap["ABOUT"] = "About Developers";   
+    locationMap["ABOUT"] = "About Developers";
 
     /**/
 
@@ -339,9 +350,11 @@ void MainWindow::publishStr(PubStr pubStr, string data)
     pubStr->publish(rosString);
 }
 
-void MainWindow::loadOptionsFromPrefix(vector<Option> *options,string prefix){
-    for (const auto& pair : locationMap) {
+void MainWindow::loadOptionsFromPrefix(vector<Option> *options, string prefix)
+{
+    for (const auto &pair : locationMap)
+    {
         if (pair.first.find(prefix) == 0)
-        options->push_back(Option(PAGE_GUIDE_OPTIONS, pair.second, pair.first));
+            options->push_back(Option(PAGE_GUIDE_OPTIONS, pair.second, pair.first));
     }
 }

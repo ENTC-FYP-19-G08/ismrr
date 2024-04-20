@@ -15,9 +15,7 @@ ScreenVerbal::ScreenVerbal(QWidget *parent, QString text, string data)
 
     qDebug() << "Map window loaded";
 
-    QString imgsPath = "imgs/";
-
-    QPixmap pixmap(imgsPath + QString::fromStdString(data) + ".jpg");
+    QPixmap pixmap(RES_PATH + QString::fromStdString(data) + ".jpg");
     if (pixmap.isNull())
     {
         // Handle error if image loading fails (e.g., display a message)
@@ -30,7 +28,7 @@ ScreenVerbal::ScreenVerbal(QWidget *parent, QString text, string data)
         ui->labelImg->setPixmap(scaledPixmap);
     }
 
-    ui->label->setText(text + ":" + QString::fromStdString(data));
+    ui->label->setText(text /*+ ":" + QString::fromStdString(data)*/);
 
     std_msgs::msg::String rosString;
     rosString.data = data;

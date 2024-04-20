@@ -3,10 +3,11 @@ from std_msgs.msg import Int32,String
 from rclpy.node import Node
 
 
-topic="/ui/guide_navigation"
+# topic="/ui/guide_navigation"
 # topic="/ui/guide_verbal"
 # topic="trigger"
 # topic="/ui/unknown_username"
+topic="/ui/listen_state"
 
 
 
