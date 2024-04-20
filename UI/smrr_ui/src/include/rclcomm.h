@@ -41,6 +41,7 @@ public:
     PubStr pubGuideVerbal;
     PubStr pubTrigger;
     PubStr pubUnknownUsername;
+    PubStr pubListenState;
 
     SubStr subGuideNavigationResult;
     SubStr subGuideOptions;

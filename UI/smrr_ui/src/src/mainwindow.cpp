@@ -79,9 +79,9 @@ void MainWindow::onChangeState(QString qdata)
     if (data == "IDLE")
         btnHome_clicked();
     else if (data == "LISTEN_START")
-        listenIndicator->startBlinking();
+        listenToggler->setChecked(true);
     else if (data == "LISTEN_STOP")
-        listenIndicator->stopBlinking();
+        listenToggler->setChecked(false);       
 }
 
 void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubStr)
@@ -273,7 +273,9 @@ void MainWindow::btnHome_clicked()
     }
 }
 
-void MainWindow::listenToggler_toggled(bool checked){
+void MainWindow::listenToggler_toggled(bool checked){    
+    if (checked) publishStr(rosNode->pubListenState,"START");
+    else publishStr(rosNode->pubListenState,"STOP");
     qDebug()<<"Listen toggler"<<checked;
 }
 
