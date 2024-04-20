@@ -11,9 +11,10 @@ ScreenInfo::ScreenInfo(QWidget *parent , QString text,  string data )
 
     MainWindow *mainWindow = static_cast<MainWindow *>(parent);
 
-    qDebug() << "Info window loaded";
+    qDebug() << "Info window loaded new";
 
-    ui->label->setText(text + " : " + QString::fromStdString(data));   
+    // ui->label->setText(text + " : " + QString::fromStdString(data));
+    ui->label->setText(text);          
 
     connect(ui->btnBack, &QPushButton::clicked, mainWindow, &MainWindow::btnBack_clicked);
     connect(ui->btnHome, &QPushButton::clicked, mainWindow, &MainWindow::btnHome_clicked);

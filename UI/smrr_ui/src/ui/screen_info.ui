@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>640</width>
     <height>480</height>
    </rect>
   </property>
@@ -47,9 +47,9 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>190</y>
-     <width>721</width>
+     <x>20</x>
+     <y>180</y>
+     <width>591</width>
      <height>181</height>
     </rect>
    </property>
@@ -59,7 +59,7 @@
     </font>
    </property>
    <property name="text">
-    <string/>
+    <string>You have reached to you destination</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>

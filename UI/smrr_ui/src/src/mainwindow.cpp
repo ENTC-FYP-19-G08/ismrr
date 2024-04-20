@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     gotoPage(PAGE_HOME);
     // gotoPage(PAGE_GUIDE);
     // gotoPage(PAGE_GUIDE_OPTIONS);
-    gotoPage(PAGE_SPLASH);
+    // gotoPage(PAGE_SPLASH);
 
     connect(rosNode, &rclcomm::onGuideOptions, this, &MainWindow::onGuideOptions);
     connect(rosNode, &rclcomm::onChangeState, this, &MainWindow::onChangeState);
@@ -58,8 +58,14 @@ void MainWindow::updateTopicInfo(QString data)
 
 void MainWindow::onGuideNavigationResult(QString qdata)
 {
-    gotoPage(PAGE_INFO, "Navigation Result", qdata.toStdString());
-    qDebug() << qdata << "onnavigationinfo main";
+    // string data = qdata.toStdString();
+    // QString msg;
+    // if (data == "SUCCESS")
+    //     msg = "You have reach you destination";
+    // else
+    //     msg = "Something went wrong";
+    // gotoPage(PAGE_INFO, msg);
+    // qDebug() << qdata << "onnavigationinfo main:"<<msg;
 }
 void MainWindow::onGuideOptions(QString qdata)
 {
@@ -158,7 +164,7 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     }
     case PAGE_NAVIGATION:
     {
-        QWidget *screen = new ScreenNavigation(this, "Let' go to " + locationMap[data] + " !!!", data);
+        QWidget *screen = new ScreenNavigation(this, "Let's go to " + locationMap[data] + " !!!", data);
         showScreen(screen, false);
         break;
     }
@@ -202,6 +208,7 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     {
         QWidget *screen = new ScreenSplash(this);
         showScreen(screen, false);
+        break;
     }
     case PAGE_ACTION_MINIMIZE:
     {
