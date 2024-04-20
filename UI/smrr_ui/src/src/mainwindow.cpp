@@ -9,7 +9,7 @@
 #include "screen_face.h"
 #include "screen_home.h"
 #include "screen_name.h"
-// #include "screen_action.h"
+
 
 #include <QString>
 #include <QDebug>
@@ -23,7 +23,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->setupUi(this);
 
-    listenIndicator = new WidgetBlinker(this, ui->btnListen);
+    listenIndicator = new WidgetBlinker(this,new QPushButton(this));
+    listenToggler= new WidgetToggler(this,ui->btnListen,RES_PATH "listen.png",RES_PATH "not_listen.png");
+
+
 
     qDebug() << "ui run";
 
@@ -35,11 +38,12 @@ MainWindow::MainWindow(QWidget *parent)
     // gotoPage(PAGE_GUIDE);
     // gotoPage(PAGE_GUIDE_OPTIONS);
 
-    // // connect(rosNode, SIGNAL(emitTopicData(QString)), this, SLOT(updateTopicInfo(QString)));
-    // // connect(ui->pushButton, &QPushButton::clicked, rosNode, &rclcomm::sendTopicData);
-
+    
     connect(rosNode, &rclcomm::onGuideOptions, this, &MainWindow::onGuideOptions);
     connect(rosNode, &rclcomm::onChangeState, this, &MainWindow::onChangeState);
+
+    connect(listenToggler,&WidgetToggler::toggled,this,&MainWindow::listenToggler_toggled);
+    
 }
 
 MainWindow::~MainWindow()
@@ -267,6 +271,10 @@ void MainWindow::btnHome_clicked()
         ui->stackedWidget->removeWidget(currentScreen);
         delete currentScreen;
     }
+}
+
+void MainWindow::listenToggler_toggled(bool checked){
+    qDebug()<<"Listen toggler"<<checked;
 }
 
 QWidget *MainWindow::createScreen(Page *page)

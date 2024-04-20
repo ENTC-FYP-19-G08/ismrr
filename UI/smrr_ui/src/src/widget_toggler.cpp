@@ -12,8 +12,13 @@ WidgetToggler::WidgetToggler(QWidget *parent, QAbstractButton *targetButton, QSt
 }
 
 void WidgetToggler::on_clicked()
-{
-    checked = !checked;
+{    
+    setChecked(!checked);
+    emit toggled(checked);
+}
+
+void WidgetToggler::setChecked(bool checked){
+    this->checked=checked;
     if (checked)
         targetButton->setIcon(iconChecked);
     else

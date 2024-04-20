@@ -12,10 +12,11 @@ class WidgetToggler : public QWidget
 
 public:
     explicit WidgetToggler(QWidget *parent, QAbstractButton *targetButton, QString iconPathChecked, QString iconPathUnchecked);
+    void setChecked(bool checked);
 
 
 signals:
-    void toggled(bool checked);
+    void toggled(bool);
 
 private slots:
     void on_clicked();

@@ -19,6 +19,7 @@
 #include "option.h"
 #include "widget_border.h"
 #include "widget_blinker.h"
+#include "widget_toggler.h"
 
 using namespace std;
 
@@ -38,6 +39,7 @@ public:
 
     WidgetBlinker *border = nullptr;
     WidgetBlinker *listenIndicator = nullptr;
+    WidgetToggler *listenToggler = nullptr;
 
     bool currentScreenHist = true;
 
@@ -54,15 +56,18 @@ public:
     // void publishStr(PubStr pubStr,QString data);
     void publishStr(PubStr pubStr, string data);
     void loadOptionsFromPrefix(vector<Option> *options, string prefix);
+    void gotoPage(PageId pageId, QString text = "", string data = "", PubStr pubStr = nullptr);
 
 private:
     Ui::MainWindow *ui;
 
 public slots:
     void updateTopicInfo(QString);
-    void gotoPage(PageId pageId, QString text = "", string data = "", PubStr pubStr = nullptr);
+
     void btnBack_clicked();
     void btnHome_clicked();
+    void listenToggler_toggled(bool);
+    
     void onGuideNavigationResult(QString);
     void onGuideOptions(QString);
     void onChangeState(QString);

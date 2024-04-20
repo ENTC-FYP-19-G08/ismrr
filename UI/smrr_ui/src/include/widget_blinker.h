@@ -1,5 +1,5 @@
-#ifndef WIDGETBLINKER_H
-#define WIDGETBLINKER_H
+#ifndef WIDGET_BLINKER_H
+#define WIDGET_BLINKER_H
 
 #include <QWidget>
 #include <QTimer>
@@ -24,4 +24,4 @@ private:
     int toggleCount;
 };
 
-#endif // WIDGETBLINKER_H
+#endif // WIDGET_BLINKER_H
