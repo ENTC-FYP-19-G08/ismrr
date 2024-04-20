@@ -78,18 +78,21 @@ class Conversation(State):
         super().__init__(["guide","end"])
         self.node = node
         self.stop_listening_sub = self.node.create_subscription(String, '/ui/guide_navigation', self.stop_listening_callback, 10)
-        self.unknown_sub = self.node.create_subscription(String, '/ui/unknown_username', self.get_name_callback, 10)
+        self.unknown_sub = self.node.create_subscription(String, '/ui/unknown_username', self.get_unknown_name_callback, 10)
         self.need_navigate = False  
-        self.fr_cli = self.node.create_client(FaceRecogRequest, '/smrr_face_recog_srv')
+ 
         self.name_pub = self.node.create_publisher(String, '/ui/username', 10)   
-
-        while not self.fr_cli.wait_for_service(timeout_sec=1.0):
-            self.node.get_logger().info('face recognition service not available, waiting again...')
-        self.node.get_logger().info("Face recognition service  available")
-        self.req = FaceRecogRequest.Request()
+        self.face_recog_trig = self.node.create_publisher(String, '/face_recog_request', 10) 
+        self.face_recog_sub= self.node.create_subscription(String, '/face_recog_result', self.get_name_callback, 10)
         self.unknown_name = None
+        self.name = None
+        self.angle = None
 
     def get_name_callback(self,msg):
+        self.name,self.angle = msg.data.split(',')
+        self.unknown_name = msg.data
+
+    def get_unknow_name_callback(self,msg):
         print("RECIEVE NAME")
         self.unknown_name = msg.data
 
@@ -108,13 +111,18 @@ class Conversation(State):
         time.sleep(4)
         
         blackboard.conv_obj.text_to_speech(random.choice(waiting_messages))
-        # name, angle = self.trigger_func()
-        # msg = String()
-        # msg.data = name
-        # self.name_pub.publish(msg)
+        self.face_recog_trig.publish(String())
+        while self.name == None:
+            pass
+
+        msg = String()
+        msg.data = self.name
+        self.name_pub.publish(msg)
         name ='unknown'
-        if name!= 'unknown':
-            blackboard.conv_obj.text_to_speech("Hi"+name + "Nice to see you again.")
+        if self.name!= 'unknown':
+            blackboard.conv_obj.text_to_speech("Hi"+self.name + "Nice to see you again.")
+            self.name = None
+            self.angle = None
         else:
             blackboard.conv_obj.text_to_speech("We haven't met before. Could i know your name please? If you dont mind. Or you can skip.")
             
