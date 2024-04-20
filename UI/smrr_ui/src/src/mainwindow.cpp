@@ -148,9 +148,9 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
         if (data.find("PERSON_") == 0)
             text = "Do you want to meet " + text + "?";
         else
-            "Do you want to go to " + text + "?";
+            text = "Do you want to go to " + text + "?";
 
-        QWidget *screen = new ScreenOptionsTitled(this, &options, "Do you want to go to " + text + "?");
+        QWidget *screen = new ScreenOptionsTitled(this, &options, text);
         showScreen(screen);
         break;
     }
