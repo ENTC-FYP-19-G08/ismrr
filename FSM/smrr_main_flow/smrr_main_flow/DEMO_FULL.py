@@ -44,7 +44,8 @@ class LoadModules(State):
         print("Loading conversation module successful")
         # blackboard.nav_obj = SMRRNavigation(self)
         # print("Loading navigation module successful")
-
+        blackboard.gestures_obj = SMRRGestures()
+        print("Loading gestures module successful")
         time.sleep(1)
         return SUCCEED
        
@@ -91,7 +92,6 @@ class Conversation(State):
 
 
     def get_unknown_name_callback(self,msg):
-        print("RECIEVE NAME")
         self.unknown_name = msg.data
 
     def stop_listening_callback(self,msg):
@@ -102,11 +102,8 @@ class Conversation(State):
 
     def execute(self, blackboard):
         print("Executing Conversation state")
-        msg = String()
-        msg.data = "LISTEN_START"
-        blackboard.state_publisher.publish(msg)
-        # blackboard.gestures_obj.do_gesture(GestureType.AYUBOWAN)
-        # time.sleep(1.5)
+        blackboard.gestures_obj.do_gesture(GestureType.AYUBOWAN)
+        time.sleep(1)
         blackboard.conv_obj.blocking_tts("Aayuboawan. Wish you a happy new year")    
         blackboard.conv_obj.blocking_tts(random.choice(waiting_messages))
         self.face_recog_trig.publish(String())
@@ -125,7 +122,6 @@ class Conversation(State):
             blackboard.conv_obj.blocking_tts("We haven't met before. Could i know your name please? If you dont mind. Or you can skip.")
             
             while self.unknown_name == None:
-                print("while")
                 pass
             print("Came out")
             if self.unknown_name!='<SKIP>':
@@ -135,10 +131,8 @@ class Conversation(State):
 
         blackboard.conv_obj.start_listening()
 
-        print("Exite from conversation state")
-        msg = String()
-        msg.data = "LISTEN_STOP"
-        blackboard.state_publisher.publish(msg)
+        print("Exit from conversation state")
+        
         if self.need_navigate:
             return "guide"
         else:

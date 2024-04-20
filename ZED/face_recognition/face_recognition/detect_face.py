@@ -240,8 +240,8 @@ class face_recog(Node):
     
     def x_coord_to_angle(self,face_x):
 
-        angle = int((self.max_angle-self.min_angle)*face_x/self.frame_w + 45)
-
+        # angle = int((self.max_angle-self.min_angle)*face_x/self.frame_w + 45)
+        angle = 90
         return angle
     
     
