@@ -48,13 +48,12 @@ class SMRRCoversation:
             String, "/trigger", self.call_back, 10
         )
         self.ui_sub = self.node.create_subscription(String, '/ui/guide_navigation', self.guide_navigation_callback, 10)
-        self.ui_sub = self.node.create_subscription(String, '/ui/guide_verbal', self.guide_verbal_callback, 10)
+        self.ui_sub2 = self.node.create_subscription(String, '/ui/guide_verbal', self.guide_verbal_callback, 10)
         self.location_name_pub = self.node.create_publisher(String, '/ui/guide_options', 10)
         self.detected_location = None
         self.verbal_guidance = None
         self.navigation_guidance = False
         self.direction_request = False
-        
         self.tts = TextToSpeech()
         self.should_stop = False
         self.text_to_speech_init()
@@ -171,6 +170,7 @@ class SMRRCoversation:
                 elif self.navigation_guidance:
                     return
                 elif text is not None:
+                    self.tts.play_wav_file('/SSD/off.wav')
                     tic = time.time()
                     text_ = text.lower()
                     for word in self.ending_words:
@@ -189,15 +189,16 @@ class SMRRCoversation:
                     if self.verbal_guidance is not None:
                         play_audio_clip(self.verbal_guidance)
                     if not self.direction_request:
-                        self.tts.play_wav_file('/SSD/off.wav')
+                        
                         self.language_understanding_and_generation(text)
-                        self.tts.play_wav_file('/SSD/on.wav')
+                        
                         # time.sleep(0.3)
 
                     else:
                         self.blocking_tts("Let me help you with it. Please select an option from the screen.")
                     # self.stt_queue.put(text)
                     # flag = self.sleep_queue.get()
+                    self.tts.play_wav_file('/SSD/on.wav')
                     tic = time.time()
                 self.vad_audio.clear_queue()
                 wav_data = bytearray()

@@ -315,7 +315,7 @@ class LLM:
             self.model_response = ""
             funct("$$")
             end_= funct2()
-            print(end_)
+            # print(end_)
             time.sleep(0.5)
             return
         elif chunk_ in [".", ",", "?", "!"]:

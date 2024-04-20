@@ -42,12 +42,10 @@ class LoadModules(State):
         blackboard.conv_obj = SMRRCoversation(self.node)
         blackboard.state_publisher = self.node.create_publisher(String, 'ui/change_state', 10)
         print("Loading conversation module successful")
-        # blackboard.face_recog_obj = SMRRFaceRecogition(self.node)
-        # print("Loading face recognition module successful")
         # blackboard.nav_obj = SMRRNavigation(self)
         # print("Loading navigation module successful")
-        blackboard.gestures_obj = SMRRGestures()
-        print("Loading gestures module successful")
+        # blackboard.gestures_obj = SMRRGestures()
+        # print("Loading gestures module successful")
         time.sleep(1)
         return SUCCEED
        
@@ -101,9 +99,9 @@ class Conversation(State):
         self.trigger = True
 
     def execute(self, blackboard):
-        print("Executing Conversation state")
-        blackboard.gestures_obj.do_gesture(GestureType.AYUBOWAN)
-        time.sleep(1.5)
+        # print("Executing Conversation state")
+        # blackboard.gestures_obj.do_gesture(GestureType.AYUBOWAN)
+        # time.sleep(1.5)
         blackboard.conv_obj.text_to_speech("Aayuboawan")
         blackboard.conv_obj.text_to_speech("Wish you a happy new year")
         time.sleep(4)
@@ -119,7 +117,7 @@ class Conversation(State):
         else:
             blackboard.conv_obj.text_to_speech("We haven't met before. Could i know your name please? If you dont mind. Or you can skip.")
             while self.unknown_name == None:
-                pass
+                time.sleep(1)
 
             if self.unknown_name!='<SKIP>':
                 blackboard.conv_obj.text_to_speech("Hi"+self.unknown_name+ ". Welcome to the Department of Electronic and Telecommuication Engineering.")

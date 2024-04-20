@@ -42,12 +42,10 @@ class LoadModules(State):
         blackboard.conv_obj = SMRRCoversation(self.node)
         blackboard.state_publisher = self.node.create_publisher(String, 'ui/change_state', 10)
         print("Loading conversation module successful")
-        # blackboard.face_recog_obj = SMRRFaceRecogition(self.node)
-        # print("Loading face recognition module successful")
         # blackboard.nav_obj = SMRRNavigation(self)
         # print("Loading navigation module successful")
-        blackboard.gestures_obj = SMRRGestures()
-        print("Loading gestures module successful")
+        # blackboard.gestures_obj = SMRRGestures()
+        # print("Loading gestures module successful")
         time.sleep(1)
         return SUCCEED
        
@@ -80,7 +78,7 @@ class Conversation(State):
         super().__init__(["guide","end"])
         self.node = node
         self.stop_listening_sub = self.node.create_subscription(String, '/ui/guide_navigation', self.stop_listening_callback, 10)
-        self.stop_listening_sub = self.node.create_subscription(String, '/ui/unknown_username', self.get_name_callback, 10)
+        self.unknown_sub = self.node.create_subscription(String, '/ui/unknown_username', self.get_name_callback, 10)
         self.need_navigate = False  
         self.fr_cli = self.node.create_client(FaceRecogRequest, '/smrr_face_recog_srv')
         self.name_pub = self.node.create_publisher(String, '/ui/username', 10)   
@@ -92,6 +90,7 @@ class Conversation(State):
         self.unknown_name = None
 
     def get_name_callback(self,msg):
+        print("RECIEVE NAME")
         self.unknown_name = msg.data
 
     def stop_listening_callback(self,msg):
@@ -102,15 +101,14 @@ class Conversation(State):
 
     def execute(self, blackboard):
         print("Executing Conversation state")
-        blackboard.gestures_obj.do_gesture(GestureType.AYUBOWAN)
-        time.sleep(1.5)
+        # blackboard.gestures_obj.do_gesture(GestureType.AYUBOWAN)
+        # time.sleep(1.5)
         blackboard.conv_obj.text_to_speech("Aayuboawan")
         blackboard.conv_obj.text_to_speech("Wish you a happy new year")
         time.sleep(4)
         
         blackboard.conv_obj.text_to_speech(random.choice(waiting_messages))
         name, angle = self.trigger_func()
-        print(name, angle)
         msg = String()
         msg.data = name
         self.name_pub.publish(msg)
@@ -120,10 +118,11 @@ class Conversation(State):
             blackboard.conv_obj.text_to_speech("We haven't met before. Could i know your name please? If you dont mind. Or you can skip.")
             while self.unknown_name == None:
                 pass
-
+            print("Came out")
             if self.unknown_name!='<SKIP>':
+                print("Not skip")
                 blackboard.conv_obj.text_to_speech("Hi"+self.unknown_name+ ". Welcome to the Department of Electronic and Telecommuication Engineering.")
-
+                self.unknown_name = None
 
         blackboard.conv_obj.start_listening()
 
