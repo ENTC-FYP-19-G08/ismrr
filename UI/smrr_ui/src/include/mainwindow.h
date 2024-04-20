@@ -11,9 +11,12 @@
 #include <map>
 #include <unordered_set>
 
-// ////////////////////////////  change to images abs path
-// #define RES_PATH "imgs/"
-#define RES_PATH "/SSD/ros2_ws/src/UI/smrr_ui/imgs/" 
+// ////////////////////////////  change to SMRR_UI abs path
+// #define UI_BASE_PATH "/SSD/ros2_ws/src/UI/smrr_ui/"
+#define UI_BASE_PATH ""
+
+#define RES_PATH UI_BASE_PATH "imgs/"
+
 #include "rclcomm.h"
 #include "page.h"
 #include "option.h"

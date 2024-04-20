@@ -12,7 +12,7 @@ void WidgetBorder::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
     QPen pen(Qt::green); 
-    pen.setWidth(20);
+    pen.setWidth(28);
     painter.setPen(pen);
     painter.drawRect(rect());
 }
