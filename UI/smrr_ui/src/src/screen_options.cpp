@@ -4,6 +4,7 @@
 
 #include <QDebug>
 #include <QScrollBar>
+#include <QScroller>
 
 ScreenOptions::ScreenOptions(QWidget *parent, vector<Option> *options)
     : QDialog(parent), ui(new Ui::ScreenOptions)
@@ -36,6 +37,11 @@ ScreenOptions::ScreenOptions(QWidget *parent, vector<Option> *options)
     
    
     ui->scrollArea->verticalScrollBar()->setStyleSheet("width: 40px;"); // Set the width as desired
+
+    // QScroller *scroller = new QScroller(ui->scrollArea->viewport());
+    // scroller->grabGesture(ui->scrollArea->viewport(), QScroller::TouchGesture);
+
+    QScroller::grabGesture(ui->scrollArea, QScroller::TouchGesture);
 
     connect(ui->btnBack, &QPushButton::clicked, mainWindow, &MainWindow::btnBack_clicked);
     connect(ui->btnHome, &QPushButton::clicked, mainWindow, &MainWindow::btnHome_clicked);
