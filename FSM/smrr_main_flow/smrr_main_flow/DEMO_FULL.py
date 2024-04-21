@@ -103,7 +103,7 @@ class Conversation(State):
         print("Executing Conversation state")
         blackboard.gestures_obj.do_gesture(GestureType.AYUBOWAN)
         time.sleep(1)
-        blackboard.conv_obj.blocking_tts("Aayuboawan. Wish you a happy new year")    
+        blackboard.conv_obj.blocking_tts("Aayuboawan. Wish you a happy new year. "+random.choice(welcoming_messages))    
         blackboard.conv_obj.blocking_tts(random.choice(waiting_messages))
         self.face_recog_trig.publish(String())
         while self.name == None:
@@ -196,15 +196,14 @@ class Navigation(State):
             msg.data = self.nav_result_outcomes[self.nav_result]
             self.nav_state_pub.publish(msg)
             self.nav_result = None
-            self.goal = None
-
-           
+            
             if self.goal != self.locations["HOME"]:
                 blackboard.conv_obj.blocking_tts("You have reached the destination. Have a nice day.")
                 time.sleep(4)
                 self.go_back_home()
             else:
                 self.goal = None
+
                 print("EXIT SUCCESSFUL FROM NAVIGATION")
                 return SUCCEED
             

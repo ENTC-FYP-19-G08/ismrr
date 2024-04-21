@@ -166,7 +166,14 @@ class SMRRCoversation:
                 self.verbal_guidance = None
                 
             if self.navigation_guidance:
-                return  
+                msg = String()
+                msg.data = "LISTEN_STOP"
+                self.listen_state_publisher.publish(msg)
+                self.tts.play_wav_file('/SSD/off.wav')
+                self.navigation_guidance = False
+                self.vad_audio.clear_queue()
+                wav_data = bytearray()
+                return 
                       
             if frame is not None: #and ((time.time()-tic2)<15):
                 if spinner:
