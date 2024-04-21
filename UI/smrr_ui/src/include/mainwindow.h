@@ -11,10 +11,12 @@
 #include <map>
 #include <unordered_set>
 
-// ////////////////////////////  change to SMRR_UI abs path
-// #define UI_BASE_PATH "/SSD/ros2_ws/src/UI/smrr_ui/"
-#define UI_BASE_PATH ""
+// ////////////////////////////  change to src abs path
+// #define MAIN_BASE_PATH "/SSD/ros2_ws/src/"
+#define MAIN_BASE_PATH "/home/csa/fyp/"
+// ////////////////////////////  change to src abs path
 
+#define UI_BASE_PATH MAIN_BASE_PATH "UI/smrr_ui/"
 #define RES_PATH UI_BASE_PATH "imgs/"
 
 #include "rclcomm.h"
