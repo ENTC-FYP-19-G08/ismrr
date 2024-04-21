@@ -31,7 +31,10 @@ class face_recog(Node):
         # self.people_publisher = self.create_publisher(String, '/smrr/face_recog/people', 2)
 
         self.br = CvBridge()
-        self.image_subscriber = self.create_subscription(Image, '/zed/zed_node/left/image_rect_color',self.captureCam,2)
+        # self.image_subscriber = self.create_subscription(Image, '/zed/zed_node/left/image_rect_color',self.captureCam,2)
+        
+        
+            
         self.vid_frame = [None]
         self.name_subscriber = self.create_subscription(String, '/ui/unknown_username',self.setUnknownName,2)
 
@@ -61,11 +64,11 @@ class face_recog(Node):
 
         # self.triggered = False
 
-    def captureCam(self,msg):
-        self.vid_frame.append(msg)
-        # print(">> Image added")
-        if len(self.vid_frame)>self.frame_buffer:
-            self.vid_frame = self.vid_frame[1:]
+    # def captureCam(self,msg):
+    #     self.vid_frame.append(msg)
+    #     # print(">> Image added")
+    #     if len(self.vid_frame)>self.frame_buffer:
+    #         self.vid_frame = self.vid_frame[1:]
 
     def setUnknownName(self,msg):
         print(" >> recieved name: ",msg.data)
@@ -101,56 +104,85 @@ class face_recog(Node):
         # need_angle = request.angle_request
 
         # reset stats
-        self.current_frame = (len(self.vid_frame) - self.frame_count)
+        # self.current_frame = (len(self.vid_frame) - self.frame_count)
         
-        if self.current_frame<0:
-            self.current_frame = 0
+        # if self.current_frame<0:
+        #     self.current_frame = 0
             
         self.known_count=0
         self.unknown_count=0
         self.known_stats = {'unknown':0}
         self.max_count_name = ""
+        
+        # Create a ZED camera object
+        zed = sl.Camera()
+
+        # Set configuration parameters
+        init_params = sl.InitParameters()
+        init_params.camera_resolution = sl.RESOLUTION.HD1080  # Use HD1080 video mode
+        init_params.camera_fps = 30  # Set fps at 30
+
+        # Open the camera
+        err = zed.open(self.init_params)
+        if err != sl.ERROR_CODE.SUCCESS:
+            print("Could not open camera!!!!")
+            exit(1)
+        
+        # camera code
+        image = sl.Mat()
+        runtime_parameters = sl.RuntimeParameters()
+        
         i = 0
 
         while i<self.frame_count:
-
-            if 0 < self.current_frame < len(self.vid_frame):
-                video_frame = self.br.imgmsg_to_cv2(self.vid_frame[self.current_frame])
-            else:
-                print(" >> Reached maximum number of images in buffer. length = ",len(self.vid_frame))
-                break
             
-            if self.frame_h==0 and self.frame_w==0:
-                # print(video_frame.shape)
-                self.frame_h = video_frame.shape[0]
-                self.frame_w = video_frame.shape[1]
-            # uncomment for jetson
-            video_frame = cv.cvtColor(video_frame, cv.COLOR_RGBA2RGB)
+            if zed.grab(runtime_parameters) == sl.ERROR_CODE.SUCCESS:
+                # A new image is available if grab() returns ERROR_CODE.SUCCESS
+                zed.retrieve_image(image, sl.VIEW.LEFT) # Get the left image
+                timestamp = zed.get_timestamp(sl.TIME_REFERENCE.IMAGE)  # Get the image timestamp
+                print("Image resolution: {0} x {1} || Image timestamp: {2}\n".format(image.get_width(), image.get_height(), timestamp.get_milliseconds()))
 
-            gray_image = cv.cvtColor(video_frame, cv.COLOR_BGR2GRAY)
-            faces = self.face_cascade.detectMultiScale(gray_image, 1.1, 5, minSize=(40, 40)) 
-
-            # print("faces",len(faces))
-
-            if(len(faces)!=0):
-                video_frame = self.identify_people(video_frame) 
+            # if 0 < self.current_frame < len(self.vid_frame):
+            #     video_frame = self.br.imgmsg_to_cv2(self.vid_frame[self.current_frame])
+            # else:
+            #     print(" >> Reached maximum number of images in buffer. length = ",len(self.vid_frame))
+            #     break
             
+                video_frame = self.br.imgmsg_to_cv2(image)
+                
+                if self.frame_h==0 and self.frame_w==0:
+                    # print(video_frame.shape)
+                    self.frame_h = video_frame.shape[0]
+                    self.frame_w = video_frame.shape[1]
+                # uncomment for jetson
+                video_frame = cv.cvtColor(video_frame, cv.COLOR_RGBA2RGB)
 
-            # display the processed frame in a window named "My Face Detection Project"
-            cv.imshow("smrr_face_detection", video_frame)  
+                gray_image = cv.cvtColor(video_frame, cv.COLOR_BGR2GRAY)
+                faces = self.face_cascade.detectMultiScale(gray_image, 1.1, 5, minSize=(40, 40)) 
 
-            key = cv.waitKey(5)
-            # waiting for q key to be pressed and then breaking
-            if key == ord('q'):
-                # self.camera.release()
-                cv.destroyAllWindows()
+                # print("faces",len(faces))
+
+                if(len(faces)!=0):
+                    video_frame = self.identify_people(video_frame) 
                 
 
-            self.current_frame+=1
+                # display the processed frame in a window named "My Face Detection Project"
+                cv.imshow("smrr_face_detection", video_frame)  
+
+                key = cv.waitKey(5)
+                # waiting for q key to be pressed and then breaking
+                if key == ord('q'):
+                    # self.camera.release()
+                    cv.destroyAllWindows()
+                
+
+            # self.current_frame+=1
             i+=1
 
         # end of loop
-
+        # close the camera
+        zed.close()
+        
         cv.destroyAllWindows()
 
         self.max_count_name = max(self.known_stats.items(), key=operator.itemgetter(1))[0]
