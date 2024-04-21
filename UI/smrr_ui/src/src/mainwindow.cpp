@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     gotoPage(PAGE_HOME);
     // gotoPage(PAGE_GUIDE);
     // gotoPage(PAGE_GUIDE_OPTIONS);
-    // gotoPage(PAGE_SPLASH);
+    gotoPage(PAGE_SPLASH);
 
     connect(rosNode, &rclcomm::onGuideOptions, this, &MainWindow::onGuideOptions);
     connect(rosNode, &rclcomm::onChangeState, this, &MainWindow::onChangeState);
