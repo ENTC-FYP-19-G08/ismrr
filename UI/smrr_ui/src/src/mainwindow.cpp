@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     gotoPage(PAGE_HOME);
     // gotoPage(PAGE_GUIDE);
     // gotoPage(PAGE_GUIDE_OPTIONS);
-    gotoPage(PAGE_SPLASH);
+    // gotoPage(PAGE_SPLASH);
 
     connect(rosNode, &rclcomm::onGuideOptions, this, &MainWindow::onGuideOptions);
     connect(rosNode, &rclcomm::onChangeState, this, &MainWindow::onChangeState);
@@ -217,9 +217,14 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
         break;
     }
     case PAGE_DEMO_GESTURES:{
-        vector<Option> options = {Option(ACTION_DEMO_GESTURES_AYUBOWAN, "Ayubowan"),Option(ACTION_DEMO_GESTURES_HANDSHAKE, "Handshake"),Option(ACTION_DEMO_GESTURES_LEFT, "Left"),Option(ACTION_DEMO_GESTURES_RIGHT, "Right")};
+        vector<Option> options = {Option(ACTION_DEMO_GESTURES, "Ayubowan","0"),Option(ACTION_DEMO_GESTURES, "Handshake","1"),Option(ACTION_DEMO_GESTURES,"Left", "2"),Option(ACTION_DEMO_GESTURES,"Right", "3")};
         QWidget *screen = new ScreenOptions(this, &options);
         showScreen(screen);
+        break;
+    }
+    case ACTION_DEMO_GESTURES:{
+        string cmd=("python3 " MAIN_BASE_PATH "FSM/smrr_main_flow/smrr_main_flow/smrr_gestures.py ")+data;
+        system(cmd.c_str());
         break;
     }
     case PAGE_ACTION_MINIMIZE:
