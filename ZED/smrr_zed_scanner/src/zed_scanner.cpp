@@ -149,22 +149,23 @@ void ZEDScanner::callback(const sensor_msgs::msg::PointCloud2::SharedPtr cloud_m
     }
 
     else{
-        // Other obstacles filter
-        range = hypot(*iter_x, *iter_y);
-        if (range < obstacle_range_min_) {
-            RCLCPP_DEBUG(
-              this->get_logger(),
-              "rejected for range %f below minimum value %f. Point: (%f, %f, %f)",
-              range, obstacle_range_min_, *iter_x, *iter_y, *iter_z);
-            continue;
-          }
-          if (range > obstacle_range_max_) {
-            RCLCPP_DEBUG(
-              this->get_logger(),
-              "rejected for range %f above maximum value %f. Point: (%f, %f, %f)",
-              range, obstacle_range_max_, *iter_x, *iter_y, *iter_z);
-            continue;
-          }
+      continue;
+      // Other obstacles filter
+      range = hypot(*iter_x, *iter_y);
+      if (range < obstacle_range_min_) {
+          RCLCPP_DEBUG(
+            this->get_logger(),
+            "rejected for range %f below minimum value %f. Point: (%f, %f, %f)",
+            range, obstacle_range_min_, *iter_x, *iter_y, *iter_z);
+          continue;
+        }
+        if (range > obstacle_range_max_) {
+          RCLCPP_DEBUG(
+            this->get_logger(),
+            "rejected for range %f above maximum value %f. Point: (%f, %f, %f)",
+            range, obstacle_range_max_, *iter_x, *iter_y, *iter_z);
+          continue;
+        }
     }
     double angle = atan2(*iter_y, *iter_x);
     if (angle < scan_msg.angle_min || angle > scan_msg.angle_max) {

@@ -33,7 +33,7 @@ class SMRRGestures():
 if __name__ == '__main__':
     obj = SMRRGestures()
     time.sleep(1)
-    obj.do_gesture(GestureType.HANDSHAKE)
+    obj.do_gesture(GestureType.AYUBOWAN)
     print('done')
     time.sleep(2)
     print('done')

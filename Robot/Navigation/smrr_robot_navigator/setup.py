@@ -20,7 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'robot_navigator = smrr_robot_navigator.robot_navigtor:main'
+            'robot_navigator = smrr_robot_navigator.robot_navigator:main'
         ],
     },
 )
