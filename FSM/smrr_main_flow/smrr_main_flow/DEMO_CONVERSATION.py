@@ -14,14 +14,11 @@ from std_msgs.msg import String, Int8
 
 # from smrr_navigation import TaskResult
 
-from smrr_gestures import SMRRGestures,GestureType
-from smrr_face_recognition import SMRRFaceRecogition
 from load_locations import LoadLocations
 from smrr_conversation import SMRRCoversation
-from face_recog_interfaces.srv import FaceRecogRequest
 from messages import waiting_messages, thanking_messages, welcoming_messages
 from smrr_navigation_results import TaskResult
-from geometry_msgs.msg import PoseStamped
+
 from simple_node import Node
 from yasmin import State
 from yasmin import StateMachine
@@ -79,15 +76,15 @@ class Conversation(State):
         self.node = node
         self.stop_listening_sub = self.node.create_subscription(String, '/ui/guide_navigation', self.stop_listening_callback, 10)
         self.stop_listening_sub = self.node.create_subscription(String, '/ui/unknown_username', self.get_name_callback, 10)
-        self.need_navigate = False  
-        self.fr_cli = self.node.create_client(FaceRecogRequest, '/smrr_face_recog_srv')
-        self.name_pub = self.node.create_publisher(String, '/ui/username', 10)   
+        # self.need_navigate = False  
+        # self.fr_cli = self.node.create_client(FaceRecogRequest, '/smrr_face_recog_srv')
+        # self.name_pub = self.node.create_publisher(String, '/ui/username', 10)   
 
-        while not self.fr_cli.wait_for_service(timeout_sec=1.0):
-            self.node.get_logger().info('face recognition service not available, waiting again...')
-        self.node.get_logger().info("Face recognition service  available")
-        self.req = FaceRecogRequest.Request()
-        self.unknown_name = None
+        # while not self.fr_cli.wait_for_service(timeout_sec=1.0):
+        #     self.node.get_logger().info('face recognition service not available, waiting again...')
+        # self.node.get_logger().info("Face recognition service  available")
+        # self.req = FaceRecogRequest.Request()
+        # self.unknown_name = None
 
     def get_name_callback(self,msg):
         self.unknown_name = msg.data
@@ -102,34 +99,13 @@ class Conversation(State):
         # print("Executing Conversation state")
         # blackboard.gestures_obj.do_gesture(GestureType.AYUBOWAN)
         # time.sleep(1.5)
-        blackboard.conv_obj.text_to_speech("Aayuboawan")
-        blackboard.conv_obj.text_to_speech("Wish you a happy new year")
-        time.sleep(4)
-        
-        blackboard.conv_obj.text_to_speech(random.choice(waiting_messages))
-        name, angle = self.trigger_func()
-        print(name, angle)
-        msg = String()
-        msg.data = name
-        self.name_pub.publish(msg)
-        if name!= 'unknown':
-            blackboard.conv_obj.text_to_speech("Hi"+name + "Nice to see you again.")
-        else:
-            blackboard.conv_obj.text_to_speech("We haven't met before. Could i know your name please? If you dont mind. Or you can skip.")
-            while self.unknown_name == None:
-                time.sleep(1)
-
-            if self.unknown_name!='<SKIP>':
-                blackboard.conv_obj.text_to_speech("Hi"+self.unknown_name+ ". Welcome to the Department of Electronic and Telecommuication Engineering.")
-
-
+        blackboard.conv_obj.blocking_tts("Aayuboawan. Wish you a happy new year. "+random.choice(welcoming_messages))
+    
         blackboard.conv_obj.start_listening()
 
         print("Exite from conversation state")
-        if self.need_navigate:
-            return "guide"
-        else:
-            return "end"
+      
+        return "end"
         # return "guide"
     def trigger_func(self):
         self.req.name_request = True
@@ -145,20 +121,7 @@ class Conversation(State):
 class Navigation(State):
     def __init__(self, node):
         super().__init__([SUCCEED, ABORT, CANCEL])
-        self.node = node
-        self.locations = LoadLocations(self.node).locations
-        self.goal = None
-        self.nav_result = None
-
-        self.ui_sub = self.node.create_subscription(String, '/ui/guide_navigation', self.ui_callback, 10)
-        self.app_goal_sub = self.node.create_subscription(PoseStamped, '/app_goal', self.app_goal_callback, 10)
-        self.nav_result_sub = self.node.create_subscription(Int8, '/nav_result', self.nav_result_callback, 10)
-
-        self.nav_state_pub = self.node.create_publisher(String, '/ui/guide_navigation_result', 10)
-        self.nav_goal_pub = self.node.create_publisher(String, '/nav_goal', 10)
-        self.nav_result_outcomes ={0: "UNKNOWN", 1:"SUCCEEDED", 2:"CANCELED" ,3:"FAILED"}
-        self.timer = None
-
+    
     def nav_result_callback(self, msg):
         self.nav_result = msg.data
 
