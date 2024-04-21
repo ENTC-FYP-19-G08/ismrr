@@ -33,12 +33,13 @@ ScreenNavigation::~ScreenNavigation()
 
 void ScreenNavigation::onGuideNavigationResult(QString qdata)
 {
-    string data = qdata.toStdString();
-    QString msg;
-    if (data == "SUCCESS")
-        msg = "You have reached to your destination";
-    else
-        msg = "You have reached to your destination";
-    mainWindow->gotoPage(PAGE_INFO, msg);
+    // string data = qdata.toStdString();
+    // QString msg;
+    // if (data == "SUCCESS")
+    //     msg = "You have reached to your destination";
+    // else
+    //     msg = "You have reached to your destination";
+    // mainWindow->gotoPage(PAGE_INFO, msg);
+    mainWindow->btnHome_clicked();
     qDebug() << qdata << "onnavigationinfo main:"<<msg;
 }
