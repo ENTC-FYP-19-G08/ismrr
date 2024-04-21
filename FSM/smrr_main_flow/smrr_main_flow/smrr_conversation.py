@@ -280,61 +280,65 @@ class SMRRCoversation:
                 self.vad_audio.clear_queue()
                 wav_data = bytearray()
                 self.verbal_guidance = None
-                
-    
-            if frame is not None: #and ((time.time()-tic2)<15):
-                if spinner:
-                    spinner.start()
-                wav_data.extend(frame)
             else:
-                # tic2 = time.time()
-                if spinner:
-                    spinner.stop()
-                name = datetime.now().strftime("savewav_%Y-%m-%d_%H-%M-%S_%f.wav")
-                self.vad_audio.write_wav(
-                    os.path.join(
-                        "",
-                        name,
-                    ),
-                    wav_data,
-                )
-                numpy_array = np.frombuffer(wav_data, dtype=np.int16)
-                numpy_array = numpy_array.astype(np.float32) / 32768.0
-                # self.audio_queue.put(numpy_array)
-                self.audio_queue.put(name)
-                text = self.stt_queue.get()
-                # self.delete_wav(name)
-                # text = self.whisper.transcribe_(numpy_array)
-
-                if text is not None:
+                if self.navigation_guidance:
                     msg = String()
                     msg.data = "LISTEN_STOP"
                     self.listen_state_publisher.publish(msg)
                     self.tts.play_wav_file('/SSD/off.wav')
-                    tic = time.time()
-                    text_ = text.lower()
-                    for word in self.ending_words:
-                        if word in text_:
-                            self.triggered = True
-                            self.blocking_tts(random.choice(thanking_messages))
-                            self.vad_audio.clear_queue()
-                            wav_data = bytearray()
-                            return
-                    self.detected_location, self.direction_request = self.classifier.classify_location(text)
-                    if self.detected_location is not None:
-                        msg = String()
-                        msg.data = self.detected_location
-                        self.location_name_pub.publish(msg)
-                        self.detected_location = None
-
-                        if not self.direction_request:
-                            if self.verbal_guidance is not None:
-                                play_audio_clip(self.verbal_guidance)
-                                self.verbal_guidance = None
-                            else:
-                                self.language_understanding_and_generation(text)
+                    self.navigation_guidance = False
+                    self.vad_audio.clear_queue()
+                    wav_data = bytearray()
+                    return  
                         
-                        # time.sleep(0.3)
+                if frame is not None: #and ((time.time()-tic2)<15):
+                    if spinner:
+                        spinner.start()
+                    wav_data.extend(frame)
+                else:
+                    # tic2 = time.time()
+                    if spinner:
+                        spinner.stop()
+                    name = datetime.now().strftime("savewav_%Y-%m-%d_%H-%M-%S_%f.wav")
+                    self.vad_audio.write_wav(
+                        os.path.join(
+                            "",
+                            name,
+                        ),
+                        wav_data,
+                    )
+                    numpy_array = np.frombuffer(wav_data, dtype=np.int16)
+                    numpy_array = numpy_array.astype(np.float32) / 32768.0
+                    # self.audio_queue.put(numpy_array)
+                    self.audio_queue.put(name)
+                    text = self.stt_queue.get()
+                    # self.delete_wav(name)
+                    # text = self.whisper.transcribe_(numpy_array)
+
+                    if text is not None:
+                        msg = String()
+                        msg.data = "LISTEN_STOP"
+                        self.listen_state_publisher.publish(msg)
+                        self.tts.play_wav_file('/SSD/off.wav')
+                        tic = time.time()
+                        text_ = text.lower()
+                        for word in self.ending_words:
+                            if word in text_:
+                                self.triggered = True
+                                self.blocking_tts(random.choice(thanking_messages))
+                                self.vad_audio.clear_queue()
+                                wav_data = bytearray()
+                                return
+                        self.detected_location, self.direction_request = self.classifier.classify_location(text)
+                        if self.detected_location is not None:
+                            msg = String()
+                            msg.data = self.detected_location
+                            self.location_name_pub.publish(msg)
+                            self.detected_location = None
+                        if not self.direction_request:
+                            self.language_understanding_and_generation(text)
+                            
+                            # time.sleep(0.3)
 
                         else:
                             self.blocking_tts("Let me help you with it. Please select an option from the screen.")
@@ -348,19 +352,15 @@ class SMRRCoversation:
                                 self.vad_audio.clear_queue()
                                 wav_data = bytearray()
                                 return 
-                    else:
-                        self.language_understanding_and_generation(text)
-                    # self.stt_queue.put(text)
-                    # flag = self.sleep_queue.get()
-                    msg = String()
-                    msg.data = "LISTEN_START"
-                    self.listen_state_publisher.publish(msg)
-                    self.tts.play_wav_file('/SSD/on.wav')
-                    tic = time.time()
-                self.vad_audio.clear_queue()
-                wav_data = bytearray()
-                self.vad_audio.add_one()
-                print("ENDDDDDDDDDDDDDDDDDDDDDD")
+                        # self.stt_queue.put(text)
+                        # flag = self.sleep_queue.get()
+                        msg = String()
+                        msg.data = "LISTEN_START"
+                        self.listen_state_publisher.publish(msg)
+                        self.tts.play_wav_file('/SSD/on.wav')
+                        tic = time.time()
+                    self.vad_audio.clear_queue()
+                    wav_data = bytearray()
                 
     # def wait_idle(self):
     #     print("Listening ... ")
