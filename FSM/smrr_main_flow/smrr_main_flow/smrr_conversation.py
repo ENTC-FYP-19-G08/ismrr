@@ -157,7 +157,7 @@ class SMRRCoversation:
                 self.listen_state_publisher.publish(msg)
                 self.tts.play_wav_file('/SSD/off.wav')
                 play_audio_clip(self.verbal_guidance)
-                msg.data = "LISTEN_STaRT"
+                msg.data = "LISTEN_START"
                 self.listen_state_publisher.publish(msg)
                 self.tts.play_wav_file('/SSD/on.wav')
                 time.sleep(0.8)

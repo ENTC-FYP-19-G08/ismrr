@@ -15,7 +15,6 @@ from std_msgs.msg import String, Int8
 # from smrr_navigation import TaskResult
 
 from smrr_gestures import SMRRGestures,GestureType
-from smrr_face_recognition import SMRRFaceRecogition
 from load_locations import LoadLocations
 from smrr_conversation import SMRRCoversation
 from face_recog_interfaces.srv import FaceRecogRequest
@@ -198,13 +197,16 @@ class Navigation(State):
             self.nav_state_pub.publish(msg)
             self.nav_result = None
             self.goal = None
-            
-            # if self.goal != self.locations["HOME"]:
-            #     self.go_back_home()
-            # else:
-            #     self.goal = None
-            #     print("EXIT SUCCESSFUL FROM NAVIGATION")
-            # return SUCCEED
+
+           
+            if self.goal != self.locations["HOME"]:
+                blackboard.conv_obj.blocking_tts("You have reached the destination. Have a nice day.")
+                time.sleep(4)
+                self.go_back_home()
+            else:
+                self.goal = None
+                print("EXIT SUCCESSFUL FROM NAVIGATION")
+                return SUCCEED
             
 # define state SwitchingPowerMode
 class SwitchingPowerMode(State):
@@ -248,7 +250,7 @@ class MainFlow(Node):
                     )
 
         sm.add_state("NAVIGATION", Navigation(self),
-                     transitions={SUCCEED: "SWITCHINGPOWERMODE",
+                     transitions={SUCCEED: "IDLE",
                                   ABORT:"NAVIGATION",
                                   CANCEL:"SWITCHINGPOWERMODE"})    
 

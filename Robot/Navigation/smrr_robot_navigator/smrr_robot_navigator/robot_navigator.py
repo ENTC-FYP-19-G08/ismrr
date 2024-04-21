@@ -54,7 +54,7 @@ class RobotNavigator(Node):
         self.client = self.create_subscription(Empty, '/emergency_stop', self.emergency_callback, 10)
         self.goal_client = self.create_subscription(String, '/nav_goal', self.reach_destination, 10)
 
-        self.goal_timer = self.create_timer(2,self.execute_goal)
+        self.goal_timer = self.create_timer(1,self.execute_goal)
         self.tf_timer = self.create_timer(1,self.tf_listen)
 
     def tf_listen(self):
@@ -106,7 +106,8 @@ class RobotNavigator(Node):
         goal_pose.header.stamp = self.get_clock().now().to_msg()
         goal_pose.pose.position.x = pose[0]
         goal_pose.pose.position.y = pose[1]
-        goal_pose.pose.orientation.w = 1.0
+        goal_pose.pose.orientation.z = 0.94383
+        goal_pose.pose.orientation.w = 0.33042
        
         self.goal = NavigateToPose.Goal()
         self.goal.pose = goal_pose

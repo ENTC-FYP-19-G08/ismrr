@@ -12,8 +12,8 @@
 #include <unordered_set>
 
 // ////////////////////////////  change to src abs path
-// #define MAIN_BASE_PATH "/SSD/ros2_ws/src/"
-#define MAIN_BASE_PATH "/home/csa/fyp/"
+#define MAIN_BASE_PATH "/SSD/ros2_ws/src/"
+// #define MAIN_BASE_PATH "/home/csa/fyp/"
 // ////////////////////////////  change to src abs path
 
 #define UI_BASE_PATH MAIN_BASE_PATH "UI/smrr_ui/"
