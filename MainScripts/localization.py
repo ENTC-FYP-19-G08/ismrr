@@ -32,6 +32,7 @@ amcl_cmd = "ros2 launch nav2_bringup localization_launch.py map:=/SSD/ros2_ws/sr
 rviz_cmd = "rviz2 -d /SSD/ros2_ws/src/Robot/Navigation/nav2_bringup/bringup/rviz/nav2_default_view.rviz".split()
 zed_cmd = "ros2 launch zed_wrapper zed_camera.launch.py camera_model:=zed2".split()
 zed_scanner_cmd = "ros2 launch smrr_zed_scanner zed_scanner_launch.py".split()
+robot_navigator_cmd = "ros2 run smrr_robot_navigator robot_navigator".split()
 processes = []
 
 signal.signal(signal.SIGINT, signal_handler)
@@ -44,15 +45,15 @@ try:
     time.sleep(5)
     zed_scanner = subprocess.Popen(zed_scanner_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     processes.append(zed_scanner)
-    navigation = subprocess.Popen(navigation_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    navigation = subprocess.Popen(navigation_cmd)
     processes.append(navigation)
     time.sleep(5)
+    arduino_serial = subprocess.Popen(arduino_serial_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    processes.append(arduino_serial)
+    time.sleep(1)    
     bringup = subprocess.Popen(bringup_cmd)
     processes.append(bringup)
     time.sleep(8)
-    arduino_serial = subprocess.Popen(arduino_serial_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    processes.append(arduino_serial)
-    time.sleep(1)
     collison_monitor = subprocess.Popen(collison_monitor_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     processes.append(collison_monitor)
     time.sleep(1)
@@ -61,6 +62,8 @@ try:
     time.sleep(1)
     amcl = subprocess.Popen(amcl_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     processes.append(amcl)
+    robot_navigator = subprocess.Popen(robot_navigator_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    processes.append(robot_navigator)
 
     print("All subprocesses started.")
     while processes:

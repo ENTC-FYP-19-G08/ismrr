@@ -1,4 +1,8 @@
-welcoming_messages = ["Hi there", "Hello and welcome!", "Hello", "Hi"]
+
+welcoming_messages  = ["Welcome to the Department of Electronic and Telecommunication Engineering at the University of Moratuwa, a place where future tech leaders are made!",
+    "Greetings from the Department of Electronic and Telecommunication Engineering at the University of Moratuwa.",
+    "A warm welcome to the Department of Electronic and Telecommunication Engineering at the University of Moratuwa",
+]
 
 waiting_messages = [
     "Just a moment while I look you up in our system. I'll have you checked in no time!",

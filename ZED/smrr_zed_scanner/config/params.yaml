@@ -10,9 +10,9 @@ smrr_zed_scanner_node:
     scan_time: 0.3333
     activate_cliff_detector: true
     activate_filter: true
-    cliff_range_min: 0.35
+    cliff_range_min: 0.4
     cliff_range_max: 5.0
-    obstacle_range_min: 0.35
+    obstacle_range_min: 0.5
     obstacle_range_max: 4.0
     obstacle_height_min: 0.5
     obstacle_height_max: 2.0  

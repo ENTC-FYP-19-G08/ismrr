@@ -14,11 +14,14 @@ from std_msgs.msg import String, Int8
 
 # from smrr_navigation import TaskResult
 
+# from smrr_gestures import SMRRGestures,GestureType
+# from smrr_face_recognition import SMRRFaceRecogition
 from load_locations import LoadLocations
-from smrr_conversation import SMRRCoversation
-from messages import waiting_messages, thanking_messages, welcoming_messages
+# from smrr_conversation import SMRRCoversation
+# from face_recog_interfaces.srv import FaceRecogRequest
+# from messages import waiting_messages, thanking_messages, welcoming_messages
 from smrr_navigation_results import TaskResult
-
+from geometry_msgs.msg import PoseStamped
 from simple_node import Node
 from yasmin import State
 from yasmin import StateMachine
@@ -36,9 +39,9 @@ class LoadModules(State):
     def execute(self, blackboard):
 
         # print("Executing state Load Modules")
-        blackboard.conv_obj = SMRRCoversation(self.node)
-        blackboard.state_publisher = self.node.create_publisher(String, 'ui/change_state', 10)
-        print("Loading conversation module successful")
+        # blackboard.conv_obj = SMRRCoversation(self.node)
+        # blackboard.state_publisher = self.node.create_publisher(String, '/ui/change_state', 10)
+        # print("Loading conversation module successful")
         # blackboard.nav_obj = SMRRNavigation(self)
         # print("Loading navigation module successful")
         # blackboard.gestures_obj = SMRRGestures()
@@ -49,44 +52,46 @@ class LoadModules(State):
 class Idle(State):
     def __init__(self, node):
         super().__init__(["trigger","end"])
-        self.node = node
-        self.trig_sub = self.node.create_subscription(String,'/trigger', self.call_back,10)
-        self.trigger = False
+        # self.node = node
+        # self.trig_sub = self.node.create_subscription(String,'/trigger', self.call_back,10)
+        # self.trigger = False
         # print("Conversation module is ready")
     
     def call_back(self, msg):
         self.trigger = True
 
     def execute(self, blackboard):
-        msg = String()
-        msg.data = "IDLE"
-        blackboard.state_publisher.publish(msg)
-        self.trigger = False
-        print("Executing Idle state ")
-        while not self.trigger:
-            time.sleep(1)
-            pass
-        self.trigger = False
+        # msg = String()
+        # msg.data = "IDLE"
+        # blackboard.state_publisher.publish(msg)
+        # self.trigger = False
+        # print("Executing Idle state ")
+        # while not self.trigger:
+        #     time.sleep(1)
+        #     pass
+        # self.trigger = False
         return "trigger"
 
 # define state Conversation
 class Conversation(State):
     def __init__(self, node):
         super().__init__(["guide","end"])
-        self.node = node
-        self.stop_listening_sub = self.node.create_subscription(String, '/ui/guide_navigation', self.stop_listening_callback, 10)
-        self.stop_listening_sub = self.node.create_subscription(String, '/ui/unknown_username', self.get_name_callback, 10)
-        # self.need_navigate = False  
-        # self.fr_cli = self.node.create_client(FaceRecogRequest, '/smrr_face_recog_srv')
+        # self.node = node
+        # self.stop_listening_sub = self.node.create_subscription(String, '/ui/guide_navigation', self.stop_listening_callback, 10)
+        # self.unknown_sub = self.node.create_subscription(String, '/ui/unknown_username', self.get_unknown_name_callback, 10)
+        # self.need_navigate = False     
         # self.name_pub = self.node.create_publisher(String, '/ui/username', 10)   
-
-        # while not self.fr_cli.wait_for_service(timeout_sec=1.0):
-        #     self.node.get_logger().info('face recognition service not available, waiting again...')
-        # self.node.get_logger().info("Face recognition service  available")
-        # self.req = FaceRecogRequest.Request()
+        # self.face_recog_trig = self.node.create_publisher(String, '/face_recog_request', 10) 
+        # self.face_recog_sub= self.node.create_subscription(String, '/face_recog_result', self.get_name_callback, 10)
         # self.unknown_name = None
+        # self.name = None
+        # self.angle = None
 
     def get_name_callback(self,msg):
+        self.name,self.angle = msg.data.split(',')
+
+
+    def get_unknown_name_callback(self,msg):
         self.unknown_name = msg.data
 
     def stop_listening_callback(self,msg):
@@ -95,33 +100,26 @@ class Conversation(State):
     def call_back(self,msg):
         self.trigger = True
 
-    def execute(self, blackboard):
-        # print("Executing Conversation state")
-        # blackboard.gestures_obj.do_gesture(GestureType.AYUBOWAN)
-        # time.sleep(1.5)
-        blackboard.conv_obj.blocking_tts("Aayuboawan. Wish you a happy new year. "+random.choice(welcoming_messages))
-    
-        blackboard.conv_obj.start_listening()
-
-        print("Exite from conversation state")
-      
-        return "end"
-        # return "guide"
-    def trigger_func(self):
-        self.req.name_request = True
-        self.req.angle_request = True
-        self.future = self.fr_cli.call_async(self.req)
-        print("sent")
-        rclpy.spin_until_future_complete(self.node, self.future)
-        print("recieved")
-        response = self.future.result()
-        return [response.name,response.angle]
-    
+    def execute(self, blackboard):  
+        return "guide"
 # define state Navigate
 class Navigation(State):
     def __init__(self, node):
         super().__init__([SUCCEED, ABORT, CANCEL])
-    
+        self.node = node
+        self.locations = LoadLocations(self.node).locations
+        self.goal = None
+        self.nav_result = None
+
+        # self.ui_sub = self.node.create_subscription(String, '/ui/guide_navigation', self.ui_callback, 10)
+        self.app_goal_sub = self.node.create_subscription(PoseStamped, '/app_goal', self.app_goal_callback, 10)
+        self.nav_result_sub = self.node.create_subscription(Int8, '/nav_result', self.nav_result_callback, 10)
+
+        # self.nav_state_pub = self.node.create_publisher(String, '/ui/guide_navigation_result', 10)
+        self.nav_goal_pub = self.node.create_publisher(String, '/nav_goal', 10)
+        self.nav_result_outcomes ={0: "UNKNOWN", 1:"SUCCEEDED", 2:"CANCELED" ,3:"FAILED"}
+        self.timer = None
+
     def nav_result_callback(self, msg):
         self.nav_result = msg.data
 
@@ -161,17 +159,10 @@ class Navigation(State):
         
             msg = String()
             msg.data = self.nav_result_outcomes[self.nav_result]
-            self.nav_state_pub.publish(msg)
+            # self.nav_state_pub.publish(msg)
             self.nav_result = None
             self.goal = None
-            
-            # if self.goal != self.locations["HOME"]:
-            #     self.go_back_home()
-            # else:
-            #     self.goal = None
-            #     print("EXIT SUCCESSFUL FROM NAVIGATION")
-            # return SUCCEED
-            
+
 # define state SwitchingPowerMode
 class SwitchingPowerMode(State):
     def __init__(self):
