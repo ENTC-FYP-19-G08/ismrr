@@ -33,19 +33,7 @@ class face_recog(Node):
         self.br = CvBridge()
         # self.image_subscriber = self.create_subscription(Image, '/zed/zed_node/left/image_rect_color',self.captureCam,2)
         
-        # Create a ZED camera object
-        self.zed = sl.Camera()
-
-        # Set configuration parameters
-        self.init_params = sl.InitParameters()
-        self.init_params.camera_resolution = sl.RESOLUTION.HD1080  # Use HD1080 video mode
-        self.init_params.camera_fps = 30  # Set fps at 30
-
-        # Open the camera
-        err = self.zed.open(self.init_params)
-        if err != sl.ERROR_CODE.SUCCESS:
-            print("Could not open camera!!!!")
-            exit(1)
+        
             
         self.vid_frame = [None]
         self.name_subscriber = self.create_subscription(String, '/ui/unknown_username',self.setUnknownName,2)
@@ -126,6 +114,20 @@ class face_recog(Node):
         self.known_stats = {'unknown':0}
         self.max_count_name = ""
         
+        # Create a ZED camera object
+        zed = sl.Camera()
+
+        # Set configuration parameters
+        init_params = sl.InitParameters()
+        init_params.camera_resolution = sl.RESOLUTION.HD1080  # Use HD1080 video mode
+        init_params.camera_fps = 30  # Set fps at 30
+
+        # Open the camera
+        err = zed.open(self.init_params)
+        if err != sl.ERROR_CODE.SUCCESS:
+            print("Could not open camera!!!!")
+            exit(1)
+        
         # camera code
         image = sl.Mat()
         runtime_parameters = sl.RuntimeParameters()
@@ -136,8 +138,8 @@ class face_recog(Node):
             
             if zed.grab(runtime_parameters) == sl.ERROR_CODE.SUCCESS:
                 # A new image is available if grab() returns ERROR_CODE.SUCCESS
-                self.zed.retrieve_image(image, sl.VIEW.LEFT) # Get the left image
-                timestamp = self.zed.get_timestamp(sl.TIME_REFERENCE.IMAGE)  # Get the image timestamp
+                zed.retrieve_image(image, sl.VIEW.LEFT) # Get the left image
+                timestamp = zed.get_timestamp(sl.TIME_REFERENCE.IMAGE)  # Get the image timestamp
                 print("Image resolution: {0} x {1} || Image timestamp: {2}\n".format(image.get_width(), image.get_height(), timestamp.get_milliseconds()))
 
             # if 0 < self.current_frame < len(self.vid_frame):
@@ -178,7 +180,9 @@ class face_recog(Node):
             i+=1
 
         # end of loop
-
+        # close the camera
+        zed.close()
+        
         cv.destroyAllWindows()
 
         self.max_count_name = max(self.known_stats.items(), key=operator.itemgetter(1))[0]
