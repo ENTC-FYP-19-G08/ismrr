@@ -58,8 +58,14 @@ void MainWindow::updateTopicInfo(QString data)
 
 void MainWindow::onGuideNavigationResult(QString qdata)
 {
-    gotoPage(PAGE_INFO, "Navigation Result", qdata.toStdString());
-    qDebug() << qdata << "onnavigationinfo main";
+    // string data = qdata.toStdString();
+    // QString msg;
+    // if (data == "SUCCESS")
+    //     msg = "You have reach you destination";
+    // else
+    //     msg = "Something went wrong";
+    // gotoPage(PAGE_INFO, msg);
+    // qDebug() << qdata << "onnavigationinfo main:"<<msg;
 }
 void MainWindow::onGuideOptions(QString qdata)
 {
@@ -158,7 +164,7 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     }
     case PAGE_NAVIGATION:
     {
-        QWidget *screen = new ScreenNavigation(this, "Let' go to " + locationMap[data] + " !!!", data);
+        QWidget *screen = new ScreenNavigation(this, "Let's go to " + locationMap[data] + " !!!", data);
         showScreen(screen, false);
         break;
     }
@@ -193,7 +199,7 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     }
     case PAGE_SETTINGS:
     {
-        vector<Option> options = {Option(PAGE_ACTION_MINIMIZE, "Minimize"), Option(PAGE_ACTION_FULLSCREEN, "Full Screen"), Option(PAGE_ACTION_RES_640x480, "640x480"), Option(PAGE_ACTION_RES_1280x720, "1280x720")};
+        vector<Option> options = {Option(PAGE_DEMO, "Demo"),Option(PAGE_ACTION_MINIMIZE, "Minimize"), Option(PAGE_ACTION_FULLSCREEN, "Full Screen"), Option(PAGE_ACTION_RES_640x480, "640x480"), Option(PAGE_ACTION_RES_1280x720, "1280x720")};
         QWidget *screen = new ScreenOptions(this, &options);
         showScreen(screen);
         break;
@@ -202,6 +208,19 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     {
         QWidget *screen = new ScreenSplash(this);
         showScreen(screen, false);
+        break;
+    }
+    case PAGE_DEMO:{
+        vector<Option> options = {Option(PAGE_DEMO_GESTURES, "Gestures"), Option(PAGE_DEMO_CONVERSATION, "Conversation"), Option(PAGE_DEMO_NAVIGATION, "Navigation")};
+        QWidget *screen = new ScreenOptions(this, &options);
+        showScreen(screen);
+        break;
+    }
+    case PAGE_DEMO_GESTURES:{
+        vector<Option> options = {Option(ACTION_DEMO_GESTURES_AYUBOWAN, "Ayubowan"),Option(ACTION_DEMO_GESTURES_HANDSHAKE, "Handshake"),Option(ACTION_DEMO_GESTURES_LEFT, "Left"),Option(ACTION_DEMO_GESTURES_RIGHT, "Right")};
+        QWidget *screen = new ScreenOptions(this, &options);
+        showScreen(screen);
+        break;
     }
     case PAGE_ACTION_MINIMIZE:
     {
