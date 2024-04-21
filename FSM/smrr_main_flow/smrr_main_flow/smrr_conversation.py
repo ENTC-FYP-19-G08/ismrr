@@ -152,6 +152,22 @@ class SMRRCoversation:
                 if spinner:
                     spinner.stop()
                 continue
+            if self.verbal_guidance is not None:
+                msg.data = "LISTEN_STOP"
+                self.listen_state_publisher.publish(msg)
+                self.tts.play_wav_file('/SSD/off.wav')
+                play_audio_clip(self.verbal_guidance)
+                msg.data = "LISTEN_STaRT"
+                self.listen_state_publisher.publish(msg)
+                self.tts.play_wav_file('/SSD/on.wav')
+                time.sleep(0.8)
+                self.vad_audio.clear_queue()
+                wav_data = bytearray()
+                self.verbal_guidance = None
+                
+            if self.navigation_guidance:
+                return  
+                      
             if frame is not None: #and ((time.time()-tic2)<15):
                 if spinner:
                     spinner.start()
@@ -175,14 +191,8 @@ class SMRRCoversation:
                 text = self.stt_queue.get()
                 # self.delete_wav(name)
                 # text = self.whisper.transcribe_(numpy_array)
-                if self.verbal_guidance is not None:
-                    play_audio_clip(self.verbal_guidance)
-                    self.vad_audio.clear_queue()
-                    wav_data = bytearray()
-                    self.verbal_guidance = None
-                elif self.navigation_guidance:
-                    return
-                elif text is not None:
+
+                if text is not None:
                     msg = String()
                     msg.data = "LISTEN_STOP"
                     self.listen_state_publisher.publish(msg)

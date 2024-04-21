@@ -12,8 +12,8 @@
 #include <unordered_set>
 
 // ////////////////////////////  change to SMRR_UI abs path
-// #define UI_BASE_PATH "/SSD/ros2_ws/src/UI/smrr_ui/"
-#define UI_BASE_PATH ""
+#define UI_BASE_PATH "/SSD/ros2_ws/src/UI/smrr_ui/"
+// #define UI_BASE_PATH ""
 
 #define RES_PATH UI_BASE_PATH "imgs/"
 
