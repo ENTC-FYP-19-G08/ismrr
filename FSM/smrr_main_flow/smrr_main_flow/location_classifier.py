@@ -25,7 +25,7 @@ class LocationClassifier:
         "ROOM_SOLDER":["soldering room", "solder room"],
         "LAB_DIGITAL":["digital electronic lab", "digital lab", "digital laboratory"],
         "HALL_PG":["post-grad seminar room","pg room", "pg seminar room", "pg hall", "p.g room", "p.g seminar room", "p.g hall","p.g. room", "p.g. seminar room", "p.g. hall", "p.g.room", "p.g.seminar room", "p.g.hall", "post grad room", "post graduate room"],
-        "LAB_DIALOG":["dialog research lab", "dialog lab","dialog research laboratory", "dialog laboratory"],
+        "LAB_DIALOG":["dialog research lab", "dialog lab","dialog research laboratory", "dialog laboratory", "dialogue research lab", "dialogue lab","dialogue research laboratory", "dialogue laboratory"],
         "LAB_TELECOM":["telecommunication lab", "telecom lab", "telecommunication laboratory", "telecom laboratory"],
         # 21:["Huawei lab","mobitel lab","Huawei laboratory","mobitel laboratory"],
         # 22:["radio room"],
