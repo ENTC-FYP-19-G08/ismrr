@@ -3,20 +3,21 @@ from enum import Enum
 import rclpy
 import serial
 import time
+import sys
 
-class GestureType(Enum):
+class GestureType():
     AYUBOWAN = 0
-    SHOW_LEFT = 1
-    SHOW_RIGHT = 2
-    HANDSHAKE = 3
+    HANDSHAKE = 1
+    SHOW_LEFT = 2
+    SHOW_RIGHT = 3    
 
 class SMRRGestures():
 
     guesture_map={
-    GestureType.AYUBOWAN:b'\x00', #Ayubowan  
+    GestureType.AYUBOWAN:b'\x00', #Ayubowan
+    GestureType.HANDSHAKE:b'\x01', #Hand Shake  
     GestureType.SHOW_LEFT:b'\x02', #Left
-    GestureType.SHOW_RIGHT:b'\x03',  #Right
-    GestureType.HANDSHAKE:b'\x01' #Hand Shake  
+    GestureType.SHOW_RIGHT:b'\x03'  #Right    
     }
 
     def __init__(self):
@@ -31,9 +32,11 @@ class SMRRGestures():
         ser.close()
 
 if __name__ == '__main__':
-    obj = SMRRGestures()
-    time.sleep(1)
-    obj.do_gesture(GestureType.HANDSHAKE)
-    print('done')
-    time.sleep(2)
-    print('done')
+    if len(sys.argv)>1:
+        gesture_type=int(sys.argv[1])
+        obj = SMRRGestures()        
+        obj.do_gesture(gesture_type)
+        print('doing',gesture_type)
+        time.sleep(2)
+        print('done')
+    else: print("no args")
