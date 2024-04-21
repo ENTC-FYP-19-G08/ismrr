@@ -41,5 +41,5 @@ void ScreenNavigation::onGuideNavigationResult(QString qdata)
     //     msg = "You have reached to your destination";
     // mainWindow->gotoPage(PAGE_INFO, msg);
     mainWindow->btnHome_clicked();
-    qDebug() << qdata << "onnavigationinfo main:"<<msg;
+    qDebug() << qdata << "onnavigationinfo main";
 }
