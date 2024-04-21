@@ -2,11 +2,10 @@
 welcoming_messages  = ["Welcome to the Department of Electronic and Telecommunication Engineering at the University of Moratuwa, a place where future tech leaders are made!",
     "Greetings from the Department of Electronic and Telecommunication Engineering at the University of Moratuwa.",
     "A warm welcome to the Department of Electronic and Telecommunication Engineering at the University of Moratuwa",
-    "Welcome to the Department of Electronic and Telecommunication Engineering! We're glad to have you here.",
-    "Hello and welcome! It's great to see you at the Department of Electronic and Telecommunication Engineering.",
+    "A warm welcome  to the Department of Electronic and Telecommunication Engineering! We're glad to have you here.",
     "Greetings and welcome to the Department of Electronic and Telecommunication Engineering!",
     "A warm welcome to the Department of Electronic and Telecommunication Engineering!",
-    "Welcome! We're delighted to have you join us at the Department of Electronic and Telecommunication Engineering."
+    "We're delighted to have you join us at the Department of Electronic and Telecommunication Engineering."
     ]
 
 waiting_messages = [
