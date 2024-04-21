@@ -24,7 +24,7 @@ void WidgetToggler::setChecked(bool checked)
     if (checked)
     {
         targetButton->setIcon(iconChecked);
-        blinker->startBlinking();
+        blinker->startBlinking(1000);
         // targetButton->setVisible(true);
     }
     else
