@@ -177,10 +177,10 @@ void MainWindow::gotoPage(PageId pageId, QString text, string data, PubStr pubSt
     }
     case PAGE_MEET:
     {
-        // vector<Option> options = {Option(PAGE_GUIDE_OPTIONS,"HOD", "PERSON_HOD")};
+        vector<Option> options = {Option(PAGE_GUIDE_OPTIONS,"HOD", "PERSON_HOD")};
 
-        vector<Option> options;
-        loadOptionsFromPrefix(&options, "PERSON_");
+        // vector<Option> options;
+        // loadOptionsFromPrefix(&options, "PERSON_");
 
         QWidget *screen = new ScreenOptions(this, &options);
         showScreen(screen);
