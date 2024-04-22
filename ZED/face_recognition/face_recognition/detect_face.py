@@ -118,7 +118,7 @@ class face_recog(Node):
                 video_frame = self.br.imgmsg_to_cv2(self.vid_frame[self.current_frame])
             else:
                 print(" >> Reached maximum number of images in buffer. length = ",len(self.vid_frame))
-                break
+                self.current_frame-=5
             
             if self.frame_h==0 and self.frame_w==0:
                 # print(video_frame.shape)
