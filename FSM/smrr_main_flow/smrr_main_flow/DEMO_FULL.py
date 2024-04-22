@@ -133,6 +133,7 @@ class Conversation(State):
         print("Exit from conversation state")
         
         if self.need_navigate:
+            self.need_navigate = False
             return "guide"
         else:
             return "end"
