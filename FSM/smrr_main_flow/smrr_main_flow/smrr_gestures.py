@@ -39,4 +39,10 @@ if __name__ == '__main__':
         print('doing',gesture_type)
         time.sleep(2)
         print('done')
-    else: print("no args")
+    else: 
+        gesture_type=GestureType.SHOW_LEFT
+        obj = SMRRGestures()        
+        obj.do_gesture(gesture_type)
+        print('doing',gesture_type)
+        time.sleep(2)
+        print('done')
