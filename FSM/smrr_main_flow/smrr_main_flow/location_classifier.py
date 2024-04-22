@@ -6,11 +6,11 @@ from rclpy.node import Node
 class LocationClassifier:
 
     places = {
-        "HALL_ENTC1":["ENTC1 hall", "entc1", "entc 1", "entc one"],
+        "HALL_ENTC1":["ENTC1 hall", "entc1", "entc 1", "entc one", "entc-one"],
         "COMMON_LOWER":["0.5 students' common area", "0.5","point five","point-five", "point five common area", "lower common", "lower-common"],
         "LAB_BM":["bio-medical laboratory", "bio medical lab", "bio medical laboratory", "bio-medical lab", "biomedical lab", "biomedical laboratory"],
         "LAB_UAV":["UAV laboratory", "uav lab"],
-        "LIFT":["lift", "elavator"],
+        "LIFT":["lift", "elavator","lyft"],
         "WASHROOMS_COMMON":["common washrooms", "washroom", "toilet"],
         "WASHROOMS_STAFF":["staff washroom"],
         "LAB_COMPUTER":["computer lab", "computer laboratory"],
