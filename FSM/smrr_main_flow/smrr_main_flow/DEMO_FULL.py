@@ -119,7 +119,8 @@ class Conversation(State):
             self.angle = None
         else:
             blackboard.conv_obj.blocking_tts("We haven't met before. Could i know your name please? If you dont mind. Or you can skip.")
-            
+            self.name = None
+            self.angle = None
             while self.unknown_name == None:
                 pass
             print("Came out")
@@ -134,6 +135,7 @@ class Conversation(State):
         
         if self.need_navigate:
             self.need_navigate = False
+            blackboard.conv_obj.blocking_tts("Follow me")
             return "guide"
         else:
             return "end"

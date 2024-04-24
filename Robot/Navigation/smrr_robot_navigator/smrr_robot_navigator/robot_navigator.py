@@ -124,7 +124,8 @@ class RobotNavigator(Node):
         goal_pose.header.stamp = self.get_clock().now().to_msg()
         goal_pose.pose.position.x = self.current_pose['x']
         goal_pose.pose.position.y = self.current_pose['y']
-        goal_pose.pose.orientation.w = 1.0
+        goal_pose.pose.orientation.z = 0.94383
+        goal_pose.pose.orientation.w = 0.33042
 
         temp = NavigateToPose.Goal()
         temp.pose = goal_pose
