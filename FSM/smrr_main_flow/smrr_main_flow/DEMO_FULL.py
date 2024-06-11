@@ -127,7 +127,7 @@ class Conversation(State):
             if self.unknown_name!='<SKIP>':
                 print("Not skip")
                 blackboard.conv_obj.blocking_tts("Hi"+self.unknown_name+ ". Welcome to the Department of Electronic and Telecommuication Engineering.")
-                self.unknown_name = None
+            self.unknown_name = None
 
         blackboard.conv_obj.start_listening()
 

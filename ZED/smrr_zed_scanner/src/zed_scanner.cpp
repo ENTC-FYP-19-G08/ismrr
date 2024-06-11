@@ -149,7 +149,6 @@ void ZEDScanner::callback(const sensor_msgs::msg::PointCloud2::SharedPtr cloud_m
     }
 
     else{
-      continue;
       // Other obstacles filter
       range = hypot(*iter_x, *iter_y);
       if (range < obstacle_range_min_) {
